@@ -1,20 +1,19 @@
 {
   "$GMObject":"",
-  "%Name":"o_damage_player_test",
+  "%Name":"o_gameover_screen",
   "eventList":[
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"o_damage_player_test",
+  "name":"o_gameover_screen",
   "overriddenProperties":[],
   "parent":{
-    "name":"Damage",
-    "path":"folders/Objects/Controllers/Damage.yy",
+    "name":"HUD",
+    "path":"folders/Objects/Controllers/HUD.yy",
   },
-  "parentObjectId":{
-    "name":"o_damage_player",
-    "path":"objects/o_damage_player/o_damage_player.yy",
-  },
+  "parentObjectId":null,
   "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,
@@ -32,10 +31,7 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":{
-    "name":"s_player_test",
-    "path":"sprites/s_player_test/s_player_test.yy",
-  },
+  "spriteId":null,
   "spriteMaskId":null,
   "visible":true,
 }

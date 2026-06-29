@@ -1,7 +1,8 @@
 centerY = y + centerYOffset
 
-// state machine
-switch ( state ){
+if instance_exists(o_player){
+	// state machine
+	switch ( state ){
 	// chase state
 	case 0:
 		// Change Image
@@ -25,10 +26,8 @@ switch ( state ){
 		sprite_index = spr_idle
 	
 		// State control
-		if instance_exists(o_player){
-			aimDir = point_direction( x, y, o_player.x, o_player.y )
+		aimDir = point_direction( x, y, o_player.x, o_player.y )
 			
-		}
 		// Stop move
 		spd = 0
 		
@@ -71,6 +70,7 @@ switch ( state ){
 	break
 	
 	
+}
 }
 
 state_enemy_run()

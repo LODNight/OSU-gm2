@@ -13,5 +13,5 @@ if aimDir >= 180 && aimDir <= 360{
 }
 
 //draw hp as a number
-draw_text( x, y, string(hp) )
+//draw_text( x, y, string(hp) )
 

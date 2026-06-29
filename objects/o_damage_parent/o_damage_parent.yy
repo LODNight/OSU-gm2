@@ -8,8 +8,8 @@
   "name":"o_damage_parent",
   "overriddenProperties":[],
   "parent":{
-    "name":"Controllers",
-    "path":"folders/Objects/Controllers.yy",
+    "name":"Damage",
+    "path":"folders/Objects/Controllers/Damage.yy",
   },
   "parentObjectId":null,
   "persistent":false,

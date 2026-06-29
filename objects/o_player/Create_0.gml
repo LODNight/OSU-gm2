@@ -1,6 +1,8 @@
 // ====================
 //Damage Setup
-get_damaged_create(20, true)
+maxHp = 20
+
+get_damaged_create(maxHp, true)
 
 // ====================
 // Movement Setup

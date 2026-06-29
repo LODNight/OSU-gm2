@@ -6,8 +6,8 @@
   "name":"o_damage_player",
   "overriddenProperties":[],
   "parent":{
-    "name":"Controllers",
-    "path":"folders/Objects/Controllers.yy",
+    "name":"Damage",
+    "path":"folders/Objects/Controllers/Damage.yy",
   },
   "parentObjectId":{
     "name":"o_damage_parent",

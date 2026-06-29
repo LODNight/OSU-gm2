@@ -81,3 +81,36 @@ function weapon_swap(){
 		weapon = _playerWeapons[selectedWeapon]
 	}	
 }
+
+
+// ====================
+// Player Shoot
+function player_shoot(){
+	if shootTimer > 0 { shootTimer-- }
+	if shootKey && shootTimer <= 0 {
+		shootTimer = weapon.cooldown
+	
+		var _xOffset = lengthdir_x(weapon.length + weaponOffsetDist, aimDir)
+		var _yOffset = lengthdir_y(weapon.length + weaponOffsetDist, aimDir)
+	
+		var _spread = weapon.spread
+		var _spreadDiv = _spread / max(weapon.bulletNum-1, 1)
+	
+		var _weaponTipX = x + _xOffset
+		var _weaponTipY = centerY + _yOffset
+	
+		
+		
+		for(var i = 0; i <= weapon.bulletNum; i++){
+			var _bulletInst = instance_create_depth(_weaponTipX, _weaponTipY, depth+100, weapon.bullet)
+	
+			with(_bulletInst){
+				dir = other.aimDir - _spread/2 + _spreadDiv*i
+		
+				image_angle = dir
+
+			}	
+		}
+	}	
+	
+}
