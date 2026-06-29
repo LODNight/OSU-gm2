@@ -1,0 +1,83 @@
+// ====================
+// Player Movement
+function player_movement(){
+	// =============================
+	// Movement
+	var _horKey = right - left
+	var _verKey = down - up
+
+	move_dir = point_direction( 0, 0, _horKey, _verKey)
+
+	var _spd = 0
+	var _inputLevel = point_distance( 0 ,0 , _horKey, _verKey)
+	_inputLevel = clamp(_inputLevel, 0, 1)
+	_spd = spd * _inputLevel
+
+	xspd = lengthdir_x(_spd, move_dir)
+	yspd = lengthdir_y(_spd, move_dir)
+
+	if(xspd != 0 || yspd != 0){
+		sprite_index = spr_walk
+	} else {
+		sprite_index = spr_idle
+	}
+
+	// =============================
+	// Collision
+	if(place_meeting(x + xspd, y, [tile_wall,o_wall])){
+		xspd = 0
+	}
+	if(place_meeting(x, y + yspd, [tile_wall,o_wall])){
+		yspd = 0
+	}
+
+	x += xspd
+	y += yspd
+}
+
+
+// ====================
+// Sprite Control
+function sprite_control(){
+	
+	centerY = y + centerYOffset
+
+	aimDir = point_direction(x, centerY, mouse_x, mouse_y)
+
+	if (mouse_x > x) {
+	    image_xscale = 1;
+	} else if (mouse_x < x) {
+	    image_xscale = -1; 
+	}
+}
+
+
+// ====================
+// Draw Weapons
+function draw_my_weapon(){
+	var xOffset = lengthdir_x(weaponOffsetDist , aimDir)
+	var yOffset = lengthdir_y(weaponOffsetDist , aimDir)
+
+	var _weaponYscl = 1
+
+	if(aimDir > 90 && aimDir < 270){
+		_weaponYscl = -1	
+	}
+	
+	// Draw 
+	draw_sprite_ext( weapon.sprite , 0, x + xOffset, centerY + yOffset, 1, _weaponYscl ,aimDir, c_white, image_alpha)
+}
+
+
+// ====================
+// Weapon Swap
+function weapon_swap(){
+	var _playerWeapons = global.PlayerWeapons
+	if swapKey {
+		selectedWeapon++
+		if selectedWeapon >= array_length(_playerWeapons){
+			selectedWeapon = 0
+		}
+		weapon = _playerWeapons[selectedWeapon]
+	}	
+}
