@@ -1,20 +1,15 @@
 {
   "$GMObject":"",
-  "%Name":"obj_table",
-  "eventList":[
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-  ],
+  "%Name":"o_wall_colli",
+  "eventList":[],
   "managed":true,
-  "name":"obj_table",
+  "name":"o_wall_colli",
   "overriddenProperties":[],
   "parent":{
-    "name":"Decord",
-    "path":"folders/Objects/Decord.yy",
+    "name":"Objects",
+    "path":"folders/Objects.yy",
   },
-  "parentObjectId":{
-    "name":"o_wall",
-    "path":"objects/o_wall/o_wall.yy",
-  },
+  "parentObjectId":null,
   "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,
@@ -33,8 +28,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"s_table",
-    "path":"sprites/s_table/s_table.yy",
+    "name":"s_wall_colli",
+    "path":"sprites/s_wall_colli/s_wall_colli.yy",
   },
   "spriteMaskId":null,
   "visible":true,

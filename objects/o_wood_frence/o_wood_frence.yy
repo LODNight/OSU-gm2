@@ -1,18 +1,21 @@
 {
   "$GMObject":"",
-  "%Name":"o_camera",
+  "%Name":"o_wood_frence",
   "eventList":[
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"o_camera",
+  "name":"o_wood_frence",
   "overriddenProperties":[],
   "parent":{
-    "name":"Other",
-    "path":"folders/Objects/Controllers/Other.yy",
+    "name":"Decord",
+    "path":"folders/Objects/Others/Decord.yy",
   },
-  "parentObjectId":null,
-  "persistent":true,
+  "parentObjectId":{
+    "name":"o_wall_colli",
+    "path":"objects/o_wall_colli/o_wall_colli.yy",
+  },
+  "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,
   "physicsFriction":0.2,
@@ -29,7 +32,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"s_wood_frence",
+    "path":"sprites/s_wood_frence/s_wood_frence.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

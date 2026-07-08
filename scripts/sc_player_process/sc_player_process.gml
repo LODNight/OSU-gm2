@@ -24,10 +24,10 @@ function player_movement(){
 
 	// =============================
 	// Collision
-	if(place_meeting(x + xspd, y, [tile_wall,o_wall])){
+	if(place_meeting(x + xspd, y, [tile_wall,o_wall, o_wall_colli])){
 		xspd = 0
 	}
-	if(place_meeting(x, y + yspd, [tile_wall,o_wall])){
+	if(place_meeting(x, y + yspd, [tile_wall,o_wall, o_wall_colli])){
 		yspd = 0
 	}
 
@@ -71,15 +71,35 @@ function draw_my_weapon(){
 
 // ====================
 // Weapon Swap
-function weapon_swap(){
-	var _playerWeapons = global.PlayerWeapons
-	if swapKey {
-		selectedWeapon++
-		if selectedWeapon >= array_length(_playerWeapons){
-			selectedWeapon = 0
-		}
-		weapon = _playerWeapons[selectedWeapon]
-	}	
+function weapon_swap()
+{
+    var _playerWeapons = global.PlayerWeapons;
+    var _count = array_length(_playerWeapons);
+
+    // Không có vũ khí
+    if (_count == 0)
+    {
+        weapon = noone;
+        return;
+    }
+
+    // Chọn bằng phím số
+    if (num1Key && _count > 0) selectedWeapon = 0;
+    if (num2Key && _count > 1) selectedWeapon = 1;
+    if (num3Key && _count > 2) selectedWeapon = 2;
+    if (num4Key && _count > 3) selectedWeapon = 3;
+
+    // Cuộn đổi vũ khí
+    if (swapKey)
+    {
+        selectedWeapon = (selectedWeapon + 1) mod _count;
+    }
+
+    // Đảm bảo chỉ số hợp lệ
+    selectedWeapon = clamp(selectedWeapon, 0, _count - 1);
+
+    // Trang bị
+    weapon = _playerWeapons[selectedWeapon];
 }
 
 

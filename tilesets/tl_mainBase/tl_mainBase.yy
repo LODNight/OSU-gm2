@@ -1,14 +1,16 @@
 {
   "$GMTileSet":"v1",
-  "%Name":"tl_demo",
-  "autoTileSets":[],
+  "%Name":"tl_mainBase",
+  "autoTileSets":[
+    {"$GMAutoTileSet":"","%Name":"autotile_1","closed_edge":false,"name":"autotile_1","resourceType":"GMAutoTileSet","resourceVersion":"2.0","tiles":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,],},
+  ],
   "macroPageTiles":{
     "SerialiseHeight":0,
     "SerialiseWidth":0,
     "TileSerialiseData":[],
   },
-  "name":"tl_demo",
-  "out_columns":16,
+  "name":"tl_mainBase",
+  "out_columns":36,
   "out_tilehborder":2,
   "out_tilevborder":2,
   "parent":{
@@ -18,8 +20,8 @@
   "resourceType":"GMTileSet",
   "resourceVersion":"2.0",
   "spriteId":{
-    "name":"s_tl_d",
-    "path":"sprites/s_tl_d/s_tl_d.yy",
+    "name":"s_tl_mainBase",
+    "path":"sprites/s_tl_mainBase/s_tl_mainBase.yy",
   },
   "spriteNoExport":false,
   "textureGroupId":{
@@ -34,5 +36,5 @@
   "tileWidth":16,
   "tilexoff":0,
   "tileyoff":0,
-  "tile_count":256,
+  "tile_count":1296,
 }

@@ -1,18 +1,19 @@
 {
   "$GMObject":"",
-  "%Name":"o_camera",
-  "eventList":[
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-  ],
+  "%Name":"o_tree_2",
+  "eventList":[],
   "managed":true,
-  "name":"o_camera",
+  "name":"o_tree_2",
   "overriddenProperties":[],
   "parent":{
-    "name":"Other",
-    "path":"folders/Objects/Controllers/Other.yy",
+    "name":"Trees",
+    "path":"folders/Objects/Others/Trees.yy",
   },
-  "parentObjectId":null,
-  "persistent":true,
+  "parentObjectId":{
+    "name":"o_wall",
+    "path":"objects/o_wall/o_wall.yy",
+  },
+  "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,
   "physicsFriction":0.2,
@@ -29,7 +30,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"s_tree_2",
+    "path":"sprites/s_tree_2/s_tree_2.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

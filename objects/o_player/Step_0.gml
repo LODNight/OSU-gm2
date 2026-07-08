@@ -7,6 +7,11 @@ down = global.downKey
 shootKey = global.shootKey
 swapKey = global.swapKey
 
+num1Key = global.num1Key
+num2Key = global.num2Key
+num3Key = global.num3Key
+num4Key = global.num4Key
+
 
 // ====================
 // Player Movement
