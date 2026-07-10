@@ -12,8 +12,8 @@
     "path":"folders/Objects/Bullet.yy",
   },
   "parentObjectId":{
-    "name":"o_b_pistol",
-    "path":"objects/o_b_pistol/o_b_pistol.yy",
+    "name":"o_b_bullet_parent",
+    "path":"objects/o_b_bullet_parent/o_b_bullet_parent.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

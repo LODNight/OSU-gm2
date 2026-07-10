@@ -1157,8 +1157,8 @@
   ],
   "name":"rm_streetBacon",
   "parent":{
-    "name":"Rooms",
-    "path":"folders/Rooms.yy",
+    "name":"Map Bacon",
+    "path":"folders/Rooms/Map Bacon.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

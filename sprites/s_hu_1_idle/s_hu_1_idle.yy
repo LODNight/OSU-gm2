@@ -27,8 +27,8 @@
   "nineSlice":null,
   "origin":9,
   "parent":{
-    "name":"Human",
-    "path":"folders/Sprites/Enemies/Human.yy",
+    "name":"Hu_1",
+    "path":"folders/Sprites/Characters/Enemies/Human/Hu_1.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

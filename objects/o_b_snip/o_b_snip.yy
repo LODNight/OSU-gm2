@@ -6,16 +6,14 @@
   ],
   "managed":true,
   "name":"o_b_snip",
-  "overriddenProperties":[
-    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"o_b_pistol","path":"objects/o_b_pistol/o_b_pistol.yy",},"propertyId":{"name":"spd","path":"objects/o_b_pistol/o_b_pistol.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"10",},
-  ],
+  "overriddenProperties":[],
   "parent":{
     "name":"Bullet",
     "path":"folders/Objects/Bullet.yy",
   },
   "parentObjectId":{
-    "name":"o_b_pistol",
-    "path":"objects/o_b_pistol/o_b_pistol.yy",
+    "name":"o_b_bullet_parent",
+    "path":"objects/o_b_bullet_parent/o_b_bullet_parent.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

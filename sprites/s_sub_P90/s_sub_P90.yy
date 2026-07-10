@@ -27,7 +27,7 @@
   "origin":9,
   "parent":{
     "name":"SubGuns",
-    "path":"folders/Sprites/Guns/SubGuns.yy",
+    "path":"folders/Sprites/Guns/Gun/SubGuns.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

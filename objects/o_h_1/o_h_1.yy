@@ -11,11 +11,11 @@
   "overriddenProperties":[],
   "parent":{
     "name":"Human",
-    "path":"folders/Objects/Enemies/Human.yy",
+    "path":"folders/Objects/Characters/Enemies/Human.yy",
   },
   "parentObjectId":{
-    "name":"o_enemy_parent",
-    "path":"objects/o_enemy_parent/o_enemy_parent.yy",
+    "name":"o_enemy_gun",
+    "path":"objects/o_enemy_gun/o_enemy_gun.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

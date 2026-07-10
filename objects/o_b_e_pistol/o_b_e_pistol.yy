@@ -1,10 +1,7 @@
 {
   "$GMObject":"",
   "%Name":"o_b_e_pistol",
-  "eventList":[
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-  ],
+  "eventList":[],
   "managed":true,
   "name":"o_b_e_pistol",
   "overriddenProperties":[],
@@ -13,8 +10,8 @@
     "path":"folders/Objects/Bullet/Enemies.yy",
   },
   "parentObjectId":{
-    "name":"o_damage_player",
-    "path":"objects/o_damage_player/o_damage_player.yy",
+    "name":"o_b_enemy_parent",
+    "path":"objects/o_b_enemy_parent/o_b_enemy_parent.yy",
   },
   "persistent":false,
   "physicsAngularDamping":0.1,

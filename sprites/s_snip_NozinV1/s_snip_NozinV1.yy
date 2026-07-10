@@ -26,7 +26,7 @@
   "origin":9,
   "parent":{
     "name":"SnipGun",
-    "path":"folders/Sprites/Guns/SnipGun.yy",
+    "path":"folders/Sprites/Guns/Gun/SnipGun.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",
