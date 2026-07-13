@@ -88,7 +88,7 @@ function state_enemy_shoot(_bulletObj) {
     var _spread    = (hasWeapon && weapon != noone) ? weapon.spread    : 0
     var _bullet    = (hasWeapon && weapon != noone) ? weapon.bullet    : _bulletObj
 
-    if shootTimer <= 0 {
+    //if shootTimer <= 0 {
         // Spawn bullets with spread (works for 1 bullet too — spread=0 means straight)
         var _spreadDiv = _spread / max(_numBullets - 1, 1)
         for (var i = 0; i < _numBullets; i++) {
@@ -98,7 +98,7 @@ function state_enemy_shoot(_bulletObj) {
         shootTimer = _cooldown
         state      = ENEMY_STATE.IDLE
         image_index = 0
-    }
+    //}
     if shootTimer > 0 { shootTimer-- }
 }
 
