@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"sc_player_process",
+  "%Name":"sc_player_weapons",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"sc_player_process",
+  "name":"sc_player_weapons",
   "parent":{
-    "name":"Player",
-    "path":"folders/Scripts/Player.yy",
+    "name":"registry",
+    "path":"folders/Scripts/Weapons/registry.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

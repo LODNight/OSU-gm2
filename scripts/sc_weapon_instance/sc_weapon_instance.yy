@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"sc_weapon_instance",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"sc_weapon_instance",
+  "parent":{
+    "name":"constructor",
+    "path":"folders/Scripts/Weapons/constructor.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

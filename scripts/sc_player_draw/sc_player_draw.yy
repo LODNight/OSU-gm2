@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"sc_player_process",
+  "%Name":"sc_player_draw",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"sc_player_process",
+  "name":"sc_player_draw",
   "parent":{
     "name":"Player",
     "path":"folders/Scripts/Player.yy",

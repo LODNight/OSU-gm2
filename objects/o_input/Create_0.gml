@@ -3,6 +3,8 @@ global.leftKey = 0
 global.upKey = 0
 global.downKey = 0
 global.shootKey = 0
+global.shootPressed = 0
+global.reloadKey = 0
 global.swapKey = 0
 
 // NUMBER 

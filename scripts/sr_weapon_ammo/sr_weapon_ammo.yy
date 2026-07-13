@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"sc_player_process",
+  "%Name":"sr_weapon_ammo",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"sc_player_process",
+  "name":"sr_weapon_ammo",
   "parent":{
-    "name":"Player",
-    "path":"folders/Scripts/Player.yy",
+    "name":"system",
+    "path":"folders/Scripts/Weapons/system.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

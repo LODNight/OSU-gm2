@@ -1,5 +1,8 @@
 event_inherited()
 
+// Safeguard for test rooms that do not contain o_init.
+if (!variable_global_exists("EnemyWeapons")) sc_weapon_init()
+
 // ================================================================
 // o_enemy_parent — Common variables for ALL enemies
 // Children override only what differs; never redeclare these.
@@ -44,4 +47,4 @@ bulletObject = o_b_e_pistol
 tile_map = layer_tilemap_get_id("tile_wall")
 
 // ======== Init damage system (uses hp defined above)
-get_damaged_create(hp)
+get_damaged_create(hp)
