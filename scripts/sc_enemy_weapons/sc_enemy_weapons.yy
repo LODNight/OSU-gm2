@@ -6,7 +6,7 @@
   "name":"sc_enemy_weapons",
   "parent":{
     "name":"registry",
-    "path":"folders/Scripts/Weapons/registry.yy",
+    "path":"folders/Scripts/weapon/registry.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

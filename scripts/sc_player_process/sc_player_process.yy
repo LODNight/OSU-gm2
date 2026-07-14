@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"sc_player_process",
   "parent":{
-    "name":"Player",
-    "path":"folders/Scripts/Player.yy",
+    "name":"player",
+    "path":"folders/Scripts/player.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

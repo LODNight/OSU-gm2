@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"sc_enemies_process",
+  "%Name":"sc_enemy_process",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"sc_enemies_process",
+  "name":"sc_enemy_process",
   "parent":{
-    "name":"Scripts",
-    "path":"folders/Scripts.yy",
+    "name":"enemy",
+    "path":"folders/Scripts/enemy.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

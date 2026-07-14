@@ -1,11 +1,3 @@
-
-// receive damage
-get_damaged(o_damage_enemies)
-
-
-
-// Deazth
-
-if hp <= 0 {
-	instance_destroy()	
-}
+// Toàn bộ logic AI (nhận damage → kiểm tra chết → cập nhật state → di chuyển)
+// được tập trung trong enemy_process() tại sc_enemy_process.gml.
+enemy_process();

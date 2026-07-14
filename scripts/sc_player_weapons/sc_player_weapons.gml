@@ -6,7 +6,7 @@ function sc_player_weapons()
             id : "pistol_fn57", name : "FN57", sprite : s_pistol_FN57,
             length : sprite_get_bbox_bottom(s_pistol_FN57), bullet : o_b_pistol,
             cooldown : 23, bulletNum : 1, spread : 0, damage : 18,
-            magSize : 20, reserveAmmo : 120, reloadTime : 55,
+            magSize : 20, reserveAmmo : 120, maxReserveAmmo : 240, reloadTime : 55,
             fireSound : snd_pistol_shot_1, automatic : false
         }),
 
@@ -14,7 +14,7 @@ function sc_player_weapons()
             id : "subgun_p90", name : "P90", sprite : s_sub_P90,
             length : sprite_get_bbox_bottom(s_sub_P90), bullet : o_b_sub,
             cooldown : 4, bulletNum : 1, spread : 4, damage : 9,
-            magSize : 50, reserveAmmo : 300, reloadTime : 75,
+            magSize : 50, reserveAmmo : 300, maxReserveAmmo : 600, reloadTime : 75,
             fireSound : snd_smg_shot_1, automatic : true
         }),
 
@@ -22,7 +22,7 @@ function sc_player_weapons()
             id : "shotgun_tus34", name : "Tus34", sprite : s_shot_Tus34,
             length : sprite_get_bbox_bottom(s_shot_Tus34), bullet : o_b_shot,
             cooldown : 50, bulletNum : 7, spread : 45, damage : 8,
-            magSize : 6, reserveAmmo : 48, reloadTime : 90,
+            magSize : 6, reserveAmmo : 48, maxReserveAmmo : 96, reloadTime : 90,
             fireSound : snd_shotgun_shot_1, automatic : false
         }),
 
@@ -30,7 +30,7 @@ function sc_player_weapons()
             id : "snipgun_nozin_v1", name : "Nozin V1", sprite : s_snip_NozinV1,
             length : sprite_get_bbox_bottom(s_snip_NozinV1), bullet : o_b_snip,
             cooldown : 45, bulletNum : 1, spread : 0, damage : 40,
-            magSize : 5, reserveAmmo : 30, reloadTime : 85,
+            magSize : 5, reserveAmmo : 30, maxReserveAmmo : 60, reloadTime : 85,
             fireSound : snd_pistol_shot_1, automatic : false
         })
     };

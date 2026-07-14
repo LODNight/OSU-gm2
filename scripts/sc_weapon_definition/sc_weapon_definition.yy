@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"sc_weapon_definition",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"sc_weapon_definition",
+  "parent":{
+    "name":"definition",
+    "path":"folders/Scripts/definition.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

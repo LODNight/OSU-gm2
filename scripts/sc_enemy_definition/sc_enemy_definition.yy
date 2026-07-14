@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"sc_enemy_definition",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"sc_enemy_definition",
+  "parent":{
+    "name":"definition",
+    "path":"folders/Scripts/definition.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -1,4 +1,2 @@
-// All Draw logic inherited from o_enemy_gun → draw_enemy_layered()
+// Draw logic is inherited from o_enemy_gun → o_enemy_parent → enemy_draw().
 event_inherited()
-
-draw_text(x,y,"aim: " + string(aimDir))

@@ -6,7 +6,7 @@
   "name":"sr_weapon_ammo",
   "parent":{
     "name":"system",
-    "path":"folders/Scripts/Weapons/system.yy",
+    "path":"folders/Scripts/weapon/system.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

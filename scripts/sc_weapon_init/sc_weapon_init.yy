@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"sc_weapon_init",
   "parent":{
-    "name":"Weapons",
-    "path":"folders/Scripts/Weapons.yy",
+    "name":"weapon",
+    "path":"folders/Scripts/weapon.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

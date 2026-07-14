@@ -6,7 +6,7 @@
   "name":"sc_weapon_instance",
   "parent":{
     "name":"constructor",
-    "path":"folders/Scripts/Weapons/constructor.yy",
+    "path":"folders/Scripts/weapon/constructor.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

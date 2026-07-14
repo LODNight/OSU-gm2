@@ -4,7 +4,7 @@ function weapon_reload(_owner)
     if (_owner.weapon == noone || _owner.isReloading || !weapon_can_reload(_owner.weapon)) return false;
 
     _owner.isReloading = true;
-    _owner.reloadTimer = _owner.weapon.definition.reloadTime;
+    _owner.reloadTimer = max(1, _owner.weapon.definition.reloadTime);
     weapon_play_sound(_owner.weapon.definition.reloadSound);
     return true;
 }

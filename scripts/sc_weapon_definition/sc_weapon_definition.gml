@@ -14,9 +14,11 @@ function create_weapon_definition(_config) constructor
     spread    = variable_struct_exists(_config, "spread") ? _config.spread : 0;
     damage    = variable_struct_exists(_config, "damage") ? _config.damage : 10;
     automatic = variable_struct_exists(_config, "automatic") ? _config.automatic : false;
+    autoReload = variable_struct_exists(_config, "autoReload") ? _config.autoReload : true;
 
     magSize     = variable_struct_exists(_config, "magSize") ? _config.magSize : 12;
     reserveAmmo = variable_struct_exists(_config, "reserveAmmo") ? _config.reserveAmmo : 120;
+    maxReserveAmmo = variable_struct_exists(_config, "maxReserveAmmo") ? _config.maxReserveAmmo : reserveAmmo;
     reloadTime  = variable_struct_exists(_config, "reloadTime") ? _config.reloadTime : room_speed;
 
     fireSound   = variable_struct_exists(_config, "fireSound") ? _config.fireSound : noone;

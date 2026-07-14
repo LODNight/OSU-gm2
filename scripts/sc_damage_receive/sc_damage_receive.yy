@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"sc_damage_receive",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"sc_damage_receive",
+  "parent":{
+    "name":"damage",
+    "path":"folders/Scripts/damage.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

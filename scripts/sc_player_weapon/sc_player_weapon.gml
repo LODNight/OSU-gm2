@@ -4,7 +4,9 @@ function player_weapon()
     player_weapon_swap();
     weapon_update_reload(id);
 
-    if (reloadKey) weapon_reload(id);
+    if (weapon != noone && (reloadKey || (weapon.definition.autoReload && weapon.ammo <= 0))) {
+        weapon_reload(id);
+    }
     if (weapon == noone || isReloading) return;
 
     var _data = weapon.definition;

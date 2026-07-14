@@ -1,14 +1,19 @@
-// Script assets have changed for v2.3.0 see
-// https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
-enum ENEMY_STATE { 
-	IDLE,   // Đứng im quan sát
-    WALK,   // Phát hiện mục tiêu -> Rượt!
-	HIT,	// Bị tấn công
-	RUN,	// Chạy
-	DEAD,	// Chết
-	ATTACK,	// Tấn công
-	INVESTIGATE, // Đi tuần	
-	PREPARE_ATTACK, // Khựng lại chuẩn bị đánh
-	CHASE,	// Tìm kiếm
-	AIM,   // Ngắm
+// ================================================================
+// sc_global — Định nghĩa enum và hằng số dùng chung toàn dự án
+// ================================================================
+
+/// Các trạng thái trong State Machine của enemy.
+/// Chỉ giữ lại những state đang thực sự dùng trong sc_enemy_state.gml
+enum ENEMY_STATE {
+    IDLE,    // Đứng yên, chưa phát hiện mục tiêu
+    CHASE,   // Đang đuổi theo mục tiêu
+    AIM,     // Dừng lại ngắm trước khi bắn (chỉ RANGED dùng)
+    ATTACK,  // Đang thực hiện đòn tấn công
+    DEAD,    // Đã chết, chờ spawn xác
+}
+
+/// Phân loại kiểu chiến đấu của enemy.
+enum ENEMY_COMBAT {
+    MELEE,   // Cận chiến (zombie) — tấn công bằng va chạm / hitbox
+    RANGED,  // Tầm xa (lính) — tấn công bằng đạn
 }

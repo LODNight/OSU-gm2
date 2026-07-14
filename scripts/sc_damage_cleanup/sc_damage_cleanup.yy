@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"sc_damage_cleanup",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"sc_damage_cleanup",
+  "parent":{
+    "name":"damage",
+    "path":"folders/Scripts/damage.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
