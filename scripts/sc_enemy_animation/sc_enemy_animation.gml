@@ -1,9 +1,7 @@
 // ================================================================
 // sc_animation — Gợi ý dùng trong tương lai
 // ================================================================
-// Script này hiện chưa có logic. Đây là vị trí phù hợp để đặt
-// các helper animation DÙNG CHUNG giữa player và enemy.
-//
+
 // Ví dụ có thể thêm vào đây trong tương lai:
 //   - anim_set(inst, spr_idle)      : Set sprite và reset frame
 //   - anim_is_done(inst)            : Kiểm tra animation đã phát xong chưa

@@ -59,6 +59,12 @@ function get_damaged(_damageObj, _iframes = false)
                 hp            -= _damage.damage;
                 _wasHit        = true;
                 _damage.hitConfirm = true; // Thông báo cho hitbox biết đã trúng
+
+                // ── [Module A] Máu văng ra tại điểm bị trúng ──
+                spawn_hit_blood(x, y, _damage.image_angle);
+
+                // ── [Module Shake] Rung lắc nhẹ khi bị trúng ──
+                if (variable_instance_exists(id, "shakeTimer")) hit_shake_apply(3);
             }
         }
 

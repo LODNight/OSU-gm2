@@ -5,7 +5,7 @@
 //   IDLE ──(phát hiện mục tiêu)──► CHASE
 //   CHASE ──(vào tầm đánh)──► AIM (nếu có aimCooldown) hoặc ATTACK (nếu không)
 //   AIM ──(đủ frame ngắm)──► ATTACK
-//   ATTACK ──(thực hiện xong)──► IDLE  ←─ attackTimer bắt đầu đếm hồi chiêu
+//   ATTACK ──(thực hiện xong)──► IDLE  attackTimer bắt đầu đếm hồi chiêu
 // ================================================================
 
 /// @desc  Dispatcher: gọi hàm xử lý tương ứng với state hiện tại của enemy.

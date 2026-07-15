@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"sc_hit_blood",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"sc_hit_blood",
+  "parent":{
+    "name":"Hit",
+    "path":"folders/Scripts/Hit.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

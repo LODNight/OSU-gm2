@@ -8,6 +8,9 @@
 ///        Gọi trong Step event của o_enemy_parent.
 function enemy_process()
 {
+    // 0. Cập nhật offset rung lắc từ hit shake (Module Shake)
+    hit_shake_update();
+
     // 1. Nhận damage từ các hitbox tấn công enemy (đạn, vùng sát thương...)
     get_damaged(o_damage_enemies);
 

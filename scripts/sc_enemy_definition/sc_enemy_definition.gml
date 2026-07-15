@@ -60,6 +60,9 @@ function enemy_apply_definition(_definition)
     // Gọi đúng một lần duy nhất ở đây, SAU KHI hp cuối cùng đã được xác định.
     // o_enemy_parent/Create_0.gml KHÔNG được gọi hàm này nữa.
     get_damaged_create(hp);
+
+    // ──── Khởi tạo hệ thống rung lắc khi bị trúng (Module Shake) ────
+    hit_shake_create();
 }
 
 /// @desc  Registry trung tâm — Đăng ký tất cả loại enemy tại đây.
@@ -73,7 +76,7 @@ function sc_enemy_definitions()
         // ── Lính canh (bắn súng ngắn, aggro tầm trung) ──
         human_guard : new create_enemy_definition({
             id            : "human_guard",
-            maxHp         : 10,
+            maxHp         : 50,
             chaseSpeed    : 1.5,
             aggroRange    : 200,
             attackRange   : 50,
@@ -89,7 +92,7 @@ function sc_enemy_definitions()
         // ── Lính bắn tỉa (tầm xa, cooldown dài, damage cao) ──
         human_soldier : new create_enemy_definition({
             id            : "human_soldier",
-            maxHp         : 10,
+            maxHp         : 100,
             chaseSpeed    : 1.5,
             aggroRange    : 300,
             attackRange   : 200,
@@ -105,7 +108,7 @@ function sc_enemy_definitions()
         // ── Zombie cơ bản (cận chiến, chậm, HP thấp) ──
         zombie_1 : new create_enemy_definition({
             id            : "zombie_1",
-            maxHp         : 6,
+            maxHp         : 50,
             chaseSpeed    : 0.8,
             aggroRange    : 180,
             attackRange   : 30,

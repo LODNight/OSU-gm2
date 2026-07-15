@@ -32,10 +32,12 @@ function enemy_draw()
     // Nếu nhân vật đang nhìn về phía dưới (aimDir 0–179): vẽ vũ khí trước
     if (hasWeapon && aimDir >= 0 && aimDir < 180) enemy_draw_weapon();
 
-    // Vẽ sprite nhân vật (dùng draw_sprite_ext để hỗ trợ face flip và alpha)
+    // Vẽ sprite nhân vật (dùng shakeX/shakeY offset từ Module Shake)
+    var _sx = variable_instance_exists(id, "shakeX") ? shakeX : 0;
+    var _sy = variable_instance_exists(id, "shakeY") ? shakeY : 0;
     draw_sprite_ext(
         sprite_index, image_index,
-        x, y,
+        x + _sx, y + _sy,
         face, image_yscale,   // face = 1 hoặc -1 để lật trái/phải
         image_angle,
         image_blend, image_alpha
