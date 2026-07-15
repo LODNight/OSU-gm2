@@ -53,7 +53,7 @@ if (instance_exists(o_player))
     var _barW    = 60;   // Chiều rộng thanh tối đa
     var _barH    = 5;    // Chiều cao thanh
     var _barX    = _camXBor;
-    var _barY    = _camYBor + 14;  // Offset bên dưới HP bar
+    var _barY    = _camYBor + 32;  // Offset bên dưới HP bar
 
     // Nền xám
     draw_set_color(make_color_rgb(50, 50, 50));
