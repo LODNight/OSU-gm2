@@ -114,16 +114,20 @@ function enemy_melee_attack()
 {
     // Chỉ tấn công khi mục tiêu vẫn còn trong tầm cận chiến
     var _dist = point_distance(x, y, target.x, target.y);
-    if (_dist > attackRange * 1.2) return; // Margin nhỏ để tránh miss sát mép
+    if (_dist > attackRange * 1) return; // Tăng nhẹ khoảng cách chấp nhận ra đòn
 
     // Spawn hitbox damage tạm thời (1 frame) tại vị trí enemy
     var _hit = instance_create_depth(x, y, depth, o_damage_player);
-    _hit.damage    = 1;          // Sát thương mỗi đòn — có thể đưa vào definition sau
+    _hit.damage     = 1;          // Sát thương mỗi đòn
     _hit.hitConfirm = false;
-    alarm[0] = 1;                // Alarm 0 của _hit sẽ destroy nó sau 1 frame
+    _hit.visible    = false;      // Không vẽ hitbox lên màn hình
 
-    // Gán alarm destroy cho hitbox (dùng with để set alarm của instance vừa tạo)
-    with (_hit) {
-        alarm[0] = 1;
-    }
+    // Gán mặt nạ va chạm (mask) là hình dáng của zombie hiện tại và phóng to nhẹ để dễ trúng player hơn
+    _hit.mask_index   = sprite_index;
+    _hit.image_xscale = 1.6;
+    _hit.image_yscale = 1.6;
+
+    // Gán alarm = 2 thay vì 1. 
+    // (Bởi vì Alarm của GameMaker chạy *trước* Step event, nếu set = 1 nó sẽ bị hủy ngay ở frame kế tiếp trước khi Player kịp check va chạm)
+    _hit.alarm[0] = 2;
 }

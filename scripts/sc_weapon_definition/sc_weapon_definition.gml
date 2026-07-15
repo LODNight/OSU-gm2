@@ -8,7 +8,11 @@ function create_weapon_definition(_config) constructor
     icon      = variable_struct_exists(_config, "icon") ? _config.icon : sprite;
     length    = variable_struct_exists(_config, "length") ? _config.length : 0;
 
-    bullet    = variable_struct_exists(_config, "bullet")    ? _config.bullet    : noone;
+    bullet      = variable_struct_exists(_config, "bullet")        ? _config.bullet        : noone;
+    bulletSpd   = variable_struct_exists(_config, "bulletSpd")     ? _config.bulletSpd     : 12;
+    bulletMaxDist= variable_struct_exists(_config, "bulletMaxDist")? _config.bulletMaxDist : 240;
+    bulletSprite= variable_struct_exists(_config, "bulletSprite")  ? _config.bulletSprite  : noone;
+    
     cooldown  = variable_struct_exists(_config, "cooldown")  ? _config.cooldown  : 30;
     bulletNum = variable_struct_exists(_config, "bulletNum") ? _config.bulletNum : 1;
     spread    = variable_struct_exists(_config, "spread")    ? _config.spread    : 0;

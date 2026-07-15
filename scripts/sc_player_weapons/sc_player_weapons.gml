@@ -4,7 +4,8 @@ function sc_player_weapons()
     global.PlayerWeaponDefinitions = {
         pistol_fn57 : new create_weapon_definition({
             id : "pistol_fn57", name : "FN57", sprite : s_pistol_FN57,
-            length : sprite_get_bbox_bottom(s_pistol_FN57), bullet : o_b_pistol,
+            length : sprite_get_bbox_bottom(s_pistol_FN57), 
+            bullet : o_b_bullet_parent, bulletSpd : 7, bulletMaxDist : 240, bulletSprite : s_bu_pis,
             cooldown : 23, bulletNum : 1, spread : 0, damage : 18,
             scopeZoom : 0.85,  // ADS nhẹ
             magSize : 20, reserveAmmo : 120, maxReserveAmmo : 240, reloadTime : 72, // ~1.2s audio duration
@@ -13,7 +14,8 @@ function sc_player_weapons()
 
         subgun_p90 : new create_weapon_definition({
             id : "subgun_p90", name : "P90", sprite : s_sub_P90,
-            length : sprite_get_bbox_bottom(s_sub_P90), bullet : o_b_sub,
+            length : sprite_get_bbox_bottom(s_sub_P90), 
+            bullet : o_b_bullet_parent, bulletSpd : 7, bulletMaxDist : 240, bulletSprite : s_bu_sub,
             cooldown : 4, bulletNum : 1, spread : 4, damage : 9,
             scopeZoom : 0.95,  // ADS tầm gần, ít zoom
             magSize : 50, reserveAmmo : 300, maxReserveAmmo : 600, reloadTime : 85, // ~1.4s audio duration
@@ -22,7 +24,8 @@ function sc_player_weapons()
 
         shotgun_tus34 : new create_weapon_definition({
             id : "shotgun_tus34", name : "Tus34", sprite : s_shot_Tus34,
-            length : sprite_get_bbox_bottom(s_shot_Tus34), bullet : o_b_shot,
+            length : sprite_get_bbox_bottom(s_shot_Tus34), 
+            bullet : o_b_bullet_parent, bulletSpd : 7, bulletMaxDist : 48, bulletSprite : s_bu_shot,
             cooldown : 50, bulletNum : 7, spread : 45, damage : 8,
             scopeZoom : 1.0,   // Shotgun không zoom
             magSize : 6, reserveAmmo : 48, maxReserveAmmo : 96, reloadTime : 77, // ~1.28s audio duration
@@ -31,7 +34,8 @@ function sc_player_weapons()
 
         snipgun_nozin_v1 : new create_weapon_definition({
             id : "snipgun_nozin_v1", name : "Nozin V1", sprite : s_snip_NozinV1,
-            length : sprite_get_bbox_bottom(s_snip_NozinV1), bullet : o_b_snip,
+            length : sprite_get_bbox_bottom(s_snip_NozinV1), 
+            bullet : o_b_bullet_parent, bulletSpd : 20, bulletMaxDist : 240, bulletSprite : s_bu_snip,
             cooldown : 45, bulletNum : 1, spread : 0, damage : 40,
             scopeZoom : 0.45,  // Sniper zoom mạnh
             magSize : 5, reserveAmmo : 30, maxReserveAmmo : 60, reloadTime : 67, // ~1.12s audio duration

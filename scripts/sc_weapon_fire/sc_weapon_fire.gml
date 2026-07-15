@@ -39,7 +39,12 @@ function weapon_fire(_owner)
         var _baseDir = _owner.aimDir - _data.spread * 0.5 + _spreadStep * i;
         _bullet.dir = _baseDir + random_range(-_randomDev, _randomDev);
         _bullet.image_angle = _bullet.dir;
+        
+        // Gán thông số vật lý & sát thương từ súng sang đạn
         if (variable_instance_exists(_bullet, "damage")) _bullet.damage = _data.damage;
+        if (variable_instance_exists(_bullet, "spd")) _bullet.spd = _data.bulletSpd;
+        if (variable_instance_exists(_bullet, "maxDist")) _bullet.maxDist = _data.bulletMaxDist;
+        if (_data.bulletSprite != noone) _bullet.sprite_index = _data.bulletSprite;
     }
     return true;
 }

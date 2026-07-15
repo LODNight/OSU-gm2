@@ -27,8 +27,8 @@
   "nineSlice":null,
   "origin":9,
   "parent":{
-    "name":"Zombies",
-    "path":"folders/Sprites/Characters/Enemies/Zombies.yy",
+    "name":"zombie_basic",
+    "path":"folders/Sprites/Characters/Enemies/Zombies/zombie_basic.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

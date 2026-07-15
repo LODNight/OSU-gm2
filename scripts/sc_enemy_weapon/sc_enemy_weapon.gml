@@ -20,6 +20,11 @@ function enemy_weapon_fire()
         // Góc mỗi viên = từ mép trái của hình nón spread
         _bullet.dir         = aimDir - weapon.spread * 0.5 + _spreadStep * i;
         _bullet.image_angle = _bullet.dir;
+        
+        // Gán thông số từ súng sang đạn
+        if (variable_instance_exists(_bullet, "damage")) _bullet.damage = weapon.damage;
+        if (variable_instance_exists(_bullet, "spd"))    _bullet.spd    = weapon.bulletSpd;
+        if (weapon.bulletSprite != noone) _bullet.sprite_index = weapon.bulletSprite;
     }
 
     // Phát âm thanh bắn nếu có cấu hình

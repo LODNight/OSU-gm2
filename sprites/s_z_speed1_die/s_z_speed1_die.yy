@@ -1,6 +1,6 @@
 {
   "$GMSprite":"v2",
-  "%Name":"s_z1_idle",
+  "%Name":"s_z_speed1_die",
   "bboxMode":2,
   "bbox_bottom":25,
   "bbox_left":8,
@@ -13,7 +13,6 @@
   "For3D":false,
   "frames":[
     {"$GMSpriteFrame":"v1","%Name":"905de892-ed90-49d1-b160-776756385835","name":"905de892-ed90-49d1-b160-776756385835","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
-    {"$GMSpriteFrame":"v1","%Name":"4a4f2640-454d-4df3-8f95-c28f1856a6a7","name":"4a4f2640-454d-4df3-8f95-c28f1856a6a7","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
@@ -24,19 +23,19 @@
     {"$GMImageLayer":"","%Name":"e53adef8-947b-41e4-9ccb-f4d99c7c933b","blendMode":0,"displayName":"Head","isLocked":false,"name":"e53adef8-947b-41e4-9ccb-f4d99c7c933b","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
     {"$GMImageLayer":"","%Name":"4e2c4013-1a47-4ccb-a24c-b46f8db38cff","blendMode":0,"displayName":"body","isLocked":false,"name":"4e2c4013-1a47-4ccb-a24c-b46f8db38cff","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
   ],
-  "name":"s_z1_idle",
+  "name":"s_z_speed1_die",
   "nineSlice":null,
   "origin":9,
   "parent":{
-    "name":"zombie_basic",
-    "path":"folders/Sprites/Characters/Enemies/Zombies/zombie_basic.yy",
+    "name":"zombie_speed",
+    "path":"folders/Sprites/Characters/Enemies/Zombies/zombie_speed.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",
   "resourceVersion":"2.0",
   "sequence":{
     "$GMSequence":"v1",
-    "%Name":"s_z1_idle",
+    "%Name":"s_z_speed1_die",
     "autoRecord":true,
     "backdropHeight":768,
     "backdropImageOpacity":0.5,
@@ -52,7 +51,7 @@
     },
     "eventStubScript":null,
     "eventToFunction":{},
-    "length":2.0,
+    "length":1.0,
     "lockOrigin":false,
     "moments":{
       "$KeyframeStore<MomentsEventKeyframe>":"",
@@ -60,7 +59,7 @@
       "resourceType":"KeyframeStore<MomentsEventKeyframe>",
       "resourceVersion":"2.0",
     },
-    "name":"s_z1_idle",
+    "name":"s_z_speed1_die",
     "playback":1,
     "playbackSpeed":4.0,
     "playbackSpeedType":0,
@@ -72,11 +71,8 @@
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"905de892-ed90-49d1-b160-776756385835","path":"sprites/s_z1_idle/s_z1_idle.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"905de892-ed90-49d1-b160-776756385835","path":"sprites/s_z_speed1_die/s_z_speed1_die.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
               },"Disabled":false,"id":"03ba929e-ff0f-4db5-873d-3dd0993e3ab2","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-            {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"4a4f2640-454d-4df3-8f95-c28f1856a6a7","path":"sprites/s_z1_idle/s_z1_idle.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"d15a7e0f-2692-4555-bcce-31dbe672db90","IsCreationKey":false,"Key":1.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

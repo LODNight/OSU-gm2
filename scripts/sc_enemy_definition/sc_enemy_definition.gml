@@ -108,16 +108,31 @@ function sc_enemy_definitions()
         // ── Zombie cơ bản (cận chiến, chậm, HP thấp) ──
         zombie_1 : new create_enemy_definition({
             id            : "zombie_1",
-            maxHp         : 50,
+            maxHp         : 30,
             chaseSpeed    : 0.8,
             aggroRange    : 180,
-            attackRange   : 30,
+            attackRange   : 10,
             aimTime       : 0,
             attackCooldown: 45,
             combatType    : ENEMY_COMBAT.MELEE,
             spriteIdle    : s_z1_idle,
             spriteWalk    : s_z1_walk,
             corpseObject  : o_z_1_die
+        }),
+		
+		// ── Zombie tốc độ (cận chiến, nhanh hơn, HP thấp) ──
+        zombie_speed : new create_enemy_definition({
+            id            : "zombie_speed",
+            maxHp         : 30,
+            chaseSpeed    : 1.2,
+            aggroRange    : 210,
+            attackRange   : 10,
+            aimTime       : 0,
+            attackCooldown: 45,
+            combatType    : ENEMY_COMBAT.MELEE,
+            spriteIdle    : s_z_speed1_idle,
+            spriteWalk    : s_z_speed1_walk,
+            corpseObject  : o_z_speed_1_die
         })
     };
 }
