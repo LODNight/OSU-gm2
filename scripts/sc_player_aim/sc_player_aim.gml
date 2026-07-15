@@ -146,7 +146,7 @@ function aim_draw_crosshair()
         var _lineLen = _distToPlayer * 0.4;
         
         // Bắt đầu vẽ cách xa nhân vật một khoảng nhỏ để không bị đè lên sprite nhân vật
-        var _startDist = 18; 
+        var _startDist = 20; 
         
         if (_distToPlayer > _startDist) 
         {

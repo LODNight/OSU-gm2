@@ -1,6 +1,6 @@
 {
   "$GMSound":"v2",
-  "%Name":"snd_shotgun_shot_1",
+  "%Name":"snd_shotgun_reload",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -10,9 +10,9 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":1.0710204,
+  "duration":1.28,
   "exportDir":"",
-  "name":"snd_shotgun_shot_1",
+  "name":"snd_shotgun_reload",
   "parent":{
     "name":"Shotgun",
     "path":"folders/Sounds/Guns/Shotgun.yy",
@@ -21,6 +21,6 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"snd_shotgun_shot_1.wav",
+  "soundFile":"snd_shotgun_reload.mp3",
   "volume":1.0,
 }

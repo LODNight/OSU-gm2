@@ -31,6 +31,11 @@ function player_weapon_swap()
 
     selectedWeapon = clamp(selectedWeapon, 0, _count - 1);
     var _nextWeapon = inventoryWeapons[selectedWeapon];
-    if (weapon != _nextWeapon) isReloading = false;
+    if (weapon != _nextWeapon) {
+        if (isReloading && weapon != noone && weapon.definition.reloadSound != noone) {
+            audio_stop_sound(weapon.definition.reloadSound);
+        }
+        isReloading = false;
+    }
     weapon = _nextWeapon;
 }

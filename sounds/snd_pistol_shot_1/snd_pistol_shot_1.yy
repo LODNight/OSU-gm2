@@ -14,8 +14,8 @@
   "exportDir":"",
   "name":"snd_pistol_shot_1",
   "parent":{
-    "name":"Guns",
-    "path":"folders/Sounds/Guns.yy",
+    "name":"Pistol",
+    "path":"folders/Sounds/Guns/Pistol.yy",
   },
   "preload":false,
   "resourceType":"GMSound",

@@ -1,6 +1,6 @@
 {
   "$GMSound":"v2",
-  "%Name":"snd_shotgun_shot_1",
+  "%Name":"snd_snip_shot_1",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -10,17 +10,17 @@
   "compression":0,
   "compressionQuality":4,
   "conversionMode":0,
-  "duration":1.0710204,
+  "duration":1.0187755,
   "exportDir":"",
-  "name":"snd_shotgun_shot_1",
+  "name":"snd_snip_shot_1",
   "parent":{
-    "name":"Shotgun",
-    "path":"folders/Sounds/Guns/Shotgun.yy",
+    "name":"Snip",
+    "path":"folders/Sounds/Guns/Snip.yy",
   },
   "preload":false,
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"snd_shotgun_shot_1.wav",
+  "soundFile":"snd_snip_shot_1.mp3",
   "volume":1.0,
 }
