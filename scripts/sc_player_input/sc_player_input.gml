@@ -6,6 +6,7 @@ function player_input()
     up          = global.upKey;
     down        = global.downKey;
     sprintKey   = global.sprintKey;   // Shift → sprint
+    aimKey      = global.aimKey;      // RMB → ADS
     shootKey    = global.shootKey;
     shootPressed = global.shootPressed;
     reloadKey   = global.reloadKey;

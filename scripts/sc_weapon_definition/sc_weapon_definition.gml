@@ -8,10 +8,11 @@ function create_weapon_definition(_config) constructor
     icon      = variable_struct_exists(_config, "icon") ? _config.icon : sprite;
     length    = variable_struct_exists(_config, "length") ? _config.length : 0;
 
-    bullet    = variable_struct_exists(_config, "bullet") ? _config.bullet : noone;
-    cooldown  = variable_struct_exists(_config, "cooldown") ? _config.cooldown : 30;
+    bullet    = variable_struct_exists(_config, "bullet")    ? _config.bullet    : noone;
+    cooldown  = variable_struct_exists(_config, "cooldown")  ? _config.cooldown  : 30;
     bulletNum = variable_struct_exists(_config, "bulletNum") ? _config.bulletNum : 1;
-    spread    = variable_struct_exists(_config, "spread") ? _config.spread : 0;
+    spread    = variable_struct_exists(_config, "spread")    ? _config.spread    : 0;
+    scopeZoom = variable_struct_exists(_config, "scopeZoom") ? _config.scopeZoom : 1.0; // ADS zoom (< 1 = zoom vào)
     damage    = variable_struct_exists(_config, "damage") ? _config.damage : 10;
     automatic = variable_struct_exists(_config, "automatic") ? _config.automatic : false;
     autoReload = variable_struct_exists(_config, "autoReload") ? _config.autoReload : true;

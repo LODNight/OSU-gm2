@@ -20,9 +20,20 @@ function weapon_fire(_owner)
     var _tipY = _owner.centerY + _yOffset;
     var _spreadStep = _data.spread / max(_data.bulletNum - 1, 1);
 
+    // Lấy hệ số chính xác từ aim module (bloom nhỏ = accuracy cao = ít lệch)
+    // Nếu owner không có aim system (enemy), dùng accuracy = 1 (không lệch thêm)
+    var _accuracy  = variable_instance_exists(_owner, "crosshairBloom")
+                     ? _owner.aim_get_accuracy()
+                     : 1.0;
+    // Random deviation tỉ lệ nghịch với accuracy (cùng chiều với spread của súng)
+    var _maxDeviation = _data.spread * 0.5;   // Tối đa lệch thêm nửa spread của súng
+    var _randomDev    = (1 - _accuracy) * _maxDeviation;
+
     for (var i = 0; i < _data.bulletNum; i++) {
         var _bullet = instance_create_depth(_tipX, _tipY, _owner.depth + 100, _data.bullet);
-        _bullet.dir = _owner.aimDir - _data.spread * 0.5 + _spreadStep * i;
+        // Hướng cố định theo pattern + thêm random deviation từ crosshair bloom
+        var _baseDir = _owner.aimDir - _data.spread * 0.5 + _spreadStep * i;
+        _bullet.dir = _baseDir + random_range(-_randomDev, _randomDev);
         _bullet.image_angle = _bullet.dir;
         if (variable_instance_exists(_bullet, "damage")) _bullet.damage = _data.damage;
     }

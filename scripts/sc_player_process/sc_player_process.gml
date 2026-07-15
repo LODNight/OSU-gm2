@@ -3,11 +3,16 @@ function player_process()
 {
     player_input();     // 1. Đọc input từ o_input
     player_move();      // 2. Di chuyển (dùng stamina_get_speed bên trong)
-    stamina_update();   // 3. Cập nhật thể lực sau khi đã biết player có di chuyển không
+    stamina_update();   // 3. Cập nhật thể lực
     player_animation(); // 4. Cập nhật sprite và hướng nhìn
     player_weapon();    // 5. Xử lý bắn / reload / đổi súng
-    player_damage();    // 6. Nhận sát thương
-    player_state();     // 7. Kiểm tra chết
+
+    // 6. Cập nhật aim: truyền vào true nếu frame này vừa bắn (shootTimer = cooldown → bloom)
+    var _shotFired = (shootTimer == (weapon != noone ? weapon.definition.cooldown : 0));
+    aim_update(_shotFired);
+
+    player_damage();    // 7. Nhận sát thương
+    player_state();     // 8. Kiểm tra chết
 }
 
 function player_damage()
