@@ -19,8 +19,12 @@ function aim_create()
     // ── Crosshair Bloom ──
     crosshairBase     = 12;      // Bán kính tối thiểu (pixel) từ tâm ra đến đầu đường kẻ
     crosshairBloom    = 0;       // Bloom hiện tại (tăng khi bắn, giảm khi không bắn)
+    maxBloom          = 60;      // Giới hạn độ giãn tối đa của crosshair
     bloomRecoveryRate = 1.2;     // Pixel giảm mỗi frame khi không bắn
     bloomADS_mult     = 0.4;     // Khi ADS, bloom recovery nhanh hơn x2.5 (x/mult)
+
+    // ── UI / Settings ──
+    showAimLine       = true;    // (Cài đặt) Bật/tắt đường tia ngắm mỏng nối với player
 
     // ── Camera Bias ──
     cameraBiasNormal  = 40;      // Pixel camera kéo về phía chuột khi đi bộ thường
@@ -28,9 +32,9 @@ function aim_create()
     cameraLerpSpeed   = 0.07;    // Tốc độ camera trôi (0 = đứng yên, 1 = instant)
 
     // ── Scope Zoom ──
-    baseViewW         = camera_get_view_width(view_camera[0]);   // Kích thước view gốc
-    baseViewH         = camera_get_view_height(view_camera[0]);
-    currentZoom       = 1.0;     // Zoom hiện tại (lerp về target zoom)
+    // Zoom hiện tại đã đổi thành việc đẩy camera đi xa hơn thay vì đổi view size
+    // để tránh bị lỗi HUD scale up
+
 
     // ── Camera vị trí nội bộ (dùng bởi o_camera) ──
     aimBiasX          = 0;       // Offset camera theo hướng ngắm (X)
@@ -60,28 +64,34 @@ function aim_update(_shotFired)
         // Không bắn → giảm bloom về 0
         crosshairBloom = max(0, crosshairBloom - _recovery);
     }
+    
+    // Giới hạn bloom không vượt quá mức tối đa
+    crosshairBloom = min(crosshairBloom, maxBloom);
 
     // ── 3. Camera Bias: tính offset dịch camera về phía chuột ──
-    var _biasDist  = isAiming ? cameraBiasADS : cameraBiasNormal;
+    var _mouseDist = point_distance(x, centerY, mouse_x, mouse_y);
+    
+    // Camera kéo theo bao nhiêu % khoảng cách đến chuột
+    var _biasFraction = isAiming ? 0.35 : 0.15;
+    var _biasDist = _mouseDist * _biasFraction;
+    
+    // Tính khoảng cách kéo tối đa cho phép
+    var _maxBias  = isAiming ? cameraBiasADS : cameraBiasNormal;
+    
+    // Nếu đang ngắm xa (scopeZoom nhỏ hơn 1), cho phép giới hạn kéo camera xa hơn
+    if (isAiming && weapon != noone)
+    {
+        var _zoomMult = 1.0 / max(0.1, weapon.definition.scopeZoom);
+        _maxBias *= _zoomMult;
+    }
+    
+    // Chốt khoảng cách bias không vượt quá max
+    _biasDist = min(_biasDist, _maxBias);
+
     var _targetBiasX = lengthdir_x(_biasDist, aimDir);
     var _targetBiasY = lengthdir_y(_biasDist, aimDir);
     aimBiasX = lerp(aimBiasX, _targetBiasX, cameraLerpSpeed);
     aimBiasY = lerp(aimBiasY, _targetBiasY, cameraLerpSpeed);
-
-    // ── 4. Scope Zoom: lerp view size về target theo scopeZoom của súng ──
-    var _targetZoom = 1.0;
-    if (isAiming && weapon != noone)
-        _targetZoom = weapon.definition.scopeZoom;
-
-    // Zoom in smooth khi ADS, zoom out nhanh hơn khi thả RMB
-    var _zoomSpeed = isAiming ? 0.08 : 0.12;
-    currentZoom = lerp(currentZoom, _targetZoom, _zoomSpeed);
-
-    // Áp dụng zoom vào view (thay đổi kích thước ảnh camera chiếu lên màn hình)
-    camera_set_view_size(view_camera[0],
-        baseViewW * currentZoom,
-        baseViewH * currentZoom
-    );
 }
 
 /// @desc  Trả về hệ số chính xác dựa trên bloom hiện tại.
@@ -90,8 +100,7 @@ function aim_update(_shotFired)
 /// @return {real}  0.0 (xịt nhiều) → 1.0 (chuẩn xác)
 function aim_get_accuracy()
 {
-    var _maxBloom = 80;   // Bloom tối đa có thể xảy ra
-    return 1.0 - clamp(crosshairBloom / _maxBloom, 0, 1);
+    return 1.0 - clamp(crosshairBloom / maxBloom, 0, 1);
 }
 
 /// @desc  Vẽ crosshair động tại vị trí chuột.
@@ -126,6 +135,40 @@ function aim_draw_crosshair()
     {
         draw_set_color(make_color_rgb(255, 220, 80));
         draw_circle(_cx, _cy, 1.5, false);
+    }
+    
+    // ── Vẽ tia ngắm phụ (Aim Line) ──
+    if (showAimLine)
+    {
+        var _distToPlayer = point_distance(x, centerY, _cx, _cy);
+        
+        // Vẽ 40% quãng đường từ player hướng về crosshair
+        var _lineLen = _distToPlayer * 0.4;
+        
+        // Bắt đầu vẽ cách xa nhân vật một khoảng nhỏ để không bị đè lên sprite nhân vật
+        var _startDist = 18; 
+        
+        if (_distToPlayer > _startDist) 
+        {
+            var _endDist = _startDist + _lineLen;
+            
+            // Đảm bảo nét vẽ không vượt quá vị trí tâm ngắm (để trông thẩm mỹ)
+            var _maxAllowedDist = _distToPlayer - (_gap + 4);
+            if (_endDist > _maxAllowedDist) {
+                _endDist = _maxAllowedDist;
+            }
+            
+            if (_endDist > _startDist) {
+                var _startX = x + lengthdir_x(_startDist, aimDir);
+                var _startY = centerY + lengthdir_y(_startDist, aimDir);
+                var _endX   = x + lengthdir_x(_endDist, aimDir);
+                var _endY   = centerY + lengthdir_y(_endDist, aimDir);
+                
+                draw_set_alpha(0.3);  // Làm nét mảnh, mờ để không bị rối mắt
+                draw_set_color(c_white);
+                draw_line(_startX, _startY, _endX, _endY);
+            }
+        }
     }
 
     draw_set_alpha(1);

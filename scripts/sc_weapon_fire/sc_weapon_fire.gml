@@ -22,9 +22,13 @@ function weapon_fire(_owner)
 
     // Lấy hệ số chính xác từ aim module (bloom nhỏ = accuracy cao = ít lệch)
     // Nếu owner không có aim system (enemy), dùng accuracy = 1 (không lệch thêm)
-    var _accuracy  = variable_instance_exists(_owner, "crosshairBloom")
-                     ? _owner.aim_get_accuracy()
-                     : 1.0;
+    var _accuracy = 1.0;
+    if (variable_instance_exists(_owner, "crosshairBloom")) {
+        with (_owner) {
+            _accuracy = aim_get_accuracy();
+        }
+    }
+    
     // Random deviation tỉ lệ nghịch với accuracy (cùng chiều với spread của súng)
     var _maxDeviation = _data.spread * 0.5;   // Tối đa lệch thêm nửa spread của súng
     var _randomDev    = (1 - _accuracy) * _maxDeviation;
