@@ -3,17 +3,21 @@ maxHp = 20;
 get_damaged_create(maxHp, true);
 
 // Movement and aim
-moveDir = 0;
-spd = 2;
-xspd = 0;
-yspd = 0;
-aimDir = 0;
-centerYOffset = 0;
-centerY = y + centerYOffset;
-weaponOffsetDist = 2;
+moveDir  = 0;
+xspd     = 0;
+yspd     = 0;
+aimDir   = 0;
+sprintKey = false;                 // Sẽ được set bởi player_input() mỗi frame
+centerYOffset     = 0;
+centerY           = y + centerYOffset;
+weaponOffsetDist  = 2;
 spr_idle = s_p_1_idle;
 spr_walk = s_p_1_walk;
 tile_wall = layer_tilemap_get_id("tile_wall");
+
+// Stamina (thể lực)
+stamina_create();
+// spd được quản lý bởi stamina_get_speed() — KHÔNG dùng spd trực tiếp nữa
 
 // Weapon runtime state
 shootTimer = 0;

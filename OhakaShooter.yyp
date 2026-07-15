@@ -152,6 +152,7 @@
     {"id":{"name":"sc_player_input","path":"scripts/sc_player_input/sc_player_input.yy",},},
     {"id":{"name":"sc_player_move","path":"scripts/sc_player_move/sc_player_move.yy",},},
     {"id":{"name":"sc_player_process","path":"scripts/sc_player_process/sc_player_process.yy",},},
+    {"id":{"name":"sc_player_stamina","path":"scripts/sc_player_stamina/sc_player_stamina.yy",},},
     {"id":{"name":"sc_player_weapon","path":"scripts/sc_player_weapon/sc_player_weapon.yy",},},
     {"id":{"name":"sc_player_weapons","path":"scripts/sc_player_weapons/sc_player_weapons.yy",},},
     {"id":{"name":"sc_weapon_definition","path":"scripts/sc_weapon_definition/sc_weapon_definition.yy",},},

@@ -2,12 +2,12 @@ global.leftKey = keyboard_check(ord("A"))
 global.rightKey = keyboard_check(ord("D"))
 global.upKey = keyboard_check(ord("W"))
 global.downKey = keyboard_check(ord("S"))
+global.sprintKey = keyboard_check(vk_shift)
 
 global.shootKey = mouse_check_button(mb_left)
 global.shootPressed = mouse_check_button_pressed(mb_left)
 global.reloadKey = keyboard_check_pressed(ord("R"))
 global.swapKey = mouse_check_button_pressed(mb_right)
-
 global.spaceKey = keyboard_check(vk_space)
 
 global.num1Key = keyboard_check(ord("1"))
