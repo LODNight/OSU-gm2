@@ -11,7 +11,10 @@ var _camYBor  = _camY + _border
 // ── Vignette: màn hình tối nhẹ khi thể lực gần cạn ──────────────────
 if (instance_exists(o_player))
 {
-    var _staminaRatio = o_player.stamina_get_ratio();
+    var _staminaRatio = 1;
+    with (o_player) {
+        _staminaRatio = stamina_get_ratio();
+    }
 
     if (_staminaRatio < 0.30)
     {
@@ -43,7 +46,10 @@ for (var i = 0; i < playerMaxHp; i++)
 // ── Stamina Bar (thanh ngang dưới HP) ────────────────────────────────
 if (instance_exists(o_player))
 {
-    var _ratio   = o_player.stamina_get_ratio();
+    var _ratio = 1;
+    with (o_player) {
+        _ratio = stamina_get_ratio();
+    }
     var _barW    = 60;   // Chiều rộng thanh tối đa
     var _barH    = 5;    // Chiều cao thanh
     var _barX    = _camXBor;
