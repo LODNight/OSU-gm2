@@ -1,1 +1,0 @@
-zoneId = "graveyard";
