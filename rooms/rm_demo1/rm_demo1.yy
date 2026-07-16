@@ -506,8 +506,8 @@
   ],
   "name":"rm_demo1",
   "parent":{
-    "name":"MapDemo",
-    "path":"folders/Rooms/MapDemo.yy",
+    "name":"Demo",
+    "path":"folders/Rooms/Demo.yy",
   },
   "parentRoom":null,
   "physicsSettings":{

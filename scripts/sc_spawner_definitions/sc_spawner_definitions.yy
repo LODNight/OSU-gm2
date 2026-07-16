@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"sc_spawner_definitions",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"sc_spawner_definitions",
+  "parent":{
+    "name":"spawner",
+    "path":"folders/Scripts/spawner.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

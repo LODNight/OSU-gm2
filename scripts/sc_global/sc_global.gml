@@ -17,3 +17,15 @@ enum ENEMY_COMBAT {
     MELEE,   // Cận chiến (zombie) — tấn công bằng va chạm / hitbox
     RANGED,  // Tầm xa (lính) — tấn công bằng đạn
 }
+
+/// Trạng thái của Spawner.
+enum SPAWNER_STATE {
+    IDLE,     // Chờ player bước vào activationRadius
+    ACTIVE,   // Đang spawn enemy theo timer
+    DEPLETED, // Đã spawn đủ totalLimit — không spawn nữa
+}
+
+/// Bật/tắt debug draw cho tất cả o_spawner trong game.
+/// true  = vẽ hình vuông + thông số tại tâm mỗi spawner.
+/// false = ẩn hoàn toàn khi ship game.
+#macro SPAWNER_DEBUG true

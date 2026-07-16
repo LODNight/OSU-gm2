@@ -16,3 +16,9 @@ window_center();
 
 // Register static weapon definitions before Player/Enemy Create events use them.
 sc_weapon_init();
+
+// Register enemy stat definitions (HP, speed, sprite...)
+sc_enemy_definitions();
+
+// Register spawner zone configurations (which enemy, how many, radius...)
+sc_spawner_definitions();

@@ -217,8 +217,8 @@
   ],
   "name":"rm_mainBase",
   "parent":{
-    "name":"Map Bacon",
-    "path":"folders/Rooms/Map Bacon.yy",
+    "name":"Bacon",
+    "path":"folders/Rooms/Bacon.yy",
   },
   "parentRoom":null,
   "physicsSettings":{
