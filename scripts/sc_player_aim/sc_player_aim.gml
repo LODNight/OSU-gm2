@@ -17,7 +17,7 @@ function aim_create()
     isAiming          = false;   // Đang giữ chuột phải (ADS) không
 
     // ── Crosshair Bloom ──
-    crosshairBase     = 12;      // Bán kính tối thiểu (pixel) từ tâm ra đến đầu đường kẻ
+    crosshairBase     = 16;      // Bán kính tối thiểu (pixel) từ tâm ra đến đầu đường kẻ (tăng 30% từ 12)
     crosshairBloom    = 0;       // Bloom hiện tại (tăng khi bắn, giảm khi không bắn)
     maxBloom          = 60;      // Giới hạn độ giãn tối đa của crosshair
     bloomRecoveryRate = 1.2;     // Pixel giảm mỗi frame khi không bắn
@@ -103,24 +103,84 @@ function aim_get_accuracy()
     return 1.0 - clamp(crosshairBloom / maxBloom, 0, 1);
 }
 
-/// @desc  Vẽ crosshair động tại vị trí chuột.
-///        4 đường kẻ (trên/dưới/trái/phải) cách tâm = crosshairBase + bloom.
-///        Khi ADS: thêm chấm tâm nhỏ để báo hiệu đang ngắm.
+/// @desc  Vẽ tia ngắm phụ (Aim Line) nối từ player hướng tới vị trí chuột.
+///        Hàm này chạy trong Draw event (world space).
+function aim_draw_aim_line()
+{
+    if (!showAimLine) exit;
+
+    var _cx = mouse_x;
+    var _cy = mouse_y;
+    var _distToPlayer = point_distance(x, centerY, _cx, _cy);
+    
+    // Khoảng cách nét vẽ phù hợp với trạng thái ngắm
+    var _base_gap = isAiming ? 4 : 16;
+    var _gap = _base_gap + crosshairBloom;
+    
+    // Vẽ 40% quãng đường từ player hướng về crosshair
+    var _lineLen = _distToPlayer * 0.4;
+    var _startDist = 20; 
+    
+    if (_distToPlayer > _startDist) 
+    {
+        var _endDist = _startDist + _lineLen;
+        
+        // Đảm bảo nét vẽ không vượt quá vị trí tâm ngắm (để trông thẩm mỹ)
+        var _maxAllowedDist = _distToPlayer - (_gap + 4);
+        if (_endDist > _maxAllowedDist) {
+            _endDist = _maxAllowedDist;
+        }
+        
+        if (_endDist > _startDist) {
+            var _startX = x + lengthdir_x(_startDist, aimDir);
+            var _startY = centerY + lengthdir_y(_startDist, aimDir);
+            var _endX   = x + lengthdir_x(_endDist, aimDir);
+            var _endY   = centerY + lengthdir_y(_endDist, aimDir);
+            
+            draw_set_alpha(0.3);  // Làm nét mảnh, mờ để không bị rối mắt
+            draw_set_color(c_white);
+            draw_line(_startX, _startY, _endX, _endY);
+            draw_set_alpha(1);
+        }
+    }
+}
+
+/// @desc  Vẽ crosshair động tại vị trí chuột trên lớp GUI.
+///        Được gọi trong Draw GUI event để đảm bảo luôn hiển thị trên cùng.
 function aim_draw_crosshair()
 {
-    var _cx      = mouse_x;
-    var _cy      = mouse_y;
-    var _gap     = crosshairBase + crosshairBloom;  // Khoảng cách từ tâm ra đầu nét
-    var _len     = 7;                                // Độ dài mỗi nét
-    var _thick   = 2;                                // Độ dày nét (pixel)
+    // Lấy tọa độ chuột trên lớp GUI
+    var _cx      = device_mouse_x_to_gui(0);
+    var _cy      = device_mouse_y_to_gui(0);
+    
+    var _accuracy = aim_get_accuracy(); // 1.0 (perfect) -> 0.0 (bloom max)
+    
+    var _gap, _len, _thick;
+    var _color;
+    
+    if (isAiming)
+    {
+        // Khi ngắm (ADS): đường kẻ mảnh hơn, ngắn hơn và co sát vào tâm hơn dựa theo độ chính xác
+        // 100% chính xác (bloom = 0) tương ứng với gap = 4, len = 3.25 (tăng 30% cho dễ nhìn)
+        _gap   = lerp(21, 4, _accuracy) + (crosshairBloom * 0.5);
+        _len   = lerp(8, 3.25, _accuracy);
+        _thick = 2;
+        _color = make_color_rgb(255, 220, 80); // Màu vàng ngắm bắn
+    }
+    else
+    {
+        // Khi bắn tự do (Hip-fire): đường nét rộng và dày hơn bình thường (tăng 30%)
+        _gap   = crosshairBase + crosshairBloom;
+        _len   = 9;
+        _thick = 2.5;
+        _color = c_white; // Màu trắng thường
+    }
 
-    // Màu crosshair: trắng bình thường, vàng khi ADS
-    var _color   = isAiming ? make_color_rgb(255, 220, 80) : c_white;
-    var _alpha   = 0.9;
-
+    var _alpha = 0.9;
     draw_set_alpha(_alpha);
     draw_set_color(_color);
 
+    // ── Vẽ 4 đường kẻ xung quanh tâm ──
     // Nét trên
     draw_rectangle(_cx - _thick/2, _cy - _gap - _len, _cx + _thick/2, _cy - _gap, false);
     // Nét dưới
@@ -130,47 +190,11 @@ function aim_draw_crosshair()
     // Nét phải
     draw_rectangle(_cx + _gap,         _cy - _thick/2, _cx + _gap + _len, _cy + _thick/2, false);
 
-    // Chấm tâm khi ADS (báo đang ngắm)
-    if (isAiming)
-    {
-        draw_set_color(make_color_rgb(255, 220, 80));
-        draw_circle(_cx, _cy, 1.5, false);
-    }
-    
-    // ── Vẽ tia ngắm phụ (Aim Line) ──
-    if (showAimLine)
-    {
-        var _distToPlayer = point_distance(x, centerY, _cx, _cy);
-        
-        // Vẽ 40% quãng đường từ player hướng về crosshair
-        var _lineLen = _distToPlayer * 0.4;
-        
-        // Bắt đầu vẽ cách xa nhân vật một khoảng nhỏ để không bị đè lên sprite nhân vật
-        var _startDist = 20; 
-        
-        if (_distToPlayer > _startDist) 
-        {
-            var _endDist = _startDist + _lineLen;
-            
-            // Đảm bảo nét vẽ không vượt quá vị trí tâm ngắm (để trông thẩm mỹ)
-            var _maxAllowedDist = _distToPlayer - (_gap + 4);
-            if (_endDist > _maxAllowedDist) {
-                _endDist = _maxAllowedDist;
-            }
-            
-            if (_endDist > _startDist) {
-                var _startX = x + lengthdir_x(_startDist, aimDir);
-                var _startY = centerY + lengthdir_y(_startDist, aimDir);
-                var _endX   = x + lengthdir_x(_endDist, aimDir);
-                var _endY   = centerY + lengthdir_y(_endDist, aimDir);
-                
-                draw_set_alpha(0.3);  // Làm nét mảnh, mờ để không bị rối mắt
-                draw_set_color(c_white);
-                draw_line(_startX, _startY, _endX, _endY);
-            }
-        }
-    }
+    // ── Vẽ chấm tâm (tăng 30%) ──
+    var _dot_radius = isAiming ? 2.0 : 1.5;
+    draw_circle(_cx, _cy, _dot_radius, false);
 
+    // Reset draw state
     draw_set_alpha(1);
     draw_set_color(c_white);
 }

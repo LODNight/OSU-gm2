@@ -1,4 +1,4 @@
 player_draw();
 
-// Vẽ crosshair động (bloom, ADS indicator) — thay thế s_crosshair cũ
-aim_draw_crosshair();
+// Vẽ tia ngắm phụ (Aim Line) ở tầm thế giới (world space)
+aim_draw_aim_line();
