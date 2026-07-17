@@ -15,6 +15,7 @@ weaponOffsetDist = 2;
 spr_idle = s_p_1_idle;
 spr_walk = s_p_1_walk;
 tile_wall = layer_tilemap_get_id("tile_wall");
+tile_item = layer_tilemap_get_id("tile_item_coli");
 
 // Stamina (thể lực)
 stamina_create();

@@ -28,7 +28,7 @@ function sc_player_weapons()
             bullet : o_b_bullet_parent, bulletSpd : 22, bulletMaxDist : 48, bulletSprite : s_bu_shot,
             cooldown : 50, bulletNum : 7, spread : 45, damage : 8,
             scopeZoom : 1.0,   // Shotgun không zoom
-            magSize : 6, reserveAmmo : 48, maxReserveAmmo : 96, reloadTime : 77, // ~1.28s audio duration
+            magSize : 42, reserveAmmo : 336, maxReserveAmmo : 672, reloadTime : 77, // ~1.28s audio duration
             fireSound : snd_shotgun_shot_1, reloadSound : snd_shotgun_reload, automatic : false
         }),
 

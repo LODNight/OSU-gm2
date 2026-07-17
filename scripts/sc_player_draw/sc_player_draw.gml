@@ -41,21 +41,29 @@ function player_draw_weapon_hud()
     draw_text(_x, _y - 22, _data.name);
     draw_text(_x + 150, _y - 22, string(weapon.ammo) + " / " + string(weapon.reserveAmmo));
 
-    // Draw one small rectangle for each bullet in the magazine.
+    // Draw one small rectangle for each bullet or shell in the magazine.
     var _bulletWidth = 9;
     var _bulletGap = 3;
     var _maxVisible = 20;
-    var _visibleCount = min(_data.magSize, _maxVisible);
+    
+    var _totalBlocks = _data.magSize;
+    var _activeBlocks = weapon.ammo;
+    if (_data.bulletNum > 1) {
+        _totalBlocks = ceil(_data.magSize / _data.bulletNum);
+        _activeBlocks = ceil(weapon.ammo / _data.bulletNum);
+    }
+
+    var _visibleCount = min(_totalBlocks, _maxVisible);
     for (var i = 0; i < _visibleCount; i++) {
         var _bx = _x + i * (_bulletWidth + _bulletGap);
-        draw_set_color((i < weapon.ammo) ? c_yellow : c_dkgray);
+        draw_set_color((i < _activeBlocks) ? c_yellow : c_dkgray);
         draw_rectangle(_bx, _y, _bx + _bulletWidth, _y + 22, false);
     }
 
     // Large magazines still show their exact value in text above.
-    if (_data.magSize > _maxVisible) {
+    if (_totalBlocks > _maxVisible) {
         draw_set_color(c_ltgray);
-        draw_text(_x + _visibleCount * (_bulletWidth + _bulletGap) + 5, _y + 3, "x" + string(_data.magSize));
+        draw_text(_x + _visibleCount * (_bulletWidth + _bulletGap) + 5, _y + 3, "x" + string(_totalBlocks));
     }
 
     if (isReloading) {

@@ -56,6 +56,7 @@ deathHandled = false      // Cờ tránh gọi enemy_die() nhiều lần
 
 // ──── Tilemap va chạm ────
 tile_map = layer_tilemap_get_id("tile_wall")
+tile_item = layer_tilemap_get_id("tile_item_coli")
 
 // LƯU Ý: KHÔNG gọi get_damaged_create() ở đây.
 // Hàm đó sẽ được gọi bên trong enemy_apply_definition() sau khi hp cuối cùng đã được set.

@@ -1,13 +1,13 @@
 {
   "$GMTileSet":"v1",
-  "%Name":"tl_tutorMall",
+  "%Name":"tl_mall_item",
   "autoTileSets":[],
   "macroPageTiles":{
     "SerialiseHeight":0,
     "SerialiseWidth":0,
     "TileSerialiseData":[],
   },
-  "name":"tl_tutorMall",
+  "name":"tl_mall_item",
   "out_columns":32,
   "out_tilehborder":2,
   "out_tilevborder":2,
@@ -18,8 +18,8 @@
   "resourceType":"GMTileSet",
   "resourceVersion":"2.0",
   "spriteId":{
-    "name":"s_tl_tuttorMall",
-    "path":"sprites/s_tl_tuttorMall/s_tl_tuttorMall.yy",
+    "name":"s_tl_mall_item",
+    "path":"sprites/s_tl_mall_item/s_tl_mall_item.yy",
   },
   "spriteNoExport":false,
   "textureGroupId":{

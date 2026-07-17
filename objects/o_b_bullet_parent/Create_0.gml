@@ -14,3 +14,4 @@ enemyDestroy = true    // destroy on hitConfirm (set false for piercing)
 
 // ======== Collision map
 tile_wall = layer_tilemap_get_id("tile_wall")
+tile_item = layer_tilemap_get_id("tile_item_coli")

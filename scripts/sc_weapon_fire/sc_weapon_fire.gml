@@ -10,7 +10,8 @@ function weapon_fire(_owner)
         return false;
     }
 
-    _weapon.ammo--;
+    var _bulletsToFire = min(_weapon.ammo, _data.bulletNum);
+    _weapon.ammo -= _bulletsToFire;
     _owner.shootTimer = _data.cooldown;
     weapon_play_sound(_data.fireSound);
 
@@ -18,7 +19,7 @@ function weapon_fire(_owner)
     var _yOffset = lengthdir_y(_data.length + _owner.weaponOffsetDist, _owner.aimDir);
     var _tipX = _owner.x + _xOffset;
     var _tipY = _owner.centerY + _yOffset;
-    var _spreadStep = _data.spread / max(_data.bulletNum - 1, 1);
+    var _spreadStep = (_bulletsToFire > 1) ? (_data.spread / (_bulletsToFire - 1)) : 0;
 
     // Lấy hệ số chính xác từ aim module (bloom nhỏ = accuracy cao = ít lệch)
     // Nếu owner không có aim system (enemy), dùng accuracy = 1 (không lệch thêm)
@@ -33,10 +34,12 @@ function weapon_fire(_owner)
     var _maxDeviation = _data.spread * 0.5;   // Tối đa lệch thêm nửa spread của súng
     var _randomDev    = (1 - _accuracy) * _maxDeviation;
 
-    for (var i = 0; i < _data.bulletNum; i++) {
+    for (var i = 0; i < _bulletsToFire; i++) {
         var _bullet = instance_create_depth(_tipX, _tipY, _owner.depth + 100, _data.bullet);
         // Hướng cố định theo pattern + thêm random deviation từ crosshair bloom
-        var _baseDir = _owner.aimDir - _data.spread * 0.5 + _spreadStep * i;
+        var _baseDir = (_bulletsToFire > 1) 
+            ? (_owner.aimDir - _data.spread * 0.5 + _spreadStep * i) 
+            : _owner.aimDir;
         _bullet.dir = _baseDir + random_range(-_randomDev, _randomDev);
         _bullet.image_angle = _bullet.dir;
         

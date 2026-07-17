@@ -10,7 +10,7 @@ if hitConfirm == true && enemyDestroy == true { destroy = true }
 if(destroy) instance_destroy()	
 
 // Wall Collision
-if(place_meeting(x, y, [tile_wall, o_wall_colli])) {
+if(place_meeting(x, y, [tile_wall, tile_item, o_wall_colli])) {
     spawn_hit_spark(x, y); // [Module B] Tia lửa khi chạm tường
     destroy = true
 }
