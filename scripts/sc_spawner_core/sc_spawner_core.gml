@@ -174,3 +174,67 @@ function spawner_do_spawn(_spawner)
         totalSpawned++;
     }
 }
+
+// ----------------------------------------------------------------
+
+/// @desc Vẽ vị trí và thông tin debug của spawner. Gọi trong Draw GUI event của o_spawner.
+function sc_spawner_debug_draw(_spawner)
+{
+    if (!SPAWNER_DEBUG) exit;
+
+    with (_spawner)
+    {
+        // ── Chuyển tọa độ world → screen ──
+        var _vx  = camera_get_view_x(view_camera[0]);
+        var _vy  = camera_get_view_y(view_camera[0]);
+        var _vw  = camera_get_view_width(view_camera[0]);
+        var _vh  = camera_get_view_height(view_camera[0]);
+        var _gw  = display_get_gui_width();
+        var _gh  = display_get_gui_height();
+
+        var _sx  = (x - _vx) / _vw * _gw;
+        var _sy  = (y - _vy) / _vh * _gh;
+
+        // Chỉ vẽ khi nằm gần khung hình camera
+        if (_sx >= -100 && _sx <= _gw + 100 && _sy >= -100 && _sy <= _gh + 100)
+        {
+            var _hw = 16; 
+            var _fill_col = c_gray;
+            switch (spawnerState) {
+                case SPAWNER_STATE.IDLE:     _fill_col = c_yellow; break;
+                case SPAWNER_STATE.ACTIVE:   _fill_col = make_color_rgb(50, 220, 80); break;
+                case SPAWNER_STATE.DEPLETED: _fill_col = make_color_rgb(220, 60, 60); break;
+            }
+
+            draw_set_alpha(0.7);
+            draw_set_color(_fill_col);
+            draw_rectangle(_sx - _hw, _sy - _hw, _sx + _hw, _sy + _hw, false);
+
+            draw_set_alpha(1);
+            draw_set_color(c_black);
+            draw_rectangle(_sx - _hw, _sy - _hw, _sx + _hw, _sy + _hw, true);
+
+            draw_set_halign(fa_center);
+            draw_set_valign(fa_middle);
+            draw_text(_sx, _sy, "S");
+
+            var _state_names = ["IDLE", "ACTIVE", "DEPLETED"];
+            var _live  = ds_list_size(liveEnemies);
+            var _txt
+                = "[" + string(zoneId) + "]\n"
+                + "St: " + _state_names[spawnerState] + "\n"
+                + "Lv: " + string(_live) + "/" + string(config.maxEnemies) + "\n"
+                + "Tt: " + string(totalSpawned) + "/" + string(config.totalLimit);
+
+            draw_set_valign(fa_top);
+            draw_set_color(c_black);
+            draw_text(_sx + 1, _sy + _hw + 4, _txt);
+            draw_set_color(c_white);
+            draw_text(_sx, _sy + _hw + 3, _txt);
+
+            draw_set_halign(fa_left);
+            draw_set_valign(fa_top);
+            draw_set_color(c_white);
+        }
+    }
+}

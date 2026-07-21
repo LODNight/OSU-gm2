@@ -21,7 +21,6 @@ if (spawnerState == SPAWNER_STATE.IDLE)
     if (_dist_to_player <= config.activationRadius)
     {
         spawnerState = SPAWNER_STATE.ACTIVE;
-        spawnTimer   = 0; // Reset timer để bắt đầu lại
         
         // Kích hoạt lại toàn bộ enemy thuộc spawner này
         var _size = ds_list_size(liveEnemies);
@@ -39,7 +38,6 @@ if (spawnerState == SPAWNER_STATE.IDLE)
 if (_dist_to_player > config.deactivationRadius)
 {
     spawnerState = SPAWNER_STATE.IDLE;
-    spawnTimer   = 0;
 
     // Deactivate riêng các enemy do spawner này tạo ra
     // Điều này giúp tối ưu hóa hiệu năng khi map lớn mà không tắt nhầm wall/camera
@@ -72,21 +70,13 @@ if (totalSpawned >= config.totalLimit)
 }
 
 // ──────────────────────────────────────────────────────────────
-// 7. Kiểm tra số lượng enemy sống hiện tại của spawner này
+// 7. Thực hiện spawn tất cả cùng lúc (Không dùng timer)
 // ──────────────────────────────────────────────────────────────
 var _live = ds_list_size(liveEnemies);
-if (_live >= config.maxEnemies)
-{
-    spawnTimer = 0; // Giữ timer đứng im
-    exit;
-}
+var _needed = config.maxEnemies - _live;
+var _can_spawn = min(_needed, config.totalLimit - totalSpawned);
 
-// ──────────────────────────────────────────────────────────────
-// 8. Tăng timer và thực hiện spawn
-// ──────────────────────────────────────────────────────────────
-spawnTimer++;
-if (spawnTimer >= config.spawnDelay)
+for (var _i = 0; _i < _can_spawn; _i++)
 {
-    spawnTimer = 0;
     spawner_do_spawn(id);
 }
