@@ -22,7 +22,7 @@ function stamina_create()
     sprintSpeed       = 4;      // Tốc độ khi chạy (Shift)
 
     // ── Tiêu hao / Hồi phục ──
-    staminaDrainRate  = 1.0;    // Lượng stamina tốn mỗi frame khi chạy
+    staminaDrainRate  = 0.5;    // Lượng stamina tốn mỗi frame khi chạy
     staminaRegenRate  = 0.4;    // Lượng stamina hồi mỗi frame khi không chạy
     staminaRegenDelay = 60;     // Frame chờ trước khi bắt đầu hồi (B-type: 1 giây ở 60fps)
     _staminaRegenTimer = 0;     // Bộ đếm delay hồi (biến nội bộ)

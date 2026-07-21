@@ -42,6 +42,11 @@ function create_spawner_zone(_cfg) constructor
     // Ví dụ: ["tile_wall", "tile_water", "tile_cliff"]
     tileLayers = variable_struct_exists(_cfg, "tileLayers") ? _cfg.tileLayers : ["tile_wall"];
 
+    // ── Boss ──
+    // Tỉ lệ % xuất hiện Boss thay vì lính thường (ví dụ: 5 = 5%).
+    bossChance = variable_struct_exists(_cfg, "bossChance") ? _cfg.bossChance : 0;
+    bossObj = variable_struct_exists(_cfg, "bossObj") ? _cfg.bossObj : undefined;
+
     // ── Layer tạo instance ──
     instanceLayer = variable_struct_exists(_cfg, "instanceLayer") ? _cfg.instanceLayer : "Instances";
 }
@@ -55,8 +60,9 @@ function create_spawner_zone(_cfg) constructor
 /// @param {real}  _radius     Bán kính vùng spawn
 /// @param {array} _layers     Mảng tên layer tilemap cần tránh (string[])
 /// @param {real}  _minDist    Khoảng cách tối thiểu đến player
+/// @param {real}  _clearRadius Bán kính vùng an toàn cần trống quanh điểm spawn (ví dụ 16px)
 /// @return {struct|undefined}
-function spawner_find_valid_point(_sx, _sy, _radius, _layers, _minDist)
+function spawner_find_valid_point(_sx, _sy, _radius, _layers, _minDist, _clearRadius = 16)
 {
     var _MAX_TRIES = 20;
 
@@ -76,8 +82,13 @@ function spawner_find_valid_point(_sx, _sy, _radius, _layers, _minDist)
             var _tm = layer_tilemap_get_id(_layers[_j]);
             if (_tm == -1) continue; // layer không tồn tại trong room này → bỏ qua
 
-            var _tile_data = tilemap_get_at_pixel(_tm, _tx, _ty);
-            if (_tile_data != 0)   // ≠ 0 → có tile ở đây
+            // Kiểm tra 4 góc của bounding box thay vì 1 điểm trung tâm để tránh enemy kẹt vào tường
+            var _t1 = tilemap_get_at_pixel(_tm, _tx - _clearRadius, _ty - _clearRadius);
+            var _t2 = tilemap_get_at_pixel(_tm, _tx + _clearRadius, _ty - _clearRadius);
+            var _t3 = tilemap_get_at_pixel(_tm, _tx - _clearRadius, _ty + _clearRadius);
+            var _t4 = tilemap_get_at_pixel(_tm, _tx + _clearRadius, _ty + _clearRadius);
+
+            if (_t1 != 0 || _t2 != 0 || _t3 != 0 || _t4 != 0) // ≠ 0 → có tile ở đây
             {
                 _blocked = true;
                 break;
@@ -139,12 +150,23 @@ function spawner_do_spawn(_spawner)
         var _pt  = spawner_find_valid_point(x, y,
                        _cfg.spawnRadius,
                        _cfg.tileLayers,
-                       _cfg.minPlayerDist);
+                       _cfg.minPlayerDist,
+                       16); // Bán kính an toàn 16px để không kẹt tile
 
         // Không tìm được điểm hợp lệ lần này → thử lại lần sau
         if (_pt == undefined) exit;
 
-        var _obj  = spawner_pick_object(_cfg.spawnTable);
+        var _obj;
+        // Kiểm tra tỉ lệ ra Boss
+        if (_cfg.bossObj != undefined && _cfg.bossChance > 0 && random(100) < _cfg.bossChance)
+        {
+            _obj = _cfg.bossObj;
+        }
+        else
+        {
+            _obj = spawner_pick_object(_cfg.spawnTable);
+        }
+
         var _inst = instance_create_layer(_pt.x, _pt.y, _cfg.instanceLayer, _obj);
 
         // Track instance trong ds_list của spawner này

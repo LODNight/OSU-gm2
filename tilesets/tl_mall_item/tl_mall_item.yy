@@ -8,7 +8,7 @@
     "TileSerialiseData":[],
   },
   "name":"tl_mall_item",
-  "out_columns":32,
+  "out_columns":62,
   "out_tilehborder":2,
   "out_tilevborder":2,
   "parent":{
@@ -34,5 +34,5 @@
   "tileWidth":16,
   "tilexoff":0,
   "tileyoff":0,
-  "tile_count":1024,
+  "tile_count":3844,
 }

@@ -2,9 +2,9 @@
   "$GMSprite":"v2",
   "%Name":"s_tl_mall_item",
   "bboxMode":0,
-  "bbox_bottom":463,
+  "bbox_bottom":687,
   "bbox_left":0,
-  "bbox_right":383,
+  "bbox_right":511,
   "bbox_top":0,
   "collisionKind":1,
   "collisionTolerance":0,
@@ -16,7 +16,7 @@
   ],
   "gridX":0,
   "gridY":0,
-  "height":512,
+  "height":1000,
   "HTile":false,
   "layers":[
     {"$GMImageLayer":"","%Name":"0218eb0f-5e25-4686-a7a1-98389bc0d8f2","blendMode":0,"displayName":"item","isLocked":false,"name":"0218eb0f-5e25-4686-a7a1-98389bc0d8f2","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
@@ -87,5 +87,5 @@
   },
   "type":0,
   "VTile":false,
-  "width":512,
+  "width":1000,
 }
