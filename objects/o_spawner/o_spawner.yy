@@ -32,7 +32,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"s_spawner",
+    "path":"sprites/s_spawner/s_spawner.yy",
+  },
   "spriteMaskId":null,
-  "visible":true,
+  "visible":false,
 }

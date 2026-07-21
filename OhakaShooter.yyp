@@ -215,6 +215,7 @@
     {"id":{"name":"s_shot_Tus34","path":"sprites/s_shot_Tus34/s_shot_Tus34.yy",},},
     {"id":{"name":"s_snip_NozinV1","path":"sprites/s_snip_NozinV1/s_snip_NozinV1.yy",},},
     {"id":{"name":"s_snip_NozinV2","path":"sprites/s_snip_NozinV2/s_snip_NozinV2.yy",},},
+    {"id":{"name":"s_spawner","path":"sprites/s_spawner/s_spawner.yy",},},
     {"id":{"name":"s_street","path":"sprites/s_street/s_street.yy",},},
     {"id":{"name":"s_sub_P90","path":"sprites/s_sub_P90/s_sub_P90.yy",},},
     {"id":{"name":"s_table","path":"sprites/s_table/s_table.yy",},},

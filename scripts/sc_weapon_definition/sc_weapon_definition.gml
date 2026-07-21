@@ -22,8 +22,8 @@ function create_weapon_definition(_config) constructor
     autoReload = variable_struct_exists(_config, "autoReload") ? _config.autoReload : true;
 
     magSize     = variable_struct_exists(_config, "magSize") ? _config.magSize : 12;
-    reserveAmmo = variable_struct_exists(_config, "reserveAmmo") ? _config.reserveAmmo : 120;
-    maxReserveAmmo = variable_struct_exists(_config, "maxReserveAmmo") ? _config.maxReserveAmmo : reserveAmmo;
+    mags        = variable_struct_exists(_config, "mags") ? _config.mags : 4;
+    maxMags     = variable_struct_exists(_config, "maxMags") ? _config.maxMags : mags;
     reloadTime  = variable_struct_exists(_config, "reloadTime") ? _config.reloadTime : room_speed;
 
     fireSound   = variable_struct_exists(_config, "fireSound") ? _config.fireSound : noone;

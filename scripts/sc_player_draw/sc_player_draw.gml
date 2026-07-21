@@ -39,7 +39,7 @@ function player_draw_weapon_hud()
 
     draw_set_color(c_white);
     draw_text(_x, _y - 22, _data.name);
-    draw_text(_x + 150, _y - 22, string(weapon.ammo) + " / " + string(weapon.reserveAmmo));
+    draw_text(_x + 150, _y - 22, string(weapon.ammo) + " / " + string(weapon.mags) + " mags");
 
     // Draw one small rectangle for each bullet or shell in the magazine.
     var _bulletWidth = 9;
@@ -64,6 +64,13 @@ function player_draw_weapon_hud()
     if (_totalBlocks > _maxVisible) {
         draw_set_color(c_ltgray);
         draw_text(_x + _visibleCount * (_bulletWidth + _bulletGap) + 5, _y + 3, "x" + string(_totalBlocks));
+    }
+
+    // Draw visual blocks for remaining magazines
+    var _magWidth = 18;
+    for (var m = 0; m < weapon.mags; m++) {
+        draw_set_color(c_orange);
+        draw_rectangle(_x + m * (_magWidth + 4), _y + 25, _x + m * (_magWidth + 4) + _magWidth, _y + 29, false);
     }
 
     if (isReloading) {

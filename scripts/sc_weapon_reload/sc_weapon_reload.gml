@@ -17,11 +17,9 @@ function weapon_update_reload(_owner)
     if (_owner.reloadTimer > 0) return;
 
     var _weapon = _owner.weapon;
-    if (_weapon != noone) {
-        var _needed = _weapon.definition.magSize - _weapon.ammo;
-        var _loaded = min(_needed, _weapon.reserveAmmo);
-        _weapon.ammo += _loaded;
-        _weapon.reserveAmmo -= _loaded;
+    if (_weapon != noone && _weapon.mags > 0) {
+        _weapon.ammo = _weapon.definition.magSize;
+        _weapon.mags -= 1;
     }
     _owner.isReloading = false;
 }
