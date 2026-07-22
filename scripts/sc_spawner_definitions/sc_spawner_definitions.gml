@@ -15,13 +15,21 @@ function sc_spawner_definitions()
     // ============================================================
     global.Factions = 
     {
+		 zombies_tutorial: {
+            spawnTable: [
+                { obj: o_z_1,       weight: 20 },
+                { obj: o_z_speed_1, weight: 10 }
+            ],
+            bossObj: undefined, 
+            bossChance: 0 // Tỉ lệ 0%
+        },
         zombies_basic: {
             spawnTable: [
                 { obj: o_z_1,       weight: 10 },
                 { obj: o_z_speed_1, weight: 15 }
             ],
-            bossObj: undefined, // Điền object boss vào đây (vd: o_boss_zombie_1) khi bạn có
-            bossChance: 5 // Tỉ lệ 5% đẻ boss
+            bossObj: undefined, 
+            bossChance: 5 // Tỉ lệ 5% 
         },
         zombies_speed: {
             spawnTable: [
@@ -57,6 +65,24 @@ function sc_spawner_definitions()
     // ============================================================
     global.SpawnerZones =
     {
+		// ──────────────────────────────────────────────
+        // KHU VỰC: TUTORIAL SHOOTING - 
+        // ──────────────────────────────────────────────
+        tutorial_shooting : new create_spawner_zone({
+            id               : "tutorial_shooting",
+            spawnTable       : global.Factions.zombies_tutorial.spawnTable,
+            bossObj          : global.Factions.zombies_tutorial.bossObj,
+            bossChance       : global.Factions.zombies_tutorial.bossChance,
+            spawnRadius      : 192,
+            activationRadius : 256,
+            deactivationRadius: 320,
+            totalLimit       : 8,
+            maxEnemies       : 8,
+            spawnDelay       : 0,
+            tileLayers       : ["tile_wall", "tile_item_coli"],
+            instanceLayer    : "Instances"
+        }),
+		
         // ──────────────────────────────────────────────
         // KHU VỰC: GRAVEYARD (Mộ ma) - Dùng Faction: zombies_basic
         // ──────────────────────────────────────────────
@@ -73,6 +99,22 @@ function sc_spawner_definitions()
             spawnDelay       : 60,
             tileLayers       : ["tile_wall", "tile_item_coli"],
             instanceLayer    : "Instances"
+        }),
+
+        tutorial_escape_horde : new create_spawner_zone({
+            id                : "tutorial_escape_horde",
+            spawnTable        : global.Factions.zombies_tutorial.spawnTable,
+            bossObj           : undefined,
+            bossChance        : 0,
+            infinite          : true,
+            maxEnemies        : 100,
+            spawnDelay        : 12,
+            spawnRadius       : 260,
+            minPlayerDist     : 96,
+            activationRadius  : 300,
+            deactivationRadius: 360,
+            tileLayers        : ["tile_wall", "tile_item_coli"],
+            instanceLayer     : "Instances"
         }),
 
         // ──────────────────────────────────────────────

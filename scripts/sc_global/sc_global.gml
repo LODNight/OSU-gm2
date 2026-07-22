@@ -25,6 +25,13 @@ enum SPAWNER_STATE {
     DEPLETED, // Đã spawn đủ totalLimit — không spawn nữa
 }
 
+/// Tutorial zone behaviours. Each o_tutorial selects one by tutorialId.
+enum TUTORIAL_TYPE {
+    MOVE_AND_PICKUP,
+    CLEAR_ARENA,
+    ESCAPE_HORDE
+}
+
 /// Bật/tắt debug draw cho tất cả o_spawner trong game.
 /// true  = vẽ hình vuông + thông số tại tâm mỗi spawner.
 /// false = ẩn hoàn toàn khi ship game.

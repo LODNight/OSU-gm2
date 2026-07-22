@@ -1,0 +1,1 @@
+tutorialId = "shooting_range";

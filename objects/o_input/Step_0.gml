@@ -11,6 +11,8 @@ global.reloadKey    = keyboard_check_pressed(ord("R"))
 global.swapKey      = keyboard_check_pressed(ord("Q"))      // Q → swap súng (đã đổi từ RMB)
 global.spaceKey     = keyboard_check(vk_space)
 
+global.interactPressed = keyboard_check_pressed(ord("F"))
+
 global.num1Key = keyboard_check(ord("1"))
 global.num2Key = keyboard_check(ord("2"))
 global.num3Key = keyboard_check(ord("3"))

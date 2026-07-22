@@ -3,6 +3,20 @@
 // ================================================================
 
 // ──────────────────────────────────────────────────────────────
+// 0. Nạp lại config nếu zoneId bị đổi (ví dụ qua Instance Creation Code)
+// ──────────────────────────────────────────────────────────────
+if (config == undefined || config.id != zoneId)
+{
+    config = global.SpawnerZones[$ zoneId];
+    if (config == undefined)
+    {
+        show_debug_message("WARNING: Spawner zoneId '" + string(zoneId) + "' not found!");
+        instance_destroy();
+        exit;
+    }
+}
+
+// ──────────────────────────────────────────────────────────────
 // 1. Cần player để tính khoảng cách
 // ──────────────────────────────────────────────────────────────
 if (!instance_exists(o_player)) exit;
@@ -61,18 +75,30 @@ else if (_dist_to_player > _deact_dist)
 // ──────────────────────────────────────────────────────────────
 if (spawnerState == SPAWNER_STATE.ACTIVE)
 {
-    if (totalSpawned >= config.totalLimit)
+    if (!config.infinite && totalSpawned >= config.totalLimit)
     {
         spawnerState = SPAWNER_STATE.DEPLETED;
         exit;
     }
 
+    if (spawnTimer > 0)
+    {
+        spawnTimer--;
+        exit;
+    }
+
     var _live      = ds_list_size(liveEnemies);
     var _needed    = config.maxEnemies - _live;
-    var _can_spawn = min(_needed, config.totalLimit - totalSpawned);
+    var _remaining = config.infinite ? _needed : (config.totalLimit - totalSpawned);
+    var _can_spawn = min(_needed, _remaining);
 
     for (var _i = 0; _i < _can_spawn; _i++)
     {
         spawner_do_spawn(id);
+        if (config.spawnDelay > 0)
+        {
+            spawnTimer = config.spawnDelay;
+            break;
+        }
     }
 }

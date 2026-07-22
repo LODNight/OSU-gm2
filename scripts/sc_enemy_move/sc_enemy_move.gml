@@ -15,8 +15,10 @@ function enemy_move()
     yspd = lengthdir_y(_speed, aimDir);
 
     // Collision riêng cho trục X và Y để enemy vẫn trượt dọc tường khi bị chặn
-    if (place_meeting(x + xspd, y, [tile_map, tile_item, o_enemy_parent, o_wall])) xspd = 0;
-    if (place_meeting(x, y + yspd, [tile_map, tile_item, o_enemy_parent, o_wall])) yspd = 0;
+    if (place_meeting(x + xspd, y, [tile_map, tile_item, o_enemy_parent, o_wall])
+        || tutorial_gate_blocks_enemy(x + xspd, y)) xspd = 0;
+    if (place_meeting(x, y + yspd, [tile_map, tile_item, o_enemy_parent, o_wall])
+        || tutorial_gate_blocks_enemy(x, y + yspd)) yspd = 0;
 
     x += xspd;
     y += yspd;

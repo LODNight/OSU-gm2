@@ -2,7 +2,7 @@
   "$GMSprite":"v2",
   "%Name":"s_tl_mall",
   "bboxMode":0,
-  "bbox_bottom":207,
+  "bbox_bottom":415,
   "bbox_left":0,
   "bbox_right":459,
   "bbox_top":0,

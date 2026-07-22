@@ -10,6 +10,7 @@ global.aimKey       = 0    // Chuột phải → ADS
 global.sprintKey    = 0    // Shift → Sprint
 
 // NUMBER
+global.interactPressed = 0
 global.num1Key = 0
 global.num2Key = 0
 global.num3Key = 0

@@ -10,8 +10,10 @@ function player_move()
     xspd = lengthdir_x(_currentSpd * _inputLevel, moveDir);
     yspd = lengthdir_y(_currentSpd * _inputLevel, moveDir);
 
-    if (place_meeting(x + xspd, y,       [tile_wall, tile_item, o_wall, o_wall_colli])) xspd = 0;
-    if (place_meeting(x,        y + yspd, [tile_wall, tile_item, o_wall, o_wall_colli])) yspd = 0;
+    if (place_meeting(x + xspd, y, [tile_wall, tile_item, o_wall, o_wall_colli])
+        || tutorial_gate_blocks_player(x + xspd, y)) xspd = 0;
+    if (place_meeting(x, y + yspd, [tile_wall, tile_item, o_wall, o_wall_colli])
+        || tutorial_gate_blocks_player(x, y + yspd)) yspd = 0;
     x += xspd;
     y += yspd;
 }

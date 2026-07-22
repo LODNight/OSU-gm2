@@ -21,6 +21,8 @@ function create_spawner_zone(_cfg) constructor
     maxEnemies = variable_struct_exists(_cfg, "maxEnemies") ? _cfg.maxEnemies : 8;
     // Tổng số được spawn cả vòng đời → hết thì DEPLETED
     totalLimit = variable_struct_exists(_cfg, "totalLimit") ? _cfg.totalLimit : 20;
+    // true = keep spawning forever, while maxEnemies still caps living enemies.
+    infinite = variable_struct_exists(_cfg, "infinite") ? _cfg.infinite : false;
 
     // ── Timer ──
     // Số frame giữa 2 lần spawn liên tiếp (game_fps=60 → 180 = 3 giây)
@@ -168,6 +170,11 @@ function spawner_do_spawn(_spawner)
         }
 
         var _inst = instance_create_layer(_pt.x, _pt.y, _cfg.instanceLayer, _obj);
+
+        // Optional bridge: tutorial-owned spawners tag their enemies for kill tracking.
+        if (variable_instance_exists(id, "tutorialOwner") && instance_exists(tutorialOwner)) {
+            _inst.tutorialOwner = tutorialOwner;
+        }
 
         // Track instance trong ds_list của spawner này
         ds_list_add(liveEnemies, _inst);

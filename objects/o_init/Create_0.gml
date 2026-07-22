@@ -22,3 +22,6 @@ sc_enemy_definitions();
 
 // Register spawner zone configurations (which enemy, how many, radius...)
 sc_spawner_definitions();
+
+// Register reusable tutorial zone presets.
+sc_tutorial_definitions();

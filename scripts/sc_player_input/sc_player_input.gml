@@ -10,6 +10,7 @@ function player_input()
     shootKey    = global.shootKey;
     shootPressed = global.shootPressed;
     reloadKey   = global.reloadKey;
+    interactPressed = global.interactPressed;
     swapKey     = global.swapKey;
     num1Key     = global.num1Key;
     num2Key     = global.num2Key;

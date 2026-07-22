@@ -1,13 +1,9 @@
 {
   "$GMObject":"",
-  "%Name":"o_tutorrial",
-  "eventList":[
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-  ],
+  "%Name":"o_tu_zone_1",
+  "eventList":[],
   "managed":true,
-  "name":"o_tutorrial",
+  "name":"o_tu_zone_1",
   "overriddenProperties":[],
   "parent":{
     "name":"Tutorial",
@@ -31,7 +27,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"s_wall_colli",
+    "path":"sprites/s_wall_colli/s_wall_colli.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

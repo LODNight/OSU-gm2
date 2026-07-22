@@ -1,0 +1,1 @@
+tutorial_configure_exit_gate();

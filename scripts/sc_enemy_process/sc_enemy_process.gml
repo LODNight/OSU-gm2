@@ -68,6 +68,11 @@ function enemy_die()
     deathHandled = true;
     state = ENEMY_STATE.DEAD;
 
+    if (variable_instance_exists(id, "tutorialOwner") && instance_exists(tutorialOwner)) {
+        var _tutorialOwner = tutorialOwner;
+        with (_tutorialOwner) tutorial_register_enemy_kill();
+    }
+
     // Spawn xác tại vị trí hiện tại, kế thừa hướng nhìn và độ trong suốt
     if (corpseObject != noone) {
         var _corpse = instance_create_depth(x, y, -y, corpseObject);
