@@ -32,5 +32,5 @@
     "path":"sprites/s_wall_colli/s_wall_colli.yy",
   },
   "spriteMaskId":null,
-  "visible":true,
+  "visible":false,
 }

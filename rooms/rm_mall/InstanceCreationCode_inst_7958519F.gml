@@ -1,0 +1,1 @@
+entranceId = "mall_entry";

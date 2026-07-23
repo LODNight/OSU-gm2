@@ -36,3 +36,62 @@ enum TUTORIAL_TYPE {
 /// true  = vẽ hình vuông + thông số tại tâm mỗi spawner.
 /// false = ẩn hoàn toàn khi ship game.
 #macro SPAWNER_DEBUG true
+
+/// ================================================================
+/// Room transition helpers
+/// ================================================================
+
+function room_transition_init()
+{
+    if (variable_global_exists("RoomTransition")) return;
+
+    global.RoomTransition = {
+        active: false,
+        targetRoom: noone,
+        entranceId: "",
+        sourceRoom: noone
+    };
+}
+
+function room_transition_clear()
+{
+    if (!variable_global_exists("RoomTransition")) return;
+
+    global.RoomTransition.active = false;
+    global.RoomTransition.targetRoom = noone;
+    global.RoomTransition.entranceId = "";
+    global.RoomTransition.sourceRoom = noone;
+}
+
+function room_transition_begin(_targetRoom, _entranceId)
+{
+    room_transition_init();
+
+    global.RoomTransition.active = true;
+    global.RoomTransition.targetRoom = _targetRoom;
+    global.RoomTransition.entranceId = _entranceId;
+    global.RoomTransition.sourceRoom = room;
+}
+
+function room_transition_is_pending_for(_entranceId)
+{
+    return variable_global_exists("RoomTransition")
+        && global.RoomTransition.active
+        && global.RoomTransition.targetRoom == room
+        && global.RoomTransition.entranceId == _entranceId;
+}
+
+function room_transition_apply_entrance(_entranceId)
+{
+    if (!room_transition_is_pending_for(_entranceId)) return false;
+    if (!instance_exists(o_player)) return false;
+
+    with (o_player) {
+        x = other.x;
+        y = other.y;
+        centerY = y + centerYOffset;
+    }
+
+    room_transition_clear();
+    return true;
+}

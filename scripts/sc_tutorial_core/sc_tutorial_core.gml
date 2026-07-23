@@ -151,12 +151,14 @@ function tutorial_exit_gate_exists(_gateId)
 
 /// @desc Call from an o_tutorial_gate Instance Creation Code to make it the zone 3 exit.
 /// The player may cross this gate; enemies remain confined inside zone 3.
-function tutorial_configure_exit_gate()
+function tutorial_configure_exit_gate(_nextRoom)
 {
     gateId = "tutorial_exit";
     isExit = true;
     blocksPlayer = false;
     blocksEnemies = true;
+	
+	//room_goto(_nextRoom)
 }
 
 function tutorial_gate_blocks_player(_x, _y)
@@ -200,12 +202,23 @@ function tutorial_draw_message()
 
     draw_set_halign(fa_center);
     draw_set_valign(fa_middle);
+    
+    var _w = string_width(_text) + 24;
+    var _h = string_height(_text) + 12;
+    var _cx = display_get_gui_width() * 0.5;
+    var _cy = display_get_gui_height() - 48; // Vị trí gần cạnh dưới màn hình
+
     draw_set_alpha(0.75);
     draw_set_color(c_black);
-    draw_rectangle(260, 22, display_get_gui_width() - 260, 76, false);
+    draw_rectangle(_cx - _w/2, _cy - _h/2, _cx + _w/2, _cy + _h/2, false);
+    
+    draw_set_color(make_color_rgb(180, 180, 180)); // Viền xám sáng
+    draw_rectangle(_cx - _w/2, _cy - _h/2, _cx + _w/2, _cy + _h/2, true);
+    
     draw_set_alpha(1);
     draw_set_color(c_white);
-    draw_text(display_get_gui_width() * 0.5, 49, _text);
+    draw_text(_cx, _cy, _text);
+    
     draw_set_halign(fa_left);
     draw_set_valign(fa_top);
 }

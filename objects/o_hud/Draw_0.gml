@@ -31,16 +31,37 @@ if (instance_exists(o_player))
 
 
 // ── HP Bar ────────────────────────────────────────────────────────────
-draw_sprite(s_healthBar, 0, _camXBor, _camYBor)
+var _maxHp = (playerMaxHp > 0) ? playerMaxHp : 100;
+var _hpBarW = 120; // Chiều rộng thanh máu
+var _hpBarH = 12;  // Chiều cao thanh máu
+var _hpBarX = _camXBor;
+var _hpBarY = _camYBor;
 
-for (var i = 0; i < playerMaxHp; i++)
-{
-    var _img = 1
-    if (i + 1 <= playerHp) { _img = 2 }
+// 1. Nền tối màu
+draw_set_color(make_color_rgb(30, 30, 30));
+draw_rectangle(_hpBarX, _hpBarY, _hpBarX + _hpBarW, _hpBarY + _hpBarH, false);
 
-    var _sep = 3
-    draw_sprite(s_healthBar, _img, _camXBor + _sep * i, _camYBor)
+// 2. Thanh máu trễ màu trắng (khoảng trắng bị trừ máu)
+var _delayRatio = playerHpDelay / _maxHp;
+var _delayW = _hpBarW * _delayRatio;
+if (_delayW > 0) {
+    draw_set_color(c_white);
+    draw_rectangle(_hpBarX, _hpBarY, _hpBarX + _delayW, _hpBarY + _hpBarH, false);
 }
+
+// 3. Thanh máu hiện tại màu đỏ
+var _hpRatio = playerHp / _maxHp;
+var _fillW = _hpBarW * _hpRatio;
+if (_fillW > 0) {
+    draw_set_color(make_color_rgb(220, 40, 40)); // Màu đỏ tươi
+    draw_rectangle(_hpBarX, _hpBarY, _hpBarX + _fillW, _hpBarY + _hpBarH, false);
+}
+
+// 4. Viền thanh máu
+draw_set_color(make_color_rgb(180, 180, 180));
+draw_rectangle(_hpBarX, _hpBarY, _hpBarX + _hpBarW, _hpBarY + _hpBarH, true);
+
+draw_set_color(c_white);
 
 
 // ── Stamina Bar (thanh ngang dưới HP) ────────────────────────────────
@@ -50,10 +71,10 @@ if (instance_exists(o_player))
     with (o_player) {
         _ratio = stamina_get_ratio();
     }
-    var _barW    = 60;   // Chiều rộng thanh tối đa
-    var _barH    = 5;    // Chiều cao thanh
+    var _barW    = _hpBarW;  // Khớp chiều rộng với thanh máu (120px)
+    var _barH    = 5;        // Chiều cao thanh stamina
     var _barX    = _camXBor;
-    var _barY    = _camYBor + 32;  // Offset bên dưới HP bar
+    var _barY    = _hpBarY + _hpBarH + 4; // Offset ngay dưới thanh máu
 
     // Nền xám
     draw_set_color(make_color_rgb(50, 50, 50));

@@ -1,4 +1,19 @@
-// Lấy kích thước view hiện tại (có thể thay đổi khi ADS zoom)
+// ── Zoom Camera ──
+// Giảm kích thước view để zoom gần hơn 1 chút
+var _currentRoom = room;
+if (!variable_instance_exists(id, "lastRoom") || lastRoom != _currentRoom)
+{
+    lastRoom = _currentRoom;
+    var _w = camera_get_view_width(view_camera[0]);
+    var _h = camera_get_view_height(view_camera[0]);
+    
+    var _zoomFactor = 0.82; 
+    var _newW = round(_w * _zoomFactor);
+    var _newH = round(_h * _zoomFactor);
+    camera_set_view_size(view_camera[0], _newW, _newH);
+}
+
+// Lấy kích thước view hiện tại
 var _camW = camera_get_view_width(view_camera[0])
 var _camH = camera_get_view_height(view_camera[0])
 

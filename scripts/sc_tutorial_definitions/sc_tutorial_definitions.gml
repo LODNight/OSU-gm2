@@ -7,7 +7,7 @@ function sc_tutorial_definitions()
             id : "movement_pickup",
             type : TUTORIAL_TYPE.MOVE_AND_PICKUP,
             activationRadius : 180,
-            message : "Di chuyen bang WASD. Den gan hop dan va nhan F de nhat dan.",
+            message : "Di chuyen bang [WASD]. Den gan hop dan va nhan [F] de nhat dan.",
             pickupMags : 2,
             pickupOffsetX : 48,
             pickupOffsetY : 0

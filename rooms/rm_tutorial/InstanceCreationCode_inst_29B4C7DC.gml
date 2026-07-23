@@ -1,1 +1,1 @@
-tutorial_configure_exit_gate();
+tutorial_configure_exit_gate(rm_mall);

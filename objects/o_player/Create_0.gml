@@ -1,5 +1,5 @@
 // Damage
-maxHp = 20;
+maxHp = 100;
 get_damaged_create(maxHp, true);
 
 // Movement and aim

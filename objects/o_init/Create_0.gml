@@ -25,3 +25,6 @@ sc_spawner_definitions();
 
 // Register reusable tutorial zone presets.
 sc_tutorial_definitions();
+
+// Register room transition helpers used by o_goNext / o_entrance.
+room_transition_init();
