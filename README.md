@@ -1,43 +1,27 @@
-<div align="center">
-
 # 🔫 Ohaka Shooter (OSU!")
 
-**A fast-paced 2D top-down shooter game built with GameMaker Studio 2.**
+Dự án Game bắn súng Top-down 2D nhịp độ nhanh.
 
-[![GameMaker Studio 2](https://img.shields.io/badge/GameMaker-Studio%202-brightgreen.svg?logo=gamemaker&style=for-the-badge)](https://gamemaker.io/)
-[![GML](https://img.shields.io/badge/Language-GML-blue.svg?style=for-the-badge)](#)
-[![Status](https://img.shields.io/badge/Status-Active-success.svg?style=for-the-badge)](#)
+### 🎯 Mục tiêu
+Sống sót qua các đợt quái vật, duy trì chuỗi Combo Chain càng cao càng tốt và sống sót lâu nhất có thể.
 
-</div>
+### 🚀 Cách chạy
+1. Mở file `OhakaShooter.yyp` bằng **GameMaker Studio 2**.
+2. Nhấn **F5** (Run) để chơi.
 
----
+### 📁 Cấu trúc Thư mục chính
+- `docs/`: Toàn bộ tài liệu phân tích kỹ thuật của dự án.
+- `objects/`: Chứa các thực thể (Player, Enemy, Spawner, Bullet).
+- `scripts/`: Chứa toàn bộ logic code (Hệ thống vũ khí, AI State Machine).
+- `rooms/`: Các màn chơi và giao diện.
+- `sprites/`: Hình ảnh và animation.
 
-## 📖 Overview
-
-**Ohaka Shooter (OSU!")** features intense bullet-hell gameplay, multiple challenging bosses, and an innovative **"Combo Chain"** system that rewards consecutive kills with powerful temporary abilities. Dive into the arena, dodge incoming fire, and survive as long as you can!
-
-## 🎮 How to Play
-
-### Controls
-| Key/Input | Action |
-| :--- | :--- |
-| `W`, `A`, `S`, `D` | Move the character |
-| `Mouse Move` | Aim weapon |
-| `Left Click` | Shoot |
-| `R` | Restart game (on Game Over) |
-
-### Gameplay Mechanics
-1. **Survive Waves**: Eliminate all enemies in each wave to proceed to the next difficulty level.
-2. **Build Combos**: Kill enemies consecutively to build up your combo chain. Beware: taking damage or waiting too long will reset the counter!
-3. **Utilize Power-ups**: Collect health packs and strategically use weapon boosts to clear tough situations and survive longer.
-
-## 💻 Development
-
-- **Engine**: GameMaker Studio 2
-- **Language**: GML (GameMaker Language)
-- **Architecture**: Object-oriented approach with clear separation of concerns (Players, Enemies, Projectiles, and Power-ups).
+### 🔄 Luồng Gameplay
+1. Khởi động game (Khởi tạo hệ thống).
+2. Di chuyển vào vùng **Spawner Zone**.
+3. Quái xuất hiện -> Bắn, nạp đạn, né tránh.
+4. Tiêu diệt quái liên tục để tăng **Combo**.
+5. Hết quái -> Chuyển khu vực mới. Chết -> Nhấn `R` chơi lại.
 
 ---
-<div align="center">
-  <i>If you find this project interesting, consider giving it a ⭐!</i>
-</div>
+*Đọc chi tiết về thiết kế tại thư mục `docs/`.*
