@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"sc_lighting",
+  "%Name":"sc_room_lighting",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"sc_lighting",
+  "name":"sc_room_lighting",
   "parent":{
     "name":"light",
     "path":"folders/Scripts/light.yy",

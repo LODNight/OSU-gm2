@@ -108,3 +108,34 @@ if (instance_exists(o_player))
 
     draw_set_color(c_white);
 }
+
+
+// ── Flashlight Item HUD (debug text) ─────────────────────────
+// Hiển thị tên đèn dưới stamina bar.
+// Ẩn hoàn toàn khi player không có đèn.
+if (instance_exists(o_player)) {
+    var _fl = o_player.flashlightItem;
+    if (_fl != noone) {
+        var _flY = _camYBor
+                 + round(12 * _guiScale)  // hp bar h
+                 + round(4  * _guiScale)  // gap hp→stamina
+                 + round(5  * _guiScale)  // stamina bar h
+                 + round(6  * _guiScale); // gap stamina→flashlight text
+
+        // Trạng thái bật/tắt
+        var _active = (instance_exists(o_lighting_controller)
+                    && o_lighting_controller.flashlight_enabled);
+
+        draw_set_halign(fa_left);
+        draw_set_valign(fa_top);
+
+        // Tên đèn
+        draw_set_color(_active
+            ? make_color_rgb(200, 220, 255)   // xanh nhạt = đang bật
+            : make_color_rgb(120, 120, 120));  // xám = tắt
+        draw_text(_camXBor, _flY,
+            "[F] " + _fl.name + (_active ? " ON" : " OFF"));
+
+        draw_set_color(c_white);
+    }
+}

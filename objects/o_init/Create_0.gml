@@ -28,3 +28,9 @@ sc_tutorial_definitions();
 
 // Register room transition helpers used by o_goNext / o_entrance.
 room_transition_init();
+
+// Register flashlight item definitions.
+sc_lighting_definitions();
+
+// Register per-room darkness configuration.
+sc_room_lighting_init();

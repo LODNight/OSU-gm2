@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"sc_lighting",
+  "%Name":"sc_lighting_definition",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"sc_lighting",
+  "name":"sc_lighting_definition",
   "parent":{
-    "name":"light",
-    "path":"folders/Scripts/light.yy",
+    "name":"definition",
+    "path":"folders/Scripts/definition.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

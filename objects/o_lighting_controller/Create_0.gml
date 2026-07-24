@@ -2,28 +2,33 @@
 // o_lighting_controller — Create Event
 // ============================================================
 
-// Surface chứa lớp bóng tối
+// Surface bóng tối (punched holes = vùng sáng của flashlight)
 dark_surface = -1;
 
-// Độ tối của toàn map
-darkness_alpha = 0.92;
+// Surface ánh sáng màu (additive overlay cho đèn tĩnh)
+light_surface = -1;
 
-// Màu của bóng tối
-darkness_color = c_black;
+// Cấu hình darkness — được ghi đè bởi sc_room_lighting khi đổi room
+darkness_alpha   = 0.92;
+darkness_color   = c_black;
+lighting_enabled = true;
 
-// Thông số đèn pin
-flashlight_range = 420;
-flashlight_angle = 55;
-
-// Số lượng tia dùng để tạo hình nón — tăng lên để mườ hơn
-flashlight_rays = 60;
-
-// Khoảng cách mỗi bước raycast — nhỏ hơn cho va chạm chính xác hơn
-ray_step = 2;
-
-// Bật/tắt đèn pin
+// Bật/tắt đèn pin (phím F)
 flashlight_enabled = true;
 
-// Để kiểm tra việc đổi room
+// Theo dõi room hiện tại để detect đổi room
 current_room = -1;
+
+// Tilemap va chạm (cập nhật mỗi khi đổi room)
 global.collision_tilemap = -1;
+
+// Khởi tạo ds_list cho đèn tĩnh
+light_source_global_init();
+
+// Khởi tạo definitions (đảm bảo không bị gọi trùng)
+if (!variable_global_exists("FlashlightDefs")) {
+    sc_lighting_definitions();
+}
+if (!variable_global_exists("RoomLighting")) {
+    sc_room_lighting_init();
+}

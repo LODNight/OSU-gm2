@@ -128,7 +128,9 @@ function draw_flashlight_visibility_polygon(
     _range,
     _angle,
     _rays,
-    _ray_step
+    _ray_step,
+    _color = c_white,
+    _intensity = 1.0
 ) {
     var _start_angle = _direction - (_angle * 0.5);
     var _angle_step  = _angle / _rays;
@@ -138,8 +140,8 @@ function draw_flashlight_visibility_polygon(
     draw_vertex_color(
         _surface_x,
         _surface_y,
-        c_white,
-        1
+        _color,
+        _intensity
     );
 
     for (var i = 0; i <= _rays; i++) {
@@ -172,8 +174,8 @@ function draw_flashlight_visibility_polygon(
         draw_vertex_color(
             _vertex_x,
             _vertex_y,
-            c_white,
-            _edge_alpha
+            _color,
+            _edge_alpha * _intensity
         );
     }
 
@@ -201,3 +203,27 @@ function draw_ambient_light(_x, _y, _radius, _segments) {
     draw_primitive_end();
 }
 
+
+/// @function draw_colored_point_light(_x, _y, _radius, _segments, _color, _intensity)
+/// @description Vẽ nguồn sáng màu lên light_surface (additive blend từ controller).
+///              _x, _y    : tọa độ surface space (đã trừ cam offset)
+///              _color     : màu make_color_rgb()
+///              _intensity : alpha tâm (0.0–1.0)
+function draw_colored_point_light(_x, _y, _radius, _segments, _color, _intensity) {
+    var _angle_step = 360 / _segments;
+
+    draw_primitive_begin(pr_trianglefan);
+
+    // Tâm sáng — alpha = intensity
+    draw_vertex_color(_x, _y, _color, _intensity);
+
+    // Vòng viền — fade to transparent
+    for (var i = 0; i <= _segments; i++) {
+        var _a  = i * _angle_step;
+        var _vx = _x + lengthdir_x(_radius, _a);
+        var _vy = _y + lengthdir_y(_radius, _a);
+        draw_vertex_color(_vx, _vy, _color, 0);
+    }
+
+    draw_primitive_end();
+}
