@@ -1,11 +1,21 @@
-var _camX = camera_get_view_x(view_camera[0])
-var _camY = camera_get_view_y(view_camera[0])
-var _camW = camera_get_view_width(view_camera[0])
-var _camH = camera_get_view_height(view_camera[0])
+// GUI coordinates
+var _camX = 0;
+var _camY = 0;
+var _camW = display_get_gui_width();
+var _camH = display_get_gui_height();
 
-var _border   = 8
-var _camXBor  = _camX + _border
-var _camYBor  = _camY + _border
+// Scale HUD theo port thực tế
+// Port (viewport) thường là resolution window hiển thị
+var _portW = view_get_wport(0);
+var _portH = view_get_hport(0);
+var _guiScaleX = _camW / _portW;
+var _guiScaleY = _camH / _portH;
+// Dùng scale nhỏ hơn để giữ tỉ lệ uniform
+var _guiScale  = min(_guiScaleX, _guiScaleY);
+
+var _border   = round(8 * _guiScale);
+var _camXBor  = _border;
+var _camYBor  = _border;
 
 
 // ── Vignette: màn hình tối nhẹ khi thể lực gần cạn ──────────────────
@@ -32,8 +42,8 @@ if (instance_exists(o_player))
 
 // ── HP Bar ────────────────────────────────────────────────────────────
 var _maxHp = (playerMaxHp > 0) ? playerMaxHp : 100;
-var _hpBarW = 120; // Chiều rộng thanh máu
-var _hpBarH = 12;  // Chiều cao thanh máu
+var _hpBarW = round(120 * _guiScale); // Chiều rộng thanh máu
+var _hpBarH = round(12  * _guiScale); // Chiều cao thanh máu
 var _hpBarX = _camXBor;
 var _hpBarY = _camYBor;
 
@@ -71,10 +81,10 @@ if (instance_exists(o_player))
     with (o_player) {
         _ratio = stamina_get_ratio();
     }
-    var _barW    = _hpBarW;  // Khớp chiều rộng với thanh máu (120px)
-    var _barH    = 5;        // Chiều cao thanh stamina
+    var _barW    = _hpBarW;                                  // Khớp chiều rộng với thanh máu
+    var _barH    = max(1, round(5 * _guiScale));              // Chiều cao thanh stamina
     var _barX    = _camXBor;
-    var _barY    = _hpBarY + _hpBarH + 4; // Offset ngay dưới thanh máu
+    var _barY    = _hpBarY + _hpBarH + round(4 * _guiScale); // Offset ngay dưới thanh máu
 
     // Nền xám
     draw_set_color(make_color_rgb(50, 50, 50));

@@ -6,8 +6,8 @@
   "name":"o_wall_colli",
   "overriddenProperties":[],
   "parent":{
-    "name":"Objects",
-    "path":"folders/Objects.yy",
+    "name":"Others",
+    "path":"folders/Objects/Others.yy",
   },
   "parentObjectId":null,
   "persistent":false,

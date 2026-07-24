@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"sc_lighting",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"sc_lighting",
+  "parent":{
+    "name":"lighting",
+    "path":"folders/Scripts/lighting.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
