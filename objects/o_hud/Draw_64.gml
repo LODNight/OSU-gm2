@@ -134,7 +134,7 @@ if (instance_exists(o_player)) {
             ? make_color_rgb(200, 220, 255)   // xanh nhạt = đang bật
             : make_color_rgb(120, 120, 120));  // xám = tắt
         draw_text(_camXBor, _flY,
-            "[F] " + _fl.name + (_active ? " ON" : " OFF"));
+            "[E] " + _fl.name + (_active ? " ON" : " OFF"));
 
         draw_set_color(c_white);
     }

@@ -22,8 +22,8 @@ function sc_room_lighting_init() {
     });
 
     // Demo 1: tối bình thường
-    variable_struct_set(global.RoomLighting, "rm_demo1", {
-        darkness_alpha   : 0.90,
+    variable_struct_set(global.RoomLighting, "rm_ug_base1", {
+        darkness_alpha   : 0.0,
         darkness_color   : c_black,
         lighting_enabled : true,
     });

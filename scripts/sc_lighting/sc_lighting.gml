@@ -190,7 +190,7 @@ function draw_ambient_light(_x, _y, _radius, _segments) {
     draw_primitive_begin(pr_trianglefan);
     
     // Tâm sáng
-    draw_vertex_color(_x, _y, c_white, 0.85);
+    draw_vertex_color(_x, _y, c_white, 0.9);
     
     // Các đỉnh viền (alpha = 0)
     for (var i = 0; i <= _segments; i++) {

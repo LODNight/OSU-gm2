@@ -75,12 +75,12 @@ function enemy_die()
 
     // Spawn xác tại vị trí hiện tại, kế thừa hướng nhìn và độ trong suốt
     if (corpseObject != noone) {
-        var _corpse = instance_create_depth(x, y, -y, corpseObject);
+        var _corpse = instance_create_depth(x, y, -y + 10, corpseObject);
         if (variable_instance_exists(_corpse, "face")) _corpse.face = face;
         _corpse.image_angle = image_angle;
         _corpse.image_blend = c_dkgray; // Làm màu đậm/tối hơn
         _corpse.image_alpha = image_alpha * 0.6; // Làm mờ đi (giảm alpha)
-		
+        _corpse.depth = -y + 10; // Đảm bảo xác nằm dưới Player và Enemy (depth lớn hơn = vẽ phía sau)
     }
 
     // Dọn ds_list damage để tránh memory leak

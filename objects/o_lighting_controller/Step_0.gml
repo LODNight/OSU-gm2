@@ -33,6 +33,6 @@ if (room != current_room) {
 }
 
 // ── Toggle đèn pin (phím F) ───────────────────────────────────
-if (keyboard_check_pressed(ord("F")) && lighting_enabled) {
+if (keyboard_check_pressed(ord("E")) && lighting_enabled) {
     flashlight_enabled = !flashlight_enabled;
 }

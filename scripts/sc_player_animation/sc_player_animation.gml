@@ -7,4 +7,7 @@ function player_animation()
     else if (mouse_x < x) image_xscale = -1;
 
     sprite_index = (xspd != 0 || yspd != 0) ? spr_walk : spr_idle;
+    
+    // Đảm bảo player có depth theo trục Y để tự động sắp xếp z-order với enemy và chướng ngại vật
+    depth = -y;
 }

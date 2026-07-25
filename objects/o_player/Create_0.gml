@@ -7,7 +7,7 @@ get_damaged_create(maxHp, true);
 // Các ID có sẵn: flashlight_standard, flashlight_wide,
 //               flashlight_tactical, flashlight_lantern, flashlight_uv
 //#macro DEFAULT_FLASHLIGHT "flashlight_standard"
-#macro DEFAULT_FLASHLIGHT "flashlight_lantern"
+#macro DEFAULT_FLASHLIGHT "flashlight_standard"
 
 if (!variable_global_exists("FlashlightDefs")) sc_lighting_definitions();
 if (variable_struct_exists(global.FlashlightDefs, DEFAULT_FLASHLIGHT)) {
