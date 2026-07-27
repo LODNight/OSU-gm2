@@ -46,7 +46,7 @@ function sc_room_lighting_init() {
     variable_struct_set(global.RoomLighting, "rm_test", {
         darkness_alpha   : 0.85,
         darkness_color   : c_black,
-        lighting_enabled : true,
+        lighting_enabled : false,
     });
 
     // ── Rooms không có lighting (sáng bình thường) ─────────────
