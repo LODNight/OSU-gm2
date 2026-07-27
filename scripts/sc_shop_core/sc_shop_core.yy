@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"sc_shop_core",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"sc_shop_core",
+  "parent":{
+    "name":"NPCs",
+    "path":"folders/Scripts/NPCs.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

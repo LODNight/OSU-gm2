@@ -139,3 +139,26 @@ if (instance_exists(o_player)) {
         draw_set_color(c_white);
     }
 }
+
+// ── Currency Display ──────────────────────────────────────────
+if (variable_global_exists("PlayerCurrency")) {
+    var _coinStr = "$ " + string(global.PlayerCurrency);
+    var _coinY   = _camYBor
+                 + round(12 * _guiScale)   // hp bar
+                 + round(4  * _guiScale)   // gap
+                 + round(5  * _guiScale)   // stamina
+                 + round(6  * _guiScale)   // gap
+                 + round(14 * _guiScale)   // flashlight text
+                 + round(6  * _guiScale);  // gap
+
+    // Shadow
+    draw_set_color(c_black);
+    draw_set_alpha(0.6);
+    draw_text(_camXBor + 1, _coinY + 1, _coinStr);
+    draw_set_alpha(1);
+
+    // Vàng sáng
+    draw_set_color(make_color_rgb(255, 220, 60));
+    draw_text(_camXBor, _coinY, _coinStr);
+    draw_set_color(c_white);
+}

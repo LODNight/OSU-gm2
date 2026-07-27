@@ -73,14 +73,28 @@ function enemy_die()
         with (_tutorialOwner) tutorial_register_enemy_kill();
     }
 
+    // Xác định loot table id từ enemy definition
+    var _loot_id = "zombie_basic"; // Default fallback
+    if (variable_instance_exists(id, "enemyDefinition") && enemyDefinition != noone) {
+        switch (enemyDefinition.id) {
+            case "zombie_basic_1":  _loot_id = "zombie_basic";  break;
+            case "zombie_speed_1":  _loot_id = "zombie_speed";  break;
+            case "human_guard":     _loot_id = "human_guard";   break;
+            case "human_soldier":   _loot_id = "human_soldier"; break;
+        }
+    }
+
     // Spawn xác tại vị trí hiện tại, kế thừa hướng nhìn và độ trong suốt
     if (corpseObject != noone) {
         var _corpse = instance_create_depth(x, y, -y + 10, corpseObject);
         if (variable_instance_exists(_corpse, "face")) _corpse.face = face;
-        _corpse.image_angle = image_angle;
-        _corpse.image_blend = c_dkgray; // Làm màu đậm/tối hơn
-        _corpse.image_alpha = image_alpha * 0.6; // Làm mờ đi (giảm alpha)
-        _corpse.depth = -y + 10; // Đảm bảo xác nằm dưới Player và Enemy (depth lớn hơn = vẽ phía sau)
+        _corpse.image_angle   = image_angle;
+        _corpse.image_blend   = c_dkgray;
+        _corpse.image_alpha   = image_alpha * 0.6;
+        _corpse.depth         = -y + 10;
+        _corpse.loot_table_id = _loot_id;
+        _corpse.looted        = false;
+        _corpse.loot_timer    = -1; // Bắt đầu đếm ngược khi player loot xong
     }
 
     // Dọn ds_list damage để tránh memory leak

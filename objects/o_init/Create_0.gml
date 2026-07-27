@@ -34,3 +34,21 @@ sc_lighting_definitions();
 
 // Register per-room darkness configuration.
 sc_room_lighting_init();
+
+// ── Inventory & Loot System ─────────────────────────────────────
+// Đăng ký tất cả vật phẩm trong game.
+item_database_create();
+
+// Đăng ký bảng loot drop của từng loại enemy.
+loot_table_create();
+
+// Khởi tạo ví tiền player.
+currency_init();
+
+// Tự động khởi tạo Manager Objects (nếu chưa có trong room)
+if (!instance_exists(o_inventory_manager)) {
+    instance_create_depth(0, 0, 0, o_inventory_manager);
+}
+if (!instance_exists(o_loot_manager)) {
+    instance_create_depth(0, 0, 0, o_loot_manager);
+}

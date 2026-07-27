@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"sc_lighting_enemy",
   "parent":{
-    "name":"light",
-    "path":"folders/Scripts/light.yy",
+    "name":"Light",
+    "path":"folders/Scripts/Light.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

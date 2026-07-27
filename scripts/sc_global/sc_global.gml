@@ -32,6 +32,79 @@ enum TUTORIAL_TYPE {
     ESCAPE_HORDE
 }
 
+// Trạng thái Quest
+enum QuestStatus {
+    NOT_STARTED,
+    ACTIVE,
+    READY_TO_TURN_IN,
+    COMPLETED,
+    FAILED
+}
+
+// Loại mục tiêu Quest
+enum QuestObjectiveType {
+    KILL,
+    COLLECT_ITEM,
+    INTERACT,
+    REACH_LOCATION,
+    TALK_TO_NPC,
+    ESCORT,
+    SURVIVE,
+    CUSTOM
+}
+
+// Điều kiện thất bại Quest
+enum QUEST_FAIL {
+    NPC_DIED,        // NPC giao nhiệm vụ bị giết
+    JOIN_FACTION,    // Player gia nhập phe đối lập
+    TIME_LIMIT,      // Hết thời gian
+    ITEM_EXPIRED,    // Item hết hạn / mất
+    CUSTOM           // Điều kiện tuỳ biến
+}
+
+// Loại vật phẩm
+enum ITEM_TYPE {
+    AMMO,            // Đạn dược
+    WEAPON,          // Vũ khí rơi ra
+    CONSUMABLE,      // Đồ dùng một lần (medkit, stim...)
+    KEY_ITEM,        // Vật phẩm nhiệm vụ (không bán được)
+    MATERIAL         // Nguyên liệu craft / bán lấy tiền
+}
+
+// ================================================================
+// Currency — Tiền tệ trong game
+// ================================================================
+
+/// @desc Khởi tạo ví tiền của player. Gọi từ o_init.
+function currency_init() {
+    if (!variable_global_exists("PlayerCurrency")) {
+        global.PlayerCurrency = 0;
+    }
+}
+
+/// @desc Cộng tiền vào ví. Số âm sẽ bị bỏ qua.
+/// @param {real} _amount Số tiền cần thêm
+function currency_add(_amount) {
+    if (_amount <= 0) return;
+    global.PlayerCurrency += floor(_amount);
+}
+
+/// @desc Tiêu tiền từ ví. Trả về true nếu đủ tiền và đã trừ thành công.
+/// @param {real} _amount Số tiền cần tiêu
+/// @return {bool}
+function currency_spend(_amount) {
+    if (_amount <= 0) return true;
+    if (global.PlayerCurrency < _amount) return false;
+    global.PlayerCurrency -= floor(_amount);
+    return true;
+}
+
+/// @desc Lấy số tiền hiện có.
+/// @return {real}
+function currency_get() {
+    return variable_global_exists("PlayerCurrency") ? global.PlayerCurrency : 0;
+}
+
 /// Bật/tắt debug draw cho tất cả o_spawner trong game.
 /// true  = vẽ hình vuông + thông số tại tâm mỗi spawner.
 /// false = ẩn hoàn toàn khi ship game.

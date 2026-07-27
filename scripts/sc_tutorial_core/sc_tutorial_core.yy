@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"sc_tutorial_core",
   "parent":{
-    "name":"tutorial",
-    "path":"folders/Scripts/tutorial.yy",
+    "name":"Tutorial",
+    "path":"folders/Scripts/Tutorial.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

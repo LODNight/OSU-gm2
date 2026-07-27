@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"sc_damage_receive",
   "parent":{
-    "name":"damage",
-    "path":"folders/Scripts/damage.yy",
+    "name":"Damage",
+    "path":"folders/Scripts/Damage.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

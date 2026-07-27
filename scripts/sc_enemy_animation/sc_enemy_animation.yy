@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"sc_enemy_animation",
   "parent":{
-    "name":"enemy",
-    "path":"folders/Scripts/enemy.yy",
+    "name":"Enemy",
+    "path":"folders/Scripts/Enemy.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

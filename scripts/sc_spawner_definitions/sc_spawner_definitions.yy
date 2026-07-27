@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"sc_spawner_definitions",
   "parent":{
-    "name":"spawner",
-    "path":"folders/Scripts/spawner.yy",
+    "name":"Spawner",
+    "path":"folders/Scripts/Spawner.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

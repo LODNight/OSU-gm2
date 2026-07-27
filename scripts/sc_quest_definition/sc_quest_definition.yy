@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"sc_quest_definition",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"sc_quest_definition",
+  "parent":{
+    "name":"Definition",
+    "path":"folders/Scripts/Definition.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

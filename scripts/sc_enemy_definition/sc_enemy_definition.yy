@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"sc_enemy_definition",
   "parent":{
-    "name":"definition",
-    "path":"folders/Scripts/definition.yy",
+    "name":"Definition",
+    "path":"folders/Scripts/Definition.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",
