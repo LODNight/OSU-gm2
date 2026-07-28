@@ -192,15 +192,17 @@ function _test_camera_reset() {
 
 
 // ================================================================
-// == COMBAT TEST (placeholder) ===================================
+// == COMBAT TEST =================================================
 // ================================================================
 
 function _test_combat_start() {
-    show_debug_message("[TestZone] Combat test: placeholder");
+    var _spawner = instance_create_depth(1419, 968, 0, o_spawner, { zoneId: "tutorial_shooting" });
+    test_zone_register(_spawner);
+    show_debug_message("[TestZone] Combat test: spawned o_spawner at 1419, 968 with zoneId 'tutorial_shooting'");
 }
 
 function _test_combat_reset() {
-    // Xóa enemy còn sống nếu cần
+    show_debug_message("[TestZone] Combat test: reset and despawned");
 }
 
 

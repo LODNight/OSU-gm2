@@ -17,3 +17,4 @@ if (!variable_instance_exists(id, "origin_y"))  origin_y  = y;
 
 _triggered = false;
 _player_nearby = false;
+has_left = false;
