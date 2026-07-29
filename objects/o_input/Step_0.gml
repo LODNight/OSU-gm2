@@ -4,11 +4,13 @@ global.upKey    = keyboard_check(ord("W"))
 global.downKey  = keyboard_check(ord("S"))
 global.sprintKey = keyboard_check(vk_shift)    // Shift → Sprint
 
-global.shootKey     = mouse_check_button(mb_left)
-global.shootPressed = mouse_check_button_pressed(mb_left)
-global.aimKey       = mouse_check_button(mb_right)          // RMB giữ → ADS
-global.reloadKey    = keyboard_check_pressed(ord("R"))
-global.swapKey      = keyboard_check_pressed(ord("Q"))      // Q → swap súng (đã đổi từ RMB)
+var _invOpen = variable_global_exists("InventoryOpen") ? global.InventoryOpen : false;
+
+global.shootKey     = mouse_check_button(mb_left) && !_invOpen;
+global.shootPressed = mouse_check_button_pressed(mb_left) && !_invOpen;
+global.aimKey       = mouse_check_button(mb_right) && !_invOpen;          // RMB giữ → ADS
+global.reloadKey    = keyboard_check_pressed(ord("R"));
+global.swapKey      = keyboard_check_pressed(ord("Q"));      // Q → swap súng (đã đổi từ RMB)
 global.spaceKey     = keyboard_check(vk_space)
 
 global.interactPressed = keyboard_check_pressed(ord("F"))

@@ -220,3 +220,43 @@ draw_text(_panelX + _panelW / 2, _panelY + _panelH - 20,
     "[TAB] Đóng");
 draw_set_halign(fa_left);
 draw_set_color(c_white);
+
+// ── Context Menu ──────────────────────────────────────────────────────────
+if (context_active) {
+    var _ctxW = 120;
+    var _ctxH = 80;
+    var _optH = 40;
+    
+    // Nền context menu
+    draw_set_alpha(0.95);
+    draw_set_color(make_color_rgb(20, 20, 30));
+    draw_roundrect_ext(context_x, context_y, context_x + _ctxW, context_y + _ctxH, 6, 6, false);
+    
+    // Viền
+    draw_set_alpha(1);
+    draw_set_color(make_color_rgb(100, 100, 150));
+    draw_roundrect_ext(context_x, context_y, context_x + _ctxW, context_y + _ctxH, 6, 6, true);
+    
+    var _opts = ["Sử dụng", "Vứt bỏ"];
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+    
+    for (var j = 0; j < 2; j++) {
+        var _oy = context_y + j * _optH;
+        var _hoverOpt = (_mx >= context_x && _mx <= context_x + _ctxW &&
+                         _my >= _oy && _my <= _oy + _optH);
+                         
+        if (_hoverOpt) {
+            draw_set_color(make_color_rgb(60, 60, 100));
+            draw_roundrect_ext(context_x + 2, _oy + 2, context_x + _ctxW - 2, _oy + _optH - 2, 4, 4, false);
+            draw_set_color(c_white);
+        } else {
+            draw_set_color(make_color_rgb(200, 200, 200));
+        }
+        
+        draw_text(context_x + _ctxW / 2, _oy + _optH / 2, _opts[j]);
+    }
+    
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
+}
