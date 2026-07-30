@@ -1,0 +1,319 @@
+{
+  "zombie_speed_1": {
+    "id": "zombie_speed_1",
+    "displayName": "Fast Zombie",
+    "enemyType": "ZOMBIE",
+    "stats": {
+      "maxHp": 30,
+      "armor": 0,
+      "moveSpeed": 1.2,
+      "chaseSpeed": 1.8,
+      "turnSpeed": 12,
+      "mass": 0.8
+    },
+    "perception": {
+      "visionRange": 210,
+      "visionAngle": 100,
+      "hearingRange": 320,
+      "loseTargetRange": 350,
+      "memoryTime": 180
+    },
+    "combat": {
+      "combatType": "MELEE",
+      "damage": 10,
+      "attackRange": 18,
+      "attackCooldown": 45,
+      "windupTime": 12,
+      "recoveryTime": 15,
+      "hitFrame": 4,
+      "knockbackForce": 2
+    },
+    "resistance": {
+      "bulletResistance": 0,
+      "meleeResistance": 0,
+      "fireResistance": -0.25,
+      "poisonResistance": 1
+    },
+    "behaviour": {
+      "idleType": "WANDER",
+      "wanderRadius": 100,
+      "wanderWaitMin": 60,
+      "wanderWaitMax": 180,
+      "investigateTime": 240,
+      "canOpenDoor": false,
+      "canBreakDoor": false,
+      "canCallNearby": true,
+      "groupAggroRange": 150
+    },
+    "animation": {
+      "spriteIdle": "s_z_speed1_idle",
+      "spriteWalk": "s_z_speed1_walk",
+      "spriteAttack": "s_z_speed1_idle",
+      "spriteHit": "s_z_speed1_idle",
+      "spriteDeath": "s_z_speed1_die",
+      "idleSpeed": 0.15,
+      "walkSpeed": 0.2,
+      "attackSpeed": 0.25,
+      "deathSpeed": 0.15
+    },
+    "audio": {
+      "idleSounds": ["snd_zombie_idle_01"],
+      "aggroSounds": ["snd_zombie_aggro_01"],
+      "attackSounds": ["snd_zombie_attack_01"],
+      "hitSounds": ["snd_zombie_hit_01"],
+      "deathSounds": ["snd_zombie_death_01"],
+      "idleSoundChance": 0.003
+    },
+    "loot": {
+      "lootTableId": "loot_zombie_common",
+      "expReward": 5,
+      "currencyMin": 0,
+      "currencyMax": 2
+    },
+    "special": {
+      "effectOnHit": null,
+      "effectOnDeath": null,
+      "explosionRadius": 0
+    },
+    "corpseObject": "o_z_speed_1_die"
+  },
+
+  "zombie_basic_1": {
+    "id": "zombie_basic_1",
+    "displayName": "Walker Zombie",
+    "enemyType": "ZOMBIE",
+    "stats": {
+      "maxHp": 30,
+      "armor": 0,
+      "moveSpeed": 0.5,
+      "chaseSpeed": 0.8,
+      "turnSpeed": 8,
+      "mass": 1.0
+    },
+    "perception": {
+      "visionRange": 180,
+      "visionAngle": 90,
+      "hearingRange": 250,
+      "loseTargetRange": 300,
+      "memoryTime": 150
+    },
+    "combat": {
+      "combatType": "MELEE",
+      "damage": 15,
+      "attackRange": 15,
+      "attackCooldown": 60,
+      "windupTime": 15,
+      "recoveryTime": 20,
+      "hitFrame": 5,
+      "knockbackForce": 3
+    },
+    "resistance": {
+      "bulletResistance": 0,
+      "meleeResistance": 0,
+      "fireResistance": -0.5,
+      "poisonResistance": 1
+    },
+    "behaviour": {
+      "idleType": "WANDER",
+      "wanderRadius": 80,
+      "wanderWaitMin": 60,
+      "wanderWaitMax": 200,
+      "investigateTime": 180,
+      "canOpenDoor": false,
+      "canBreakDoor": false,
+      "canCallNearby": true,
+      "groupAggroRange": 120
+    },
+    "animation": {
+      "spriteIdle": "s_z1_idle",
+      "spriteWalk": "s_z1_walk",
+      "spriteAttack": "s_z1_idle",
+      "spriteHit": "s_z1_idle",
+      "spriteDeath": "s_z1_die",
+      "idleSpeed": 0.1,
+      "walkSpeed": 0.15,
+      "attackSpeed": 0.2,
+      "deathSpeed": 0.1
+    },
+    "audio": {
+      "idleSounds": [],
+      "aggroSounds": [],
+      "attackSounds": [],
+      "hitSounds": [],
+      "deathSounds": [],
+      "idleSoundChance": 0.002
+    },
+    "loot": {
+      "lootTableId": "loot_zombie_common",
+      "expReward": 3,
+      "currencyMin": 0,
+      "currencyMax": 1
+    },
+    "special": {
+      "effectOnHit": null,
+      "effectOnDeath": null,
+      "explosionRadius": 0
+    },
+    "corpseObject": "o_z_1_die"
+  },
+
+  "human_guard": {
+    "id": "human_guard",
+    "displayName": "Human Guard",
+    "enemyType": "HUMAN",
+    "stats": {
+      "maxHp": 50,
+      "armor": 5,
+      "moveSpeed": 1.0,
+      "chaseSpeed": 1.5,
+      "turnSpeed": 15,
+      "mass": 1.0
+    },
+    "perception": {
+      "visionRange": 220,
+      "visionAngle": 110,
+      "hearingRange": 400,
+      "loseTargetRange": 450,
+      "memoryTime": 300
+    },
+    "combat": {
+      "combatType": "RANGED",
+      "damage": 8,
+      "attackRange": 160,
+      "attackCooldown": 90,
+      "windupTime": 20,
+      "recoveryTime": 10,
+      "hitFrame": 1,
+      "knockbackForce": 1
+    },
+    "resistance": {
+      "bulletResistance": 0.1,
+      "meleeResistance": 0.1,
+      "fireResistance": 0,
+      "poisonResistance": 0
+    },
+    "behaviour": {
+      "idleType": "PATROL",
+      "wanderRadius": 120,
+      "wanderWaitMin": 90,
+      "wanderWaitMax": 240,
+      "investigateTime": 300,
+      "canOpenDoor": true,
+      "canBreakDoor": false,
+      "canCallNearby": true,
+      "groupAggroRange": 200
+    },
+    "animation": {
+      "spriteIdle": "s_hu_1_idle",
+      "spriteWalk": "s_hu_1_walk",
+      "spriteAttack": "s_hu_1_idle",
+      "spriteHit": "s_hu_1_idle",
+      "spriteDeath": "s_hu_1_die",
+      "idleSpeed": 0.15,
+      "walkSpeed": 0.2,
+      "attackSpeed": 0.25,
+      "deathSpeed": 0.15
+    },
+    "audio": {
+      "idleSounds": [],
+      "aggroSounds": [],
+      "attackSounds": [],
+      "hitSounds": [],
+      "deathSounds": [],
+      "idleSoundChance": 0.001
+    },
+    "loot": {
+      "lootTableId": "loot_human_guard",
+      "expReward": 10,
+      "currencyMin": 2,
+      "currencyMax": 5
+    },
+    "special": {
+      "effectOnHit": null,
+      "effectOnDeath": null,
+      "explosionRadius": 0
+    },
+    "weapon": "e_pistol",
+    "corpseObject": "o_h_1_die"
+  },
+
+  "human_soldier": {
+    "id": "human_soldier",
+    "displayName": "Elite Soldier",
+    "enemyType": "HUMAN",
+    "stats": {
+      "maxHp": 100,
+      "armor": 15,
+      "moveSpeed": 1.1,
+      "chaseSpeed": 1.5,
+      "turnSpeed": 15,
+      "mass": 1.2
+    },
+    "perception": {
+      "visionRange": 300,
+      "visionAngle": 120,
+      "hearingRange": 500,
+      "loseTargetRange": 550,
+      "memoryTime": 400
+    },
+    "combat": {
+      "combatType": "RANGED",
+      "damage": 25,
+      "attackRange": 250,
+      "attackCooldown": 180,
+      "windupTime": 30,
+      "recoveryTime": 15,
+      "hitFrame": 1,
+      "knockbackForce": 2
+    },
+    "resistance": {
+      "bulletResistance": 0.25,
+      "meleeResistance": 0.2,
+      "fireResistance": 0.1,
+      "poisonResistance": 0.2
+    },
+    "behaviour": {
+      "idleType": "PATROL",
+      "wanderRadius": 150,
+      "wanderWaitMin": 120,
+      "wanderWaitMax": 300,
+      "investigateTime": 400,
+      "canOpenDoor": true,
+      "canBreakDoor": true,
+      "canCallNearby": true,
+      "groupAggroRange": 250
+    },
+    "animation": {
+      "spriteIdle": "s_hu_soli1_idle",
+      "spriteWalk": "s_hu_soli1_walk",
+      "spriteAttack": "s_hu_soli1_idle",
+      "spriteHit": "s_hu_soli1_idle",
+      "spriteDeath": "s_hu_soli1_die",
+      "idleSpeed": 0.15,
+      "walkSpeed": 0.2,
+      "attackSpeed": 0.25,
+      "deathSpeed": 0.15
+    },
+    "audio": {
+      "idleSounds": [],
+      "aggroSounds": [],
+      "attackSounds": [],
+      "hitSounds": [],
+      "deathSounds": [],
+      "idleSoundChance": 0.001
+    },
+    "loot": {
+      "lootTableId": "loot_human_soldier",
+      "expReward": 25,
+      "currencyMin": 5,
+      "currencyMax": 15
+    },
+    "special": {
+      "effectOnHit": null,
+      "effectOnDeath": null,
+      "explosionRadius": 0
+    },
+    "weapon": "e_sniper",
+    "corpseObject": "o_h_soli_die"
+  }
+}

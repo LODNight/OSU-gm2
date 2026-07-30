@@ -18,6 +18,21 @@ enum ENEMY_COMBAT {
     RANGED,  // Tầm xa (lính) — tấn công bằng đạn
 }
 
+/// Loại enemy trong hệ thống.
+enum ENEMY_TYPE {
+    ZOMBIE,
+    HUMAN,
+    BOSS,
+    MUTANT
+}
+
+/// Loại hành vi đứng yên / đi lại của enemy.
+enum ENEMY_IDLE {
+    STAND,
+    WANDER,
+    PATROL
+}
+
 /// Trạng thái của Spawner.
 enum SPAWNER_STATE {
     IDLE,     // Chờ player bước vào activationRadius
