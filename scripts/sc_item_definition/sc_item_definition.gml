@@ -41,7 +41,7 @@ function item_database_create()
     global.ItemDatabase[$ "ammo_pistol"] = new create_item_definition({
         id:             "ammo_pistol",
         name:           "Pistol Ammo",
-        description:    "Đạn tiêu chuẩn cho súng ngắn.",
+        description:    "Standard ammunition for handguns.",
         item_type:      ITEM_TYPE.AMMO,
         stackable:      true,
         max_stack:      120,
@@ -53,7 +53,7 @@ function item_database_create()
     global.ItemDatabase[$ "ammo_smg"] = new create_item_definition({
         id:             "ammo_smg",
         name:           "SMG Ammo",
-        description:    "Đạn tốc độ cao cho súng tiểu liên.",
+        description:    "High-velocity rounds for submachine guns.",
         item_type:      ITEM_TYPE.AMMO,
         stackable:      true,
         max_stack:      120,
@@ -65,7 +65,7 @@ function item_database_create()
     global.ItemDatabase[$ "ammo_shotgun"] = new create_item_definition({
         id:             "ammo_shotgun",
         name:           "Shotgun Shell",
-        description:    "Đạn ghém cho súng hoa cải.",
+        description:    "12-Gauge shells for shotguns.",
         item_type:      ITEM_TYPE.AMMO,
         stackable:      true,
         max_stack:      120,
@@ -77,7 +77,7 @@ function item_database_create()
     global.ItemDatabase[$ "ammo_sniper"] = new create_item_definition({
         id:             "ammo_sniper",
         name:           "Sniper Round",
-        description:    "Đạn xuyên giáp cho súng bắn tỉa.",
+        description:    "Armor-piercing rounds for sniper rifles.",
         item_type:      ITEM_TYPE.AMMO,
         stackable:      true,
         max_stack:      120,
@@ -90,7 +90,7 @@ function item_database_create()
     global.ItemDatabase[$ "item_medkit"] = new create_item_definition({
         id:          "item_medkit",
         name:        "Med Kit",
-        description: "Hồi phục 50 HP.",
+        description: "Restores 50 HP.",
         item_type:   ITEM_TYPE.CONSUMABLE,
         stackable:   true,
         max_stack:   5,
@@ -102,7 +102,7 @@ function item_database_create()
     global.ItemDatabase[$ "item_bandage"] = new create_item_definition({
         id:          "item_bandage",
         name:        "Bandage",
-        description: "Hồi phục 20 HP.",
+        description: "Restores 20 HP.",
         item_type:   ITEM_TYPE.CONSUMABLE,
         stackable:   true,
         max_stack:   10,
@@ -115,7 +115,7 @@ function item_database_create()
     global.ItemDatabase[$ "item_scrap_metal"] = new create_item_definition({
         id:          "item_scrap_metal",
         name:        "Scrap Metal",
-        description: "Mảnh kim loại vụn, bán được lấy tiền.",
+        description: "Scrap metal parts, can be sold for cash.",
         item_type:   ITEM_TYPE.MATERIAL,
         stackable:   true,
         max_stack:   50,
@@ -125,7 +125,7 @@ function item_database_create()
     global.ItemDatabase[$ "item_dog_tag"] = new create_item_definition({
         id:          "item_dog_tag",
         name:        "Dog Tag",
-        description: "Thẻ bài của một lính ngã xuống.",
+        description: "Dog tag of a fallen soldier.",
         item_type:   ITEM_TYPE.MATERIAL,
         stackable:   true,
         max_stack:   20,
@@ -136,7 +136,7 @@ function item_database_create()
     global.ItemDatabase[$ "item_generator_part"] = new create_item_definition({
         id:          "item_generator_part",
         name:        "Generator Part",
-        description: "Linh kiện máy phát điện. Ai đó đang cần cái này.",
+        description: "Generator component. Someone might need this.",
         item_type:   ITEM_TYPE.KEY_ITEM,
         stackable:   true,
         max_stack:   3,

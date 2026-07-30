@@ -7,3 +7,4 @@ PICKUP_RANGE = 80;
 
 // Xác gần nhất đang trong range của Player (noone nếu không có)
 closest_corpse = noone;
+closest_item   = noone;

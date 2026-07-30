@@ -131,7 +131,7 @@ function inventory_get_all()
 }
 
 
-/// @desc Dùng một consumable item. Trả về true nếu dùng được.
+/// @desc Dùng một consumable item theo ID. Trả về true nếu dùng được.
 /// @param {string} _item_id
 /// @return {bool}
 function inventory_use(_item_id)
@@ -143,16 +143,100 @@ function inventory_use(_item_id)
     var _used = false;
     if (_def.item_type == ITEM_TYPE.CONSUMABLE) {
         if (_def.heal_amount > 0 && instance_exists(o_player)) {
+            if (o_player.hp >= o_player.maxHp) {
+                inventory_toast("HP is full!");
+                return false;
+            }
             with (o_player) {
                 hp = min(maxHp, hp + _def.heal_amount);
             }
-            inventory_toast("Hồi +" + string(_def.heal_amount) + " HP");
+            inventory_toast("Restored +" + string(_def.heal_amount) + " HP");
+            _used = true;
         }
-        _used = true;
     }
 
     if (_used) inventory_remove(_item_id, 1);
     return _used;
+}
+
+
+/// @desc Dùng item tại slot chỉ định trong túi đồ.
+/// @param {real} _slot_index
+/// @return {bool}
+function inventory_use_slot(_slot_index)
+{
+    if (_slot_index < 0 || _slot_index >= array_length(global.Inventory)) return false;
+
+    var _slot = global.Inventory[_slot_index];
+    var _def  = item_db_get(_slot.item_id);
+    if (_def == undefined) return false;
+
+    var _used = false;
+    if (_def.item_type == ITEM_TYPE.CONSUMABLE) {
+        if (_def.heal_amount > 0 && instance_exists(o_player)) {
+            if (o_player.hp >= o_player.maxHp) {
+                inventory_toast("HP is full!");
+                return false;
+            }
+            with (o_player) {
+                hp = min(maxHp, hp + _def.heal_amount);
+            }
+            inventory_toast("Restored +" + string(_def.heal_amount) + " HP");
+            _used = true;
+        }
+    } else {
+        inventory_toast("Cannot use this item!");
+        return false;
+    }
+
+    if (_used) {
+        _slot.quantity--;
+        if (_slot.quantity <= 0) {
+            array_delete(global.Inventory, _slot_index, 1);
+        } else {
+            global.Inventory[_slot_index] = _slot;
+        }
+    }
+    return _used;
+}
+
+
+/// @desc Vứt item tại slot chỉ định ra mặt đất tại vị trí Player.
+/// @param {real} _slot_index
+/// @param {real} _amount Số lượng muốn vứt (1 hoặc tất cả)
+/// @return {bool}
+function inventory_drop_slot(_slot_index, _amount = 1)
+{
+    if (_slot_index < 0 || _slot_index >= array_length(global.Inventory)) return false;
+    if (!instance_exists(o_player)) return false;
+
+    var _slot = global.Inventory[_slot_index];
+    var _def  = item_db_get(_slot.item_id);
+    if (_def == undefined) return false;
+
+    var _dropCount = min(_amount, _slot.quantity);
+    if (_dropCount <= 0) return false;
+
+    // Spawn item_pickup tại vị trí Player với chút lệch nhẹ
+    var _dropX = o_player.x + irandom_range(-12, 12);
+    var _dropY = o_player.y + irandom_range(-12, 12);
+    
+    var _pickup = instance_create_depth(_dropX, _dropY, -_dropY, o_item_pickup);
+    if (instance_exists(_pickup)) {
+        _pickup.item_id  = _slot.item_id;
+        _pickup.quantity = _dropCount;
+    }
+
+    inventory_toast("- " + string(_dropCount) + "x " + _def.name);
+
+    _slot.quantity -= _dropCount;
+    if (_slot.quantity <= 0) {
+        array_delete(global.Inventory, _slot_index, 1);
+    } else {
+        global.Inventory[_slot_index] = _slot;
+    }
+
+    return true;
 }
 
 

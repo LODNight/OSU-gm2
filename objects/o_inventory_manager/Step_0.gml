@@ -32,21 +32,22 @@ if (variable_global_exists("InventoryOpen") && global.InventoryOpen) {
 
     var _context_clicked = false;
     if (context_active) {
-        var _ctxW = 120;
-        var _ctxH = 80; // 2 options: Use, Drop (40px each)
+        var _ctxW = 130;
+        var _optH = 34;
+        var _ctxH = 3 * _optH; // 3 options: Use, Drop 1, Drop All
         
         if (_mx >= context_x && _mx <= context_x + _ctxW &&
             _my >= context_y && _my <= context_y + _ctxH) {
             
             if (mouse_check_button_pressed(mb_left)) {
                 _context_clicked = true;
-                var _opt = (_my - context_y) div 40; 
+                var _opt = (_my - context_y) div _optH; 
                 if (_opt == 0) {
-                    // TODO: Use Item Logic
-                    // item_use(context_slot);
+                    inventory_use_slot(context_slot);
                 } else if (_opt == 1) {
-                    // TODO: Drop Item Logic
-                    // item_drop(context_slot);
+                    inventory_drop_slot(context_slot, 1);
+                } else if (_opt == 2) {
+                    inventory_drop_slot(context_slot, 999999);
                 }
                 context_active = false;
             }

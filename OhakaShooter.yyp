@@ -152,6 +152,7 @@
     {"id":{"name":"o_input","path":"objects/o_input/o_input.yy",},},
     {"id":{"name":"o_interactable_parent","path":"objects/o_interactable_parent/o_interactable_parent.yy",},},
     {"id":{"name":"o_inventory_manager","path":"objects/o_inventory_manager/o_inventory_manager.yy",},},
+    {"id":{"name":"o_item_pickup","path":"objects/o_item_pickup/o_item_pickup.yy",},},
     {"id":{"name":"o_light_source","path":"objects/o_light_source/o_light_source.yy",},},
     {"id":{"name":"o_lighting_controller","path":"objects/o_lighting_controller/o_lighting_controller.yy",},},
     {"id":{"name":"o_loot_manager","path":"objects/o_loot_manager/o_loot_manager.yy",},},

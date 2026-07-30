@@ -35,49 +35,55 @@ if (variable_global_exists("InventoryToasts")) {
     draw_set_valign(fa_top);
 }
 
-// ── Corpse Loot Prompt [F] — GUI Layer ───────────────────────────────────
-// Vẽ prompt "Press [F] to Loot" tại vị trí xác trên màn hình.
-// Dùng GUI layer để KHÔNG bị ảnh hưởng bởi lighting/màu nền.
-if (instance_exists(o_loot_manager) && instance_exists(o_loot_manager.closest_corpse)) {
-    var _corpse = o_loot_manager.closest_corpse;
-    var _cam    = view_camera[0];
+// ── Corpse & Item Pickup Prompt [F] — GUI Layer ───────────────────────────
+if (instance_exists(o_loot_manager)) {
+    var _targetObj = noone;
+    var _txt = "";
+    
+    if (instance_exists(o_loot_manager.closest_item)) {
+        _targetObj = o_loot_manager.closest_item;
+        var _def = item_db_get(_targetObj.item_id);
+        var _itemName = (_def != undefined) ? _def.name : "Item";
+        _txt = "[F]  Pick up " + _itemName;
+        if (_targetObj.quantity > 1) _txt += " (x" + string(_targetObj.quantity) + ")";
+    } else if (instance_exists(o_loot_manager.closest_corpse)) {
+        _targetObj = o_loot_manager.closest_corpse;
+        _txt = "[F]  Loot";
+    }
+    
+    if (_targetObj != noone) {
+        var _cam = view_camera[0];
+        var _scale_x = _camW / camera_get_view_width(_cam);
+        var _scale_y = _camH / camera_get_view_height(_cam);
+        var _gx = (_targetObj.x - camera_get_view_x(_cam)) * _scale_x;
+        var _gy = (_targetObj.y - camera_get_view_y(_cam)) * _scale_y;
 
-    // Chuyển tọa độ World → GUI
-    var _scale_x = _camW / camera_get_view_width(_cam);
-    var _scale_y = _camH / camera_get_view_height(_cam);
-    var _gx = (_corpse.x - camera_get_view_x(_cam)) * _scale_x;
-    var _gy = (_corpse.y - camera_get_view_y(_cam)) * _scale_y;
+        draw_set_font(-1);
+        draw_set_halign(fa_center);
+        draw_set_valign(fa_middle);
 
-    // Vẽ badge [F] Loot
-    var _txt = "[F]  Loot";
-    draw_set_font(-1);
-    draw_set_halign(fa_center);
-    draw_set_valign(fa_middle);
+        var _tw = string_width(_txt) + 14;
+        var _th = string_height(_txt) + 8;
+        var _tx = _gx;
+        var _ty = _gy - 30;
 
-    var _tw = string_width(_txt) + 14;
-    var _th = string_height(_txt) + 8;
-    var _tx = _gx;
-    var _ty = _gy - 30; // Nằm ngay phía trên xác
+        draw_set_alpha(0.88);
+        draw_set_color(c_black);
+        draw_roundrect_ext(_tx - _tw/2, _ty - _th/2,
+                           _tx + _tw/2, _ty + _th/2, 5, 5, false);
 
-    // Nền đen đặc — không bao giờ bị lighting làm mờ
-    draw_set_alpha(0.88);
-    draw_set_color(c_black);
-    draw_roundrect_ext(_tx - _tw/2, _ty - _th/2,
-                       _tx + _tw/2, _ty + _th/2, 5, 5, false);
+        draw_set_alpha(1);
+        draw_set_color(c_white);
+        draw_roundrect_ext(_tx - _tw/2, _ty - _th/2,
+                           _tx + _tw/2, _ty + _th/2, 5, 5, true);
 
-    // Viền trắng sắc nét
-    draw_set_alpha(1);
-    draw_set_color(c_white);
-    draw_roundrect_ext(_tx - _tw/2, _ty - _th/2,
-                       _tx + _tw/2, _ty + _th/2, 5, 5, true);
+        draw_set_color(c_white);
+        draw_text(_tx, _ty, _txt);
 
-    // Text trắng sáng
-    draw_set_color(c_white);
-    draw_text(_tx, _ty, _txt);
-
-    draw_set_halign(fa_left);
-    draw_set_valign(fa_top);
-    draw_set_alpha(1);
+        draw_set_halign(fa_left);
+        draw_set_valign(fa_top);
+        draw_set_alpha(1);
+    }
 }
 
 // ── Inventory Grid UI ─────────────────────────────────────────────────────
@@ -189,7 +195,7 @@ for (var i = 0; i < _cols * _rows; i++) {
             // Chuẩn bị tooltip nếu hover
             if (_hovered) {
                 _tooltip = _def.name + "\n" + _def.description;
-                if (_def.value > 0) _tooltip += "\nGiá: $" + string(_def.value);
+                if (_def.value > 0) _tooltip += "\nValue: $" + string(_def.value);
             }
         }
     }
@@ -217,15 +223,16 @@ if (_tooltip != "" && _hovSlot >= 0) {
 draw_set_halign(fa_center);
 draw_set_color(make_color_rgb(100, 100, 140));
 draw_text(_panelX + _panelW / 2, _panelY + _panelH - 20,
-    "[TAB] Đóng");
+    "[TAB] Close");
 draw_set_halign(fa_left);
 draw_set_color(c_white);
 
 // ── Context Menu ──────────────────────────────────────────────────────────
 if (context_active) {
-    var _ctxW = 120;
-    var _ctxH = 80;
-    var _optH = 40;
+    var _ctxW = 130;
+    var _optH = 34;
+    var _opts = ["Use", "Drop 1", "Drop All"];
+    var _ctxH = array_length(_opts) * _optH;
     
     // Nền context menu
     draw_set_alpha(0.95);
@@ -237,11 +244,10 @@ if (context_active) {
     draw_set_color(make_color_rgb(100, 100, 150));
     draw_roundrect_ext(context_x, context_y, context_x + _ctxW, context_y + _ctxH, 6, 6, true);
     
-    var _opts = ["Sử dụng", "Vứt bỏ"];
     draw_set_halign(fa_center);
     draw_set_valign(fa_middle);
     
-    for (var j = 0; j < 2; j++) {
+    for (var j = 0; j < array_length(_opts); j++) {
         var _oy = context_y + j * _optH;
         var _hoverOpt = (_mx >= context_x && _mx <= context_x + _ctxW &&
                          _my >= _oy && _my <= _oy + _optH);
@@ -259,4 +265,5 @@ if (context_active) {
     
     draw_set_halign(fa_left);
     draw_set_valign(fa_top);
+    draw_set_color(c_white);
 }

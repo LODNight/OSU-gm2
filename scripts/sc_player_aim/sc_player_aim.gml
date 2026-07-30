@@ -69,29 +69,37 @@ function aim_update(_shotFired)
     crosshairBloom = min(crosshairBloom, maxBloom);
 
     // ── 3. Camera Bias: tính offset dịch camera về phía chuột ──
-    var _mouseDist = point_distance(x, centerY, mouse_x, mouse_y);
-    
-    // Camera kéo theo bao nhiêu % khoảng cách đến chuột
-    var _biasFraction = isAiming ? 0.35 : 0.15;
-    var _biasDist = _mouseDist * _biasFraction;
-    
-    // Tính khoảng cách kéo tối đa cho phép
-    var _maxBias  = isAiming ? cameraBiasADS : cameraBiasNormal;
-    
-    // Nếu đang ngắm xa (scopeZoom nhỏ hơn 1), cho phép giới hạn kéo camera xa hơn
-    if (isAiming && weapon != noone)
+    if (variable_global_exists("InventoryOpen") && global.InventoryOpen)
     {
-        var _zoomMult = 1.0 / max(0.1, weapon.definition.scopeZoom);
-        _maxBias *= _zoomMult;
+        aimBiasX = lerp(aimBiasX, 0, cameraLerpSpeed);
+        aimBiasY = lerp(aimBiasY, 0, cameraLerpSpeed);
     }
-    
-    // Chốt khoảng cách bias không vượt quá max
-    _biasDist = min(_biasDist, _maxBias);
+    else
+    {
+        var _mouseDist = point_distance(x, centerY, mouse_x, mouse_y);
+        
+        // Camera kéo theo bao nhiêu % khoảng cách đến chuột
+        var _biasFraction = isAiming ? 0.35 : 0.15;
+        var _biasDist = _mouseDist * _biasFraction;
+        
+        // Tính khoảng cách kéo tối đa cho phép
+        var _maxBias  = isAiming ? cameraBiasADS : cameraBiasNormal;
+        
+        // Nếu đang ngắm xa (scopeZoom nhỏ hơn 1), cho phép giới hạn kéo camera xa hơn
+        if (isAiming && weapon != noone)
+        {
+            var _zoomMult = 1.0 / max(0.1, weapon.definition.scopeZoom);
+            _maxBias *= _zoomMult;
+        }
+        
+        // Chốt khoảng cách bias không vượt quá max
+        _biasDist = min(_biasDist, _maxBias);
 
-    var _targetBiasX = lengthdir_x(_biasDist, aimDir);
-    var _targetBiasY = lengthdir_y(_biasDist, aimDir);
-    aimBiasX = lerp(aimBiasX, _targetBiasX, cameraLerpSpeed);
-    aimBiasY = lerp(aimBiasY, _targetBiasY, cameraLerpSpeed);
+        var _targetBiasX = lengthdir_x(_biasDist, aimDir);
+        var _targetBiasY = lengthdir_y(_biasDist, aimDir);
+        aimBiasX = lerp(aimBiasX, _targetBiasX, cameraLerpSpeed);
+        aimBiasY = lerp(aimBiasY, _targetBiasY, cameraLerpSpeed);
+    }
 }
 
 /// @desc  Trả về hệ số chính xác dựa trên bloom hiện tại.
