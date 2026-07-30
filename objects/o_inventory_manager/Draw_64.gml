@@ -61,18 +61,18 @@ if (instance_exists(o_loot_manager)) {
         draw_set_halign(fa_center);
         draw_set_valign(fa_middle);
 
-        var _tw = string_width(_txt) + 14;
+        var _tw = string_width(_txt) + 16;
         var _th = string_height(_txt) + 8;
         var _tx = _gx;
-        var _ty = _gy - 30;
+        var _ty = _gy - 52; // Tăng khoảng cách độ cao giữa khung chữ [F] và vật phẩm dưới đất
 
         draw_set_alpha(0.88);
-        draw_set_color(c_black);
-        draw_roundrect_ext(_tx - _tw/2, _ty - _th/2, _tx + _tw/2, _ty + _th/2, 5, 5, false);
+        draw_set_color(make_color_rgb(16, 18, 28));
+        draw_roundrect_ext(_tx - _tw/2, _ty - _th/2, _tx + _tw/2, _ty + _th/2, 6, 6, false);
 
         draw_set_alpha(1);
-        draw_set_color(c_white);
-        draw_roundrect_ext(_tx - _tw/2, _ty - _th/2, _tx + _tw/2, _ty + _th/2, 5, 5, true);
+        draw_set_color(make_color_rgb(90, 200, 255)); // Viền màu xanh cyan nổi bật
+        draw_roundrect_ext(_tx - _tw/2, _ty - _th/2, _tx + _tw/2, _ty + _th/2, 6, 6, true);
         draw_text(_tx, _ty, _txt);
 
         draw_set_halign(fa_left);
