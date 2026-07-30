@@ -65,7 +65,10 @@ enum QUEST_FAIL {
 // Loại vật phẩm
 enum ITEM_TYPE {
     AMMO,            // Đạn dược
-    WEAPON,          // Vũ khí rơi ra
+    WEAPON,          // Vũ khí
+    HELMET,          // Nón trang bị
+    ARMOR,           // Giáp trang bị
+    FLASHLIGHT,      // Đèn pin trang bị
     CONSUMABLE,      // Đồ dùng một lần (medkit, stim...)
     KEY_ITEM,        // Vật phẩm nhiệm vụ (không bán được)
     MATERIAL         // Nguyên liệu craft / bán lấy tiền
