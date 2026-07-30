@@ -115,7 +115,7 @@
   ],
   "IncludedFiles":[
     {"$GMIncludedFile":"","%Name":"184360__qubodup__sniper-shots-reload.flac","CopyToMask":-1,"filePath":"datafiles","name":"184360__qubodup__sniper-shots-reload.flac","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
-    {"$GMIncludedFile":"","%Name":"enemy_definitions.json","CopyToMask":-1,"filePath":"datafiles","name":"enemy_definitions.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",}
+    {"$GMIncludedFile":"","%Name":"enemy_definitions.json","CopyToMask":-1,"filePath":"datafiles","name":"enemy_definitions.json","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
   ],
   "isEcma":false,
   "LibraryEmitters":[],
