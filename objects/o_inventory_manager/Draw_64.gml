@@ -430,20 +430,32 @@ if (drag_active && drag_data != undefined) {
 
 // ── 5. Tooltip thông tin vật phẩm khi Rê chuột (Hover) ──────────────────
 if (_tooltip != "" && !drag_active && !context_active) {
-    var _tw  = 200;
-    var _th  = 64;
+    var _maxTextW = 210;
+    var _lineSep  = 18;
+    var _padX     = 10;
+    var _padY     = 10;
+
+    var _textW = string_width_ext(_tooltip, _lineSep, _maxTextW);
+    var _textH = string_height_ext(_tooltip, _lineSep, _maxTextW);
+
+    var _tw = max(180, _textW + _padX * 2);
+    var _th = _textH + _padY * 2;
+
     var _ttx = clamp(_mx + 16, 4, _camW - _tw - 4);
     var _tty = clamp(_my - _th - 8, 4, _camH - _th - 4);
 
-    draw_set_alpha(0.92);
-    draw_set_color(make_color_rgb(12, 14, 22));
+    draw_set_alpha(0.95);
+    draw_set_color(make_color_rgb(14, 16, 26));
     draw_roundrect_ext(_ttx, _tty, _ttx + _tw, _tty + _th, 6, 6, false);
+
     draw_set_alpha(1);
-    draw_set_color(make_color_rgb(90, 95, 140));
+    draw_set_color(make_color_rgb(95, 100, 150));
     draw_roundrect_ext(_ttx, _tty, _ttx + _tw, _tty + _th, 6, 6, true);
 
     draw_set_color(c_white);
-    draw_text_ext(_ttx + 8, _tty + 8, _tooltip, 16, _tw - 16);
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
+    draw_text_ext(_ttx + _padX, _tty + _padY, _tooltip, _lineSep, _maxTextW);
 }
 
 // ── 6. Context Menu khi Click Chuột Phải ──────────────────────────────
