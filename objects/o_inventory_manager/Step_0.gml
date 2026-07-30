@@ -26,9 +26,9 @@ if (variable_global_exists("InventoryOpen") && global.InventoryOpen) {
     var _mx   = device_mouse_x_to_gui(0);
     var _my   = device_mouse_y_to_gui(0);
 
-    // Kích thước khung giao diện tổng
-    var _windowW = 880;
-    var _windowH = 580;
+    // Kích thước khung giao diện tổng (To tràn gần hết màn hình)
+    var _windowW = 1160;
+    var _windowH = 640;
     var _winX    = (_camW - _windowW) / 2;
     var _winY    = (_camH - _windowH) / 2;
 
@@ -36,10 +36,10 @@ if (variable_global_exists("InventoryOpen") && global.InventoryOpen) {
     inv_hover_idx  = -1;
 
     // 1. Kiểm tra hover ô Grid (Area 1: 6x7 = 42 ô)
-    var _gridX    = _winX + 24;
+    var _gridX    = _winX + 32;
     var _gridY    = _winY + 48;
-    var _cellSize = 54;
-    var _gap      = 6;
+    var _cellSize = 72;
+    var _gap      = 8;
 
     for (var i = 0; i < INVENTORY_GRID_SLOTS; i++) {
         var _col = i mod INVENTORY_GRID_COLS;
@@ -55,20 +55,20 @@ if (variable_global_exists("InventoryOpen") && global.InventoryOpen) {
         }
     }
 
-    // 2. Kiểm tra hover ô Trang bị (Area 2-6)
+    // 2. Kiểm tra hover ô Trang bị (Right Equipment Panel)
     if (inv_hover_type == "") {
-        var _splitX      = _gridX + 354 + 20;
-        var _equipPanelX = _splitX + 16;
+        var _splitX      = _gridX + 472 + 24;
+        var _equipPanelX = _splitX + 24;
         var _equipPanelY = _winY + 48;
 
-        // Vị trí các slot trang bị mới (Ô 5 & 6 là hình chữ nhật nằm ngang dài, Ô 2, 3, 4 ở dưới)
-        var _eq_weapon1    = { x: _equipPanelX + 10,  y: _equipPanelY + 10,  w: 385, h: 88,  slot: "weapon1" };
-        var _eq_weapon2    = { x: _equipPanelX + 10,  y: _equipPanelY + 104, w: 385, h: 88,  slot: "weapon2" };
-        var _eq_helmet     = { x: _equipPanelX + 10,  y: _equipPanelY + 204, w: 123, h: 190, slot: "helmet" };
-        var _eq_armor      = { x: _equipPanelX + 141, y: _equipPanelY + 204, w: 123, h: 190, slot: "armor" };
-        var _eq_flashlight = { x: _equipPanelX + 272, y: _equipPanelY + 204, w: 123, h: 190, slot: "flashlight" };
+        var _eq_weapon1    = { x: _equipPanelX,       y: _equipPanelY,       w: 540, h: 100, slot: "weapon1" };
+        var _eq_weapon2    = { x: _equipPanelX,       y: _equipPanelY + 112, w: 540, h: 100, slot: "weapon2" };
+        var _eq_helmet     = { x: _equipPanelX,       y: _equipPanelY + 224, w: 123, h: 180, slot: "helmet" };
+        var _eq_armor      = { x: _equipPanelX + 139, y: _equipPanelY + 224, w: 123, h: 180, slot: "armor" };
+        var _eq_backpack   = { x: _equipPanelX + 278, y: _equipPanelY + 224, w: 123, h: 180, slot: "backpack" };
+        var _eq_flashlight = { x: _equipPanelX + 417, y: _equipPanelY + 224, w: 123, h: 180, slot: "flashlight" };
 
-        var _equipSlots = [_eq_weapon1, _eq_weapon2, _eq_helmet, _eq_armor, _eq_flashlight];
+        var _equipSlots = [_eq_weapon1, _eq_weapon2, _eq_helmet, _eq_armor, _eq_backpack, _eq_flashlight];
         for (var e = 0; e < array_length(_equipSlots); e++) {
             var _eq = _equipSlots[e];
             if (_mx >= _eq.x && _mx <= _eq.x + _eq.w &&
@@ -80,20 +80,23 @@ if (variable_global_exists("InventoryOpen") && global.InventoryOpen) {
         }
     }
 
-    // 3. Kiểm tra hover ô Quickbar (Area 0: 8 ô)
+    // 3. Kiểm tra hover ô Quickbar (Area 7: 6 ô phím 3 đến 8)
     if (inv_hover_type == "") {
-        var _qCellSize = 54;
-        var _qGap      = 8;
-        var _qW        = INVENTORY_QUICKBAR_SLOTS * _qCellSize + (INVENTORY_QUICKBAR_SLOTS - 1) * _qGap;
-        var _qX        = _winX + (_windowW - _qW) / 2;
-        var _qY        = _winY + _windowH - 68;
+        var _splitX      = _gridX + 472 + 24;
+        var _equipPanelX = _splitX + 24;
+        var _equipPanelY = _winY + 48;
 
-        for (var q = 0; q < INVENTORY_QUICKBAR_SLOTS; q++) {
-            var _qx = _qX + q * (_qCellSize + _qGap);
+        var _qCellSize = 72;
+        var _qGap      = 21.6;
+        var _qY        = _equipPanelY + 448;
+
+        for (var k = 0; k < 6; k++) {
+            var _q  = k + 2; // Quickbar slot 2..7 (phím 3..8)
+            var _qx = _equipPanelX + k * (_qCellSize + _qGap);
             if (_mx >= _qx && _mx <= _qx + _qCellSize &&
                 _my >= _qY && _my <= _qY + _qCellSize) {
                 inv_hover_type = "quickbar";
-                inv_hover_idx  = q;
+                inv_hover_idx  = _q;
                 break;
             }
         }
@@ -114,7 +117,8 @@ if (variable_global_exists("InventoryOpen") && global.InventoryOpen) {
                     _opts = ["Unequip", "Drop 1", "Drop All"];
                 } else {
                     if (_def.item_type == ITEM_TYPE.HELMET || _def.item_type == ITEM_TYPE.ARMOR ||
-                        _def.item_type == ITEM_TYPE.FLASHLIGHT || _def.item_type == ITEM_TYPE.WEAPON) {
+                        _def.item_type == ITEM_TYPE.BACKPACK || _def.item_type == ITEM_TYPE.FLASHLIGHT ||
+                        _def.item_type == ITEM_TYPE.WEAPON) {
                         _opts = ["Equip", "Drop 1", "Drop All"];
                     } else if (_def.item_type == ITEM_TYPE.CONSUMABLE) {
                         _opts = ["Use", "Drop 1", "Drop All"];

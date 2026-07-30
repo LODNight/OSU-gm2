@@ -180,6 +180,18 @@ function item_database_create()
         defense:     25
     });
 
+    // 4. Balo (Backpack)
+    global.ItemDatabase[$ "equip_backpack_military"] = new create_item_definition({
+        id:          "equip_backpack_military",
+        name:        "Tactical Backpack",
+        description: "Military grade backpack. Increases carrying capacity.",
+        item_type:   ITEM_TYPE.BACKPACK,
+        stackable:   false,
+        max_stack:   1,
+        size:        "2x2",
+        value:       120
+    });
+
     // 4. Đèn pin (Flashlight)
     global.ItemDatabase[$ "equip_flashlight_std"] = new create_item_definition({
         id:            "equip_flashlight_std",

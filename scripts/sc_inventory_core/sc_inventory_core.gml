@@ -20,11 +20,12 @@ function inventory_init()
     
     // Trang bị người chơi
     global.Equipment = {
-        helmet:     undefined, // Nón (Slot 2)
-        armor:      undefined, // Giáp (Slot 3)
-        flashlight: undefined, // Đèn pin (Slot 4)
-        weapon1:    undefined, // Vũ khí 1 (Slot 5)
-        weapon2:    undefined  // Vũ khí 2 (Slot 6)
+        weapon1:    undefined, // Vũ khí 1 (Slot 1)
+        weapon2:    undefined, // Vũ khí 2 (Slot 2)
+        helmet:     undefined, // Nón (Slot 3)
+        armor:      undefined, // Giáp (Slot 4)
+        backpack:   undefined, // Balo (Slot 5)
+        flashlight: undefined  // Đèn pin (Slot 6)
     };
     
     // Thanh phím tắt bên ngoài (8 ô)
@@ -42,11 +43,15 @@ function inventory_add_starter_items()
 {
     inventory_add("equip_helmet_tactical", 1);
     inventory_add("equip_armor_vest", 1);
+    inventory_add("equip_backpack_military", 1);
     inventory_add("equip_flashlight_wide", 1);
     inventory_add("equip_weapon_pistol", 1);
     inventory_add("equip_weapon_smg", 1);
     inventory_add("item_medkit", 3);
     inventory_add("ammo_pistol", 60);
+
+    // Gán sẵn Medkit vào Quickbar slot 3 (Phím 3) để test nhanh
+    global.Quickbar[2] = { item_id: "item_medkit", quantity: 3 };
 }
 
 /// @desc Lấy index gốc (root cell index) của một ô trong Grid. Nếu là ô phụ thuộc, trả về index của ô gốc.
@@ -362,11 +367,12 @@ function inventory_is_valid_for_equip(_item_id, _equip_slot)
     if (_def == undefined) return false;
 
     switch (_equip_slot) {
-        case "helmet":     return (_def.item_type == ITEM_TYPE.HELMET);
-        case "armor":      return (_def.item_type == ITEM_TYPE.ARMOR);
-        case "flashlight": return (_def.item_type == ITEM_TYPE.FLASHLIGHT);
         case "weapon1":    return (_def.item_type == ITEM_TYPE.WEAPON);
         case "weapon2":    return (_def.item_type == ITEM_TYPE.WEAPON);
+        case "helmet":     return (_def.item_type == ITEM_TYPE.HELMET);
+        case "armor":      return (_def.item_type == ITEM_TYPE.ARMOR);
+        case "backpack":   return (_def.item_type == ITEM_TYPE.BACKPACK);
+        case "flashlight": return (_def.item_type == ITEM_TYPE.FLASHLIGHT);
     }
     return false;
 }
@@ -521,6 +527,7 @@ function inventory_use_slot(_type, _idx)
         var _targetEquip = "";
         if (_def.item_type == ITEM_TYPE.HELMET)     _targetEquip = "helmet";
         if (_def.item_type == ITEM_TYPE.ARMOR)      _targetEquip = "armor";
+        if (_def.item_type == ITEM_TYPE.BACKPACK)   _targetEquip = "backpack";
         if (_def.item_type == ITEM_TYPE.FLASHLIGHT) _targetEquip = "flashlight";
         if (_def.item_type == ITEM_TYPE.WEAPON) {
             if (global.Equipment.weapon1 == undefined) _targetEquip = "weapon1";

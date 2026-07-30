@@ -81,15 +81,109 @@ if (instance_exists(o_loot_manager)) {
     }
 }
 
+// ── 2.5. HUD Quickbar Slots (3 - 8) ở góc dưới giữa màn hình khi chơi game ──
+if (!variable_global_exists("InventoryOpen") || !global.InventoryOpen) {
+    var _hudSlotSize = 54;
+    var _hudGap      = 10;
+    var _hudTotalW   = 6 * _hudSlotSize + 5 * _hudGap;
+    var _hudX        = (_camW - _hudTotalW) / 2;
+    var _hudY        = _camH - 68;
+
+    // Nền mờ phía sau thanh Quickbar HUD
+    draw_set_alpha(0.75);
+    draw_set_color(make_color_rgb(12, 14, 22));
+    draw_roundrect_ext(_hudX - 10, _hudY - 8, _hudX + _hudTotalW + 10, _hudY + _hudSlotSize + 8, 8, 8, false);
+
+    draw_set_alpha(0.85);
+    draw_set_color(make_color_rgb(45, 50, 75));
+    draw_roundrect_ext(_hudX - 10, _hudY - 8, _hudX + _hudTotalW + 10, _hudY + _hudSlotSize + 8, 8, 8, true);
+    draw_set_alpha(1);
+
+    for (var k = 0; k < 6; k++) {
+        var _q    = k + 2; // Quickbar index 2..7 (phím 3..8)
+        var _key  = k + 3; // Phím 3..8
+        var _sx   = _hudX + k * (_hudSlotSize + _hudGap);
+        var _sy   = _hudY;
+
+        var _isKeyDown = keyboard_check(ord(string(_key)));
+        var _slotData  = global.Quickbar[_q];
+
+        // Nền ô
+        if (_isKeyDown) {
+            draw_set_color(make_color_rgb(70, 75, 120));
+            draw_set_alpha(0.9);
+        } else if (_slotData != undefined) {
+            draw_set_color(make_color_rgb(24, 27, 42));
+            draw_set_alpha(0.85);
+        } else {
+            draw_set_color(make_color_rgb(18, 20, 30));
+            draw_set_alpha(0.7);
+        }
+        draw_roundrect_ext(_sx, _sy, _sx + _hudSlotSize, _sy + _hudSlotSize, 6, 6, false);
+
+        // Viền ô
+        draw_set_alpha(1);
+        if (_isKeyDown) {
+            draw_set_color(make_color_rgb(255, 215, 80));
+        } else if (_slotData != undefined) {
+            draw_set_color(make_color_rgb(85, 90, 135));
+        } else {
+            draw_set_color(make_color_rgb(45, 48, 70));
+        }
+        draw_roundrect_ext(_sx, _sy, _sx + _hudSlotSize, _sy + _hudSlotSize, 6, 6, true);
+
+        // Nhãn phím tắt (3..8) màu vàng ở góc trên trái ô
+        draw_set_font(-1);
+        draw_set_color(make_color_rgb(255, 205, 80));
+        draw_set_halign(fa_left);
+        draw_set_valign(fa_top);
+        draw_text(_sx + 5, _sy + 3, string(_key));
+
+        // Vẽ icon vật phẩm & số lượng
+        if (_slotData != undefined) {
+            var _def = item_db_get(_slotData.item_id);
+            if (_def != undefined) {
+                if (_def.icon_sprite != noone) {
+                    draw_item_icon_fitted(_def, _sx + 4, _sy + 4, _hudSlotSize - 8, _hudSlotSize - 8, false);
+                } else {
+                    draw_set_color(make_color_rgb(160, 165, 210));
+                    draw_set_halign(fa_center);
+                    draw_set_valign(fa_middle);
+                    draw_text(_sx + _hudSlotSize / 2, _sy + _hudSlotSize / 2, string_upper(string_copy(_slotData.item_id, 1, 3)));
+                    draw_set_halign(fa_left);
+                    draw_set_valign(fa_top);
+                }
+
+                // Hiển thị số lượng nhỏ ở góc dưới bên phải
+                if (_slotData.quantity > 1 || _def.stackable) {
+                    draw_set_font(-1);
+                    // Shadow đen
+                    draw_set_color(c_black);
+                    draw_set_halign(fa_right);
+                    draw_set_valign(fa_bottom);
+                    draw_text(_sx + _hudSlotSize - 3, _sy + _hudSlotSize - 2, string(_slotData.quantity));
+
+                    // Chữ trắng
+                    draw_set_color(c_white);
+                    draw_text(_sx + _hudSlotSize - 4, _sy + _hudSlotSize - 3, string(_slotData.quantity));
+
+                    draw_set_halign(fa_left);
+                    draw_set_valign(fa_top);
+                }
+            }
+        }
+    }
+}
+
 // ── 3. Vẽ Giao diện túi đồ chính (Main Inventory Window) ──────────────────
 if (!variable_global_exists("InventoryOpen") || !global.InventoryOpen) exit;
 
 var _mx = device_mouse_x_to_gui(0);
 var _my = device_mouse_y_to_gui(0);
 
-// Khung cửa sổ chính
-var _windowW = 880;
-var _windowH = 580;
+// Khung cửa sổ chính (Giao diện lớn tràn gần hết màn hình)
+var _windowW = 1160;
+var _windowH = 640;
 var _winX    = (_camW - _windowW) / 2;
 var _winY    = (_camH - _windowH) / 2;
 
@@ -103,26 +197,26 @@ draw_set_alpha(1);
 draw_set_color(make_color_rgb(70, 75, 110));
 draw_roundrect_ext(_winX, _winY, _winX + _windowW, _winY + _windowH, 12, 12, true);
 
-// Header / Tiêu đề cửa sổ (Tiếng Anh)
+// Header / Tiêu đề cửa sổ
 draw_set_color(make_color_rgb(220, 225, 255));
 draw_set_halign(fa_left);
 draw_set_valign(fa_middle);
-draw_text(_winX + 24, _winY + 24, "INVENTORY");
+draw_text(_winX + 32, _winY + 24, "INVENTORY");
 
 // Hiển thị số tiền (Currency) ở góc trên phải
 draw_set_halign(fa_right);
 draw_set_color(make_color_rgb(255, 215, 60));
-draw_text(_winX + _windowW - 24, _winY + 24, "$" + string(currency_get()));
+draw_text(_winX + _windowW - 32, _winY + 24, "$" + string(currency_get()));
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
 
 var _tooltip = "";
 
 // ── Area 1: Kho đồ chính (Main Grid 6x7 = 42 ô) ─────────────────────────
-var _gridX    = _winX + 24;
+var _gridX    = _winX + 32;
 var _gridY    = _winY + 48;
-var _cellSize = 54;
-var _gap      = 6;
+var _cellSize = 72;
+var _gap      = 8;
 
 // Tiêu đề sub-panel Grid
 draw_set_color(make_color_rgb(140, 145, 180));
@@ -253,25 +347,28 @@ if (drag_active && drag_data != undefined && inv_hover_type == "grid") {
 }
 
 // ── Vạch ngăn cách dọc giữa Grid & Trang bị ─────────────────────────────
-var _splitX = _gridX + 354 + 20;
+var _splitX = _gridX + 472 + 24;
 draw_set_color(make_color_rgb(45, 48, 70));
-draw_line_width(_splitX, _winY + 44, _splitX, _winY + _windowH - 80, 2);
+draw_line_width(_splitX, _winY + 36, _splitX, _winY + _windowH - 36, 2);
 
-// ── Area 2-6: Khu vực Trang bị (Right Equipment Panel) ────────────────────
-var _equipPanelX = _splitX + 16;
+// ── Area 1-6: Khu vực Trang bị (Right Equipment Panel) ────────────────────
+var _equipPanelX = _splitX + 24;
 var _equipPanelY = _winY + 48;
 
 draw_set_color(make_color_rgb(140, 145, 180));
-draw_text(_equipPanelX, _equipPanelY - 18, "EQUIPMENT");
+draw_set_halign(fa_left);
+draw_set_valign(fa_top);
+draw_text(_equipPanelX, _equipPanelY - 22, "EQUIPMENT");
 
-// Struct định nghĩa vị trí & nhãn hiển thị Tiếng Anh của 5 Slot Trang bị
-var _eq_weapon1    = { x: _equipPanelX + 10,  y: _equipPanelY + 10,  w: 385, h: 88,  slot: "weapon1",   label: "PRIMARY WEAPON (5)",   num: "5" };
-var _eq_weapon2    = { x: _equipPanelX + 10,  y: _equipPanelY + 104, w: 385, h: 88,  slot: "weapon2",   label: "SECONDARY WEAPON (6)", num: "6" };
-var _eq_helmet     = { x: _equipPanelX + 10,  y: _equipPanelY + 204, w: 123, h: 190, slot: "helmet",    label: "HELMET (2)",           num: "2" };
-var _eq_armor      = { x: _equipPanelX + 141, y: _equipPanelY + 204, w: 123, h: 190, slot: "armor",     label: "ARMOR (3)",            num: "3" };
-var _eq_flashlight = { x: _equipPanelX + 272, y: _equipPanelY + 204, w: 123, h: 190, slot: "flashlight",label: "FLASHLIGHT (4)",       num: "4" };
+var _eq_weapon1    = { x: _equipPanelX,       y: _equipPanelY,       w: 540, h: 100, slot: "weapon1",    label: "PRIMARY WEAPON (1)",    num: "1" };
+var _eq_weapon2    = { x: _equipPanelX,       y: _equipPanelY + 112, w: 540, h: 100, slot: "weapon2",    label: "SECONDARY WEAPON (2)",  num: "2" };
 
-var _equipSlots = [_eq_weapon1, _eq_weapon2, _eq_helmet, _eq_armor, _eq_flashlight];
+var _eq_helmet     = { x: _equipPanelX,       y: _equipPanelY + 224, w: 123, h: 180, slot: "helmet",     label: "HELMET (3)",            num: "3" };
+var _eq_armor      = { x: _equipPanelX + 139, y: _equipPanelY + 224, w: 123, h: 180, slot: "armor",      label: "ARMOR (4)",             num: "4" };
+var _eq_backpack   = { x: _equipPanelX + 278, y: _equipPanelY + 224, w: 123, h: 180, slot: "backpack",   label: "BACKPACK (5)",          num: "5" };
+var _eq_flashlight = { x: _equipPanelX + 417, y: _equipPanelY + 224, w: 123, h: 180, slot: "flashlight", label: "FLASHLIGHT (6)",        num: "6" };
+
+var _equipSlots = [_eq_weapon1, _eq_weapon2, _eq_helmet, _eq_armor, _eq_backpack, _eq_flashlight];
 
 for (var e = 0; e < array_length(_equipSlots); e++) {
     var _eq      = _equipSlots[e];
@@ -286,7 +383,7 @@ for (var e = 0; e < array_length(_equipSlots); e++) {
     draw_set_color(_isHover ? make_color_rgb(140, 145, 220) : make_color_rgb(50, 54, 80));
     draw_roundrect_ext(_eq.x, _eq.y, _eq.x + _eq.w, _eq.y + _eq.h, 8, 8, true);
 
-    // Nhãn tên slot (Tiếng Anh) & Số thứ tự tương ứng sơ đồ
+    // Nhãn tên slot
     draw_set_color(make_color_rgb(110, 115, 150));
     draw_set_halign(fa_left);
     draw_set_valign(fa_top);
@@ -295,19 +392,19 @@ for (var e = 0; e < array_length(_equipSlots); e++) {
     if (_data != undefined && (!drag_active || drag_source_type != "equip" || drag_source_idx != _eq.slot)) {
         var _def = item_db_get(_data.item_id);
         if (_def != undefined) {
-            // Icon sprite (Tự động lật ngang đối với slot 5 & 6 súng)
+            // Icon sprite (Tự động lật ngang đối với slot vũ khí)
             if (_def.icon_sprite != noone) {
                 var _isWepSlot = (_eq.slot == "weapon1" || _eq.slot == "weapon2");
                 if (_isWepSlot) {
                     draw_item_icon_fitted(_def, _eq.x + 8, _eq.y + 20, _eq.w - 16, _eq.h - 26, true);
                 } else {
-                    draw_item_icon_fitted(_def, _eq.x + 8, _eq.y + 24, _eq.w - 16, _eq.h - 32, false);
+                    draw_item_icon_fitted(_def, _eq.x + 6, _eq.y + 26, _eq.w - 12, _eq.h - 34, false);
                 }
             } else {
                 draw_set_color(c_white);
                 draw_set_halign(fa_center);
                 draw_set_valign(fa_middle);
-                draw_text(_eq.x + _eq.w / 2, _eq.y + _eq.h / 2 + 8, _def.name);
+                draw_text(_eq.x + _eq.w / 2, _eq.y + _eq.h / 2 + 6, _def.name);
                 draw_set_halign(fa_left);
                 draw_set_valign(fa_top);
             }
@@ -322,29 +419,26 @@ for (var e = 0; e < array_length(_equipSlots); e++) {
         draw_set_color(make_color_rgb(60, 64, 90));
         draw_set_halign(fa_center);
         draw_set_valign(fa_middle);
-        draw_text(_eq.x + _eq.w / 2, _eq.y + _eq.h / 2, "[ Empty Slot ]");
+        draw_text(_eq.x + _eq.w / 2, _eq.y + _eq.h / 2 + 4, "[ Empty Slot ]");
         draw_set_halign(fa_left);
         draw_set_valign(fa_top);
     }
 }
 
-// ── Vạch ngăn cách ngang trên Quickbar ─────────────────────────────────
-draw_set_color(make_color_rgb(45, 48, 70));
-draw_line_width(_winX + 24, _winY + _windowH - 76, _winX + _windowW - 24, _winY + _windowH - 76, 2);
-
-// ── Area 0: Thanh Quickbar bên dưới (Slot trang bị ngoài 1-8) ────────────
-var _qCellSize = 54;
-var _qGap      = 8;
-var _qW        = INVENTORY_QUICKBAR_SLOTS * _qCellSize + (INVENTORY_QUICKBAR_SLOTS - 1) * _qGap;
-var _qX        = _winX + (_windowW - _qW) / 2;
-var _qY        = _winY + _windowH - 68;
+// ── Area 7: Khu vực item từ 3 tới 8 (Quickbar Slots 3 - 8) ────────────
+var _qCellSize = 72;
+var _qGap      = 21.6;
+var _qY        = _equipPanelY + 448;
 
 draw_set_color(make_color_rgb(140, 145, 180));
-draw_text(_qX, _qY - 18, "QUICK ACCESS SLOTS (1 - 8)");
+draw_set_halign(fa_left);
+draw_set_valign(fa_top);
+draw_text(_equipPanelX, _qY - 24, "QUICK SLOTS (3 - 8)");
 
-for (var q = 0; q < INVENTORY_QUICKBAR_SLOTS; q++) {
-    var _qx      = _qX + q * (_qCellSize + _qGap);
-    var _isHover = (inv_hover_type == "quickbar" && inv_hover_idx == q);
+for (var k = 0; k < 6; k++) {
+    var _q       = k + 2; // Quickbar slot index 2..7 (phím 3..8)
+    var _qx      = _equipPanelX + k * (_qCellSize + _qGap);
+    var _isHover = (inv_hover_type == "quickbar" && inv_hover_idx == _q);
 
     // Nền ô
     draw_set_color(_isHover ? make_color_rgb(55, 60, 95) : make_color_rgb(28, 30, 44));
@@ -354,14 +448,14 @@ for (var q = 0; q < INVENTORY_QUICKBAR_SLOTS; q++) {
     draw_set_color(_isHover ? make_color_rgb(140, 145, 220) : make_color_rgb(50, 54, 80));
     draw_roundrect_ext(_qx, _qY, _qx + _qCellSize, _qY + _qCellSize, 5, 5, true);
 
-    // Số phím tắt (1..8) ở góc trên trái ô
+    // Số phím tắt (3..8) ở góc trên trái ô
     draw_set_color(make_color_rgb(255, 200, 80));
     draw_set_halign(fa_left);
     draw_set_valign(fa_top);
-    draw_text(_qx + 4, _qY + 2, string(q + 1));
+    draw_text(_qx + 6, _qY + 4, string(_q + 1));
 
-    var _slotData = global.Quickbar[q];
-    if (_slotData != undefined && (!drag_active || drag_source_type != "quickbar" || drag_source_idx != q)) {
+    var _slotData = global.Quickbar[_q];
+    if (_slotData != undefined && (!drag_active || drag_source_type != "quickbar" || drag_source_idx != _q)) {
         var _def = item_db_get(_slotData.item_id);
         if (_def != undefined) {
             if (_def.icon_sprite != noone) {
@@ -379,7 +473,7 @@ for (var q = 0; q < INVENTORY_QUICKBAR_SLOTS; q++) {
                 draw_set_color(c_white);
                 draw_set_halign(fa_right);
                 draw_set_valign(fa_bottom);
-                draw_text(_qx + _qCellSize - 3, _qY + _qCellSize - 3, string(_slotData.quantity));
+                draw_text(_qx + _qCellSize - 4, _qY + _qCellSize - 4, string(_slotData.quantity));
                 draw_set_halign(fa_left);
                 draw_set_valign(fa_top);
             }

@@ -68,6 +68,7 @@ enum ITEM_TYPE {
     WEAPON,          // Vũ khí
     HELMET,          // Nón trang bị
     ARMOR,           // Giáp trang bị
+    BACKPACK,        // Balo trang bị
     FLASHLIGHT,      // Đèn pin trang bị
     CONSUMABLE,      // Đồ dùng một lần (medkit, stim...)
     KEY_ITEM,        // Vật phẩm nhiệm vụ (không bán được)
