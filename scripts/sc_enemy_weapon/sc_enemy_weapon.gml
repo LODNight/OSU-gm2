@@ -32,7 +32,9 @@ function enemy_weapon_fire()
 
     // ── Kích hoạt muzzle flash ────────────────────────────────────
     if (!variable_instance_exists(id, "muzzleFlashTimer")) muzzleFlashTimer = 0;
-    muzzleFlashTimer = weapon_get_flash_frames(weapon);
+    muzzleFlashTimer     = weapon_get_flash_frames(weapon);
+    muzzleFlashRandAngle = random_range(-20, 20);
+    muzzleFlashRandScale = random_range(0.85, 1.2);
 
     return true;
 }

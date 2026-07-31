@@ -51,6 +51,8 @@ fireModeKey    = false;   // set by player_input()
 currentSpread      = 0;   // Current dynamic spread (grows on fire, recovers over time)
 currentRecoil      = 0;   // Accumulated recoil offset
 muzzleFlashTimer   = 0;   // Countdown frames for muzzle flash
+muzzleFlashRandAngle = 0; // Random angle offset per shot (set in weapon_fire)
+muzzleFlashRandScale = 1; // Random scale per shot (set in weapon_fire)
 cameraShakeTimer   = 0;   // Countdown frames for camera shake
 
 // Safeguard for rooms that do not contain o_init.

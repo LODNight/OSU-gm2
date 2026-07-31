@@ -31,7 +31,9 @@ function weapon_fire(_owner)
 
     // ── Kích hoạt muzzle flash ────────────────────────────────────
     if (variable_instance_exists(_owner, "muzzleFlashTimer")) {
-        _owner.muzzleFlashTimer = _data.muzzle_flash_frames;
+        _owner.muzzleFlashTimer     = _data.muzzle_flash_frames;
+        _owner.muzzleFlashRandAngle = random_range(-20, 20); // Xoay flash nhẹ mỗi phát
+        _owner.muzzleFlashRandScale = random_range(0.85, 1.2); // Scale nhẹ mỗi phát
     }
 
     // ── Durability wear ───────────────────────────────────────────

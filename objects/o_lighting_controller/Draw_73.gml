@@ -117,6 +117,56 @@ if (variable_global_exists("LightSources")) {
     }
 }
 
+// C. Muzzle Flash — ánh sáng tức thời khi bắn súng (player + enemy)
+// Duyệt tất cả instance có muzzleFlashTimer > 0
+with (o_player) {
+    if (variable_instance_exists(id, "muzzleFlashTimer") && muzzleFlashTimer > 0
+        && variable_instance_exists(id, "weapon") && weapon != noone) {
+        var _def       = weapon.definition;
+        var _flashSize = _def.muzzle_flash_size;
+        var _frames    = _def.muzzle_flash_frames;
+        var _flashCol  = _def.muzzle_flash_color;
+        var _alpha     = muzzleFlashTimer / max(_frames, 1);
+
+        // Tính vị trí đầu nòng trong world space
+        var _offset  = variable_instance_exists(id, "weaponOffsetDist") ? weaponOffsetDist : 0;
+        var _centerY = variable_instance_exists(id, "centerY") ? centerY : y;
+        var _tipX    = x        + lengthdir_x(_def.length + _offset, aimDir);
+        var _tipY    = _centerY + lengthdir_y(_def.length + _offset, aimDir);
+
+        // Chuyển sang surface space
+        var _sx = _tipX - other._cam_x;
+        var _sy = _tipY - other._cam_y;
+
+        // Vẽ light burst tại đầu nòng (radius tỉ lệ với kích thước flash)
+        draw_colored_point_light(_sx, _sy, _flashSize * 5, 24, _flashCol, _alpha * 0.9);
+    }
+}
+
+// Duyệt enemy có súng và đang flash
+with (o_enemy_parent) {
+    if (variable_instance_exists(id, "muzzleFlashTimer") && muzzleFlashTimer > 0
+        && variable_instance_exists(id, "hasWeapon") && hasWeapon
+        && variable_instance_exists(id, "weapon") && weapon != noone) {
+        var _wep       = weapon;
+        var _flashSize = variable_struct_exists(_wep, "muzzle_flash_size") ? _wep.muzzle_flash_size : 10;
+        var _frames    = variable_struct_exists(_wep, "muzzle_flash_frames") ? _wep.muzzle_flash_frames : 3;
+        var _alpha     = muzzleFlashTimer / max(_frames, 1);
+        var _flashCol  = variable_struct_exists(_wep, "muzzle_flash_color") ? _wep.muzzle_flash_color : make_color_rgb(255, 200, 80);
+
+        // Vị trí đầu nòng enemy (đơn giản hóa: tại x, y)
+        var _offset  = variable_instance_exists(id, "weaponOffsetDist") ? weaponOffsetDist : 0;
+        var _centerY = variable_instance_exists(id, "centerY") ? centerY : y;
+        var _tipX    = x        + lengthdir_x(_flashSize + _offset, aimDir);
+        var _tipY    = _centerY + lengthdir_y(_flashSize + _offset, aimDir);
+
+        var _sx = _tipX - other._cam_x;
+        var _sy = _tipY - other._cam_y;
+
+        draw_colored_point_light(_sx, _sy, _flashSize * 4, 16, _flashCol, _alpha * 0.7);
+    }
+}
+
 gpu_set_blendmode(bm_normal);
 surface_reset_target();
 

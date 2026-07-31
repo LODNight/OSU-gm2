@@ -1,73 +1,117 @@
 /// @desc Vẽ muzzle flash tại đầu nòng súng.
-///        Hàm DÙNG CHUNG cho cả player và enemy — gọi với context của instance đó.
-///        Yêu cầu instance có: muzzleFlashTimer, aimDir, weaponOffsetDist, weapon, centerY (hoặc y).
+///        Hàm DÙNG CHUNG cho cả player và enemy.
+///        Random per-shot: muzzleFlashRandAngle, muzzleFlashRandScale được set khi bắn.
 function draw_muzzle_flash()
 {
     if (!variable_instance_exists(id, "muzzleFlashTimer")) exit;
     if (muzzleFlashTimer <= 0) exit;
 
-    // ── Lấy thông số flash từ weapon ──────────────────────────────
-    var _hasWep    = (variable_instance_exists(id, "weapon") && weapon != noone);
-    var _size      = 12;
-    var _flashCol  = make_color_rgb(255, 200, 80);
-    var _frames    = 3;
-    var _length    = 12;
-    var _offset    = variable_instance_exists(id, "weaponOffsetDist") ? weaponOffsetDist : 0;
-    var _centerY   = variable_instance_exists(id, "centerY") ? centerY : y;
+    // ── Lấy thông số từ weapon definition ────────────────────────
+    var _hasWep   = (variable_instance_exists(id, "weapon") && weapon != noone);
+    var _size     = 12;
+    var _flashCol = make_color_rgb(255, 200, 80);
+    var _frames   = 3;
+    var _length   = 12;
+    var _offset   = variable_instance_exists(id, "weaponOffsetDist") ? weaponOffsetDist : 0;
+    var _centerY  = variable_instance_exists(id, "centerY") ? centerY : y;
 
     if (_hasWep) {
-        var _def   = weapon.definition;
-        _size      = _def.muzzle_flash_size;
-        _flashCol  = _def.muzzle_flash_color;
-        _frames    = _def.muzzle_flash_frames;
-        _length    = _def.length;
+        var _def  = weapon.definition;
+        _size     = _def.muzzle_flash_size;
+        _flashCol = _def.muzzle_flash_color;
+        _frames   = _def.muzzle_flash_frames;
+        _length   = _def.length;
     }
 
-    // ── Tọa độ đầu nòng ──────────────────────────────────────────
-    var _tipX = x       + lengthdir_x(_length + _offset, aimDir);
+    // ── Random per-shot (được lưu khi bắn, không random mỗi frame) ──
+    var _randAngle = variable_instance_exists(id, "muzzleFlashRandAngle") ? muzzleFlashRandAngle : 0;
+    var _randScale = variable_instance_exists(id, "muzzleFlashRandScale") ? muzzleFlashRandScale : 1.0;
+    _size *= _randScale;
+
+    // ── Tọa độ đầu nòng (theo aimDir + offset súng) ──────────────
+    var _tipX = x        + lengthdir_x(_length + _offset, aimDir);
     var _tipY = _centerY + lengthdir_y(_length + _offset, aimDir);
 
-    // ── Alpha fade out theo timer ─────────────────────────────────
-    // Frame đầu = alpha cao, frame cuối = gần 0
-    var _alpha = (muzzleFlashTimer / max(_frames, 1));
+    // ── Alpha fade out: frame đầu sáng nhất, giảm dần ────────────
+    var _alpha = muzzleFlashTimer / max(_frames, 1);
 
-    // ── Vẽ vòng tròn sáng ngoài (glow) ───────────────────────────
-    draw_set_alpha(_alpha * 0.35);
-    draw_set_color(_flashCol);
-    draw_circle(_tipX, _tipY, _size * 1.6, false);
+    // ============================================================
+    // LAYER 1: Vầng sáng vàng ngoài (outer glow) — dùng primitive
+    // ============================================================
+    var _glowR    = _size * 2.2;
+    var _segments = 16;
+    var _angStep  = 360 / _segments;
 
-    // ── Vẽ vòng tròn sáng trong (core) ───────────────────────────
-    draw_set_alpha(_alpha * 0.85);
+    draw_set_alpha(1);
+    gpu_set_blendmode(bm_add);  // Additive blend → sáng rực lên
+
+    // Outer glow gradient: vàng cam ở tâm, trong suốt ở rìa
+    draw_primitive_begin(pr_trianglefan);
+    draw_vertex_color(_tipX, _tipY, _flashCol, _alpha * 0.7);
+    for (var i = 0; i <= _segments; i++) {
+        var _a  = i * _angStep;
+        var _vx = _tipX + lengthdir_x(_glowR, _a);
+        var _vy = _tipY + lengthdir_y(_glowR, _a);
+        draw_vertex_color(_vx, _vy, _flashCol, 0);
+    }
+    draw_primitive_end();
+
+    // ============================================================
+    // LAYER 2: Tia lửa hình tam giác (fire rays)
+    // ============================================================
+    // Các tia tập trung về phía trước (~aimDir) + 1-2 tia phụ
+    var _rayDefs = [
+        { dir: 0,    len: 2.8, wid: 0.55 },   // Tia chính — dài nhất, thẳng theo nòng
+        { dir: -18,  len: 1.9, wid: 0.38 },   // Tia phụ trên
+        { dir:  18,  len: 1.9, wid: 0.38 },   // Tia phụ dưới
+        { dir: -38,  len: 1.1, wid: 0.22 },   // Tia vẩy nhỏ trên
+        { dir:  38,  len: 1.1, wid: 0.22 },   // Tia vẩy nhỏ dưới
+    ];
+
+    for (var r = 0; r < array_length(_rayDefs); r++) {
+        var _rd      = _rayDefs[r];
+        var _rayDir  = aimDir + _rd.dir + _randAngle * 0.15; // Xoay nhẹ theo random
+        var _rayLen  = _size * _rd.len;
+        var _halfW   = _size * _rd.wid;
+
+        // Đỉnh xa (tip của tam giác — mũi lửa)
+        var _farX = _tipX + lengthdir_x(_rayLen, _rayDir);
+        var _farY = _tipY + lengthdir_y(_rayLen, _rayDir);
+
+        // 2 đỉnh gốc của tam giác (vuông góc với tia)
+        var _b1X = _tipX + lengthdir_x(_halfW, _rayDir + 90);
+        var _b1Y = _tipY + lengthdir_y(_halfW, _rayDir + 90);
+        var _b2X = _tipX + lengthdir_x(_halfW, _rayDir - 90);
+        var _b2Y = _tipY + lengthdir_y(_halfW, _rayDir - 90);
+
+        // Màu: gốc = vàng sáng, đầu mũi = trong suốt (gradient)
+        var _triAlpha = _alpha * (1.0 - r * 0.1);
+        draw_primitive_begin(pr_trianglelist);
+        draw_vertex_color(_b1X, _b1Y, c_yellow,  _triAlpha * 0.85);
+        draw_vertex_color(_b2X, _b2Y, c_yellow,  _triAlpha * 0.85);
+        draw_vertex_color(_farX, _farY, c_white, 0);
+        draw_primitive_end();
+    }
+
+    gpu_set_blendmode(bm_normal);
+
+    // ============================================================
+    // LAYER 3: Lõi sáng trắng (white core) — rất nhỏ, rất sáng
+    // ============================================================
+    draw_set_alpha(_alpha * 0.95);
     draw_set_color(c_white);
-    draw_circle(_tipX, _tipY, _size * 0.5, false);
+    draw_circle(_tipX, _tipY, _size * 0.45, false);
 
-    // ── Tia ngang (perpendicular cross ray) ───────────────────────
-    var _rayDir90 = aimDir + 90;
-    var _rayLen   = _size * 1.8;
-    draw_set_alpha(_alpha * 0.6);
-    draw_set_color(_flashCol);
-    draw_line_width(
-        _tipX + lengthdir_x(_rayLen, _rayDir90),
-        _tipY + lengthdir_y(_rayLen, _rayDir90),
-        _tipX - lengthdir_x(_rayLen, _rayDir90),
-        _tipY - lengthdir_y(_rayLen, _rayDir90),
-        2
-    );
-
-    // ── Tia dọc (along muzzle direction) ─────────────────────────
-    draw_set_alpha(_alpha * 0.5);
-    draw_line_width(
-        _tipX,
-        _tipY,
-        _tipX + lengthdir_x(_size * 1.4, aimDir),
-        _tipY + lengthdir_y(_size * 1.4, aimDir),
-        3
-    );
+    // Lớp trắng nhỏ hơn ở trung tâm (super bright center)
+    draw_set_alpha(_alpha);
+    draw_circle(_tipX, _tipY, _size * 0.2, false);
 
     // ── Reset draw state ─────────────────────────────────────────
     draw_set_alpha(1);
     draw_set_color(c_white);
+    gpu_set_blendmode(bm_normal);
 }
+
 
 function player_draw_weapon()
 {
