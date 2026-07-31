@@ -655,7 +655,7 @@ function inventory_toast_update()
     }
 }
 
-/// @desc Vẽ icon item giữ nguyên tỷ lệ khung hình (Aspect Ratio), tránh vỡ / méo ảnh
+/// @desc Vẽ icon item giữ nguyên tỷ lệ khung hình (Aspect Ratio), luôn nằm chính giữa ô
 function draw_item_icon_fitted(_def, _x, _y, _maxW, _maxH, _forceHorizontal = false)
 {
     if (_def == undefined || _def.icon_sprite == noone || !sprite_exists(_def.icon_sprite)) return;
@@ -663,6 +663,8 @@ function draw_item_icon_fitted(_def, _x, _y, _maxW, _maxH, _forceHorizontal = fa
     var _spr = _def.icon_sprite;
     var _sw  = sprite_get_width(_spr);
     var _sh  = sprite_get_height(_spr);
+    var _xo  = sprite_get_xoffset(_spr);
+    var _yo  = sprite_get_yoffset(_spr);
 
     var _angle = 0;
     if (_forceHorizontal && _sh > _sw) {
@@ -673,8 +675,18 @@ function draw_item_icon_fitted(_def, _x, _y, _maxW, _maxH, _forceHorizontal = fa
     var _effH = (abs(_angle) == 90 || abs(_angle) == 270) ? _sw : _sh;
 
     var _scale = min(_maxW / _effW, _maxH / _effH);
-    var _drawX = _x + _maxW / 2;
-    var _drawY = _y + _maxH / 2;
+
+    // Khoảng cách từ origin tới tâm sprite khi chưa xoay (unscaled)
+    var _cx_unscaled = (_sw / 2) - _xo;
+    var _cy_unscaled = (_sh / 2) - _yo;
+
+    // Xoay vector tâm theo _angle và scale (hệ tọa độ GameMaker màn hình y xuống)
+    var _cx_rot = (_cx_unscaled * dcos(_angle) + _cy_unscaled * dsin(_angle)) * _scale;
+    var _cy_rot = (-_cx_unscaled * dsin(_angle) + _cy_unscaled * dcos(_angle)) * _scale;
+
+    // Tọa độ vẽ sao cho TÂM của sprite luôn nằm đúng TÂM khung ô
+    var _drawX = (_x + _maxW / 2) - _cx_rot;
+    var _drawY = (_y + _maxH / 2) - _cy_rot;
 
     draw_sprite_ext(_spr, 0, _drawX, _drawY, _scale, _scale, _angle, c_white, 1);
 }
