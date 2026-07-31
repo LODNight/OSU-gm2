@@ -31,13 +31,13 @@ function draw_bullet_tracer()
     if (_count >= 2) {
         gpu_set_blendmode(bm_add);
 
-        // --- Layer A: Outer Soft Light Aura (Sáng nhẹ lan tỏa) ---
+        // --- Layer A: Outer Soft Light Aura (Thu hẹp sát vệt đạn) ---
         draw_primitive_begin(pr_trianglestrip);
         for (var i = 0; i < _count; i++) {
             var _p     = trail_history[i];
             var _t     = i / max(_count - 1, 1);
-            var _w     = lerp(_wMax * 2.8, 0.3, _t);
-            var _alpha = lerp(0.35, 0.0, _t);
+            var _w     = lerp(_wMax * 1.5, 0.15, _t);
+            var _alpha = lerp(0.25, 0.0, _t);
 
             var _pNext = (i < _count - 1) ? trail_history[i + 1] : _p;
             var _segAngle = (i < _count - 1) ? point_direction(_pNext.x, _pNext.y, _p.x, _p.y) : _dir;

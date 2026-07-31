@@ -174,19 +174,19 @@ with (o_enemy_parent) {
     }
 }
 
-// D. Ánh sáng nhẹ lan tỏa theo vệt đạn đang bay (Player + Enemy + Fade)
+// D. Ánh sáng nhẹ lan tỏa gọn sát vệt đạn đang bay (Player + Enemy + Fade)
 with (o_b_bullet_parent) {
     var _bsx = x - _cam_x;
     var _bsy = y - _cam_y;
     var _bcol = variable_instance_exists(id, "tracer_color") ? tracer_color : make_color_rgb(255, 215, 110);
-    draw_colored_point_light(_bsx, _bsy, 24, 12, _bcol, 0.4);
+    draw_colored_point_light(_bsx, _bsy, 10, 8, _bcol, 0.3);
 }
 
 with (o_b_enemy_parent) {
     var _bsx = x - _cam_x;
     var _bsy = y - _cam_y;
     var _bcol = variable_instance_exists(id, "tracer_color") ? tracer_color : make_color_rgb(255, 90, 45);
-    draw_colored_point_light(_bsx, _bsy, 22, 12, _bcol, 0.4);
+    draw_colored_point_light(_bsx, _bsy, 9, 8, _bcol, 0.3);
 }
 
 with (o_bullet_tracer_fade) {
@@ -195,7 +195,7 @@ with (o_bullet_tracer_fade) {
         var _bsx = _p.x - _cam_x;
         var _bsy = _p.y - _cam_y;
         var _fadeAlpha = fade_timer / max(fade_max, 1);
-        draw_colored_point_light(_bsx, _bsy, 18, 10, tracer_color, 0.3 * _fadeAlpha);
+        draw_colored_point_light(_bsx, _bsy, 7, 6, tracer_color, 0.2 * _fadeAlpha);
     }
 }
 
