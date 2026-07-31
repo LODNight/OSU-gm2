@@ -19,3 +19,5 @@ global.num1Key = keyboard_check(ord("1"))
 global.num2Key = keyboard_check(ord("2"))
 global.num3Key = keyboard_check(ord("3"))
 global.num4Key = keyboard_check(ord("4"))
+
+global.fireModeKey = keyboard_check_pressed(ord("V"))   // V → toggle fire mode

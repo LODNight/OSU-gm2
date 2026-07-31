@@ -57,11 +57,21 @@
       "deathSpeed": 0.15
     },
     "audio": {
-      "idleSounds": ["snd_zombie_idle_01"],
-      "aggroSounds": ["snd_zombie_aggro_01"],
-      "attackSounds": ["snd_zombie_attack_01"],
-      "hitSounds": ["snd_zombie_hit_01"],
-      "deathSounds": ["snd_zombie_death_01"],
+      "idleSounds": [
+        "snd_zombie_idle_01"
+      ],
+      "aggroSounds": [
+        "snd_zombie_aggro_01"
+      ],
+      "attackSounds": [
+        "snd_zombie_attack_01"
+      ],
+      "hitSounds": [
+        "snd_zombie_hit_01"
+      ],
+      "deathSounds": [
+        "snd_zombie_death_01"
+      ],
       "idleSoundChance": 0.003
     },
     "loot": {
@@ -77,7 +87,6 @@
     },
     "corpseObject": "o_z_speed_1_die"
   },
-
   "zombie_basic_1": {
     "id": "zombie_basic_1",
     "displayName": "Walker Zombie",
@@ -156,7 +165,6 @@
     },
     "corpseObject": "o_z_1_die"
   },
-
   "human_guard": {
     "id": "human_guard",
     "displayName": "Human Guard",
@@ -236,7 +244,6 @@
     "weapon": "e_pistol",
     "corpseObject": "o_h_1_die"
   },
-
   "human_soldier": {
     "id": "human_soldier",
     "displayName": "Elite Soldier",

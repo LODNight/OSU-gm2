@@ -39,18 +39,26 @@ stamina_create();
 aim_create();
 
 // Weapon runtime state
-shootTimer = 0;
-reloadTimer = 0;
-isReloading = false;
-inventoryWeapons = [];
+shootTimer     = 0;
+reloadTimer    = 0;
+isReloading    = false;
+inventoryWeapons = [noone, noone];
 selectedWeapon = 0;
-weapon = noone;
+weapon         = noone;
+fireModeKey    = false;   // set by player_input()
+
+// ── Runtime volatile state (NOT saved) ────────────────────────
+currentSpread      = 0;   // Current dynamic spread (grows on fire, recovers over time)
+currentRecoil      = 0;   // Accumulated recoil offset
+muzzleFlashTimer   = 0;   // Countdown frames for muzzle flash
+cameraShakeTimer   = 0;   // Countdown frames for camera shake
 
 // Safeguard for rooms that do not contain o_init.
 if (!variable_global_exists("Weapons")) sc_weapon_init();
 
-array_push(inventoryWeapons, new create_weapon_instance(global.Weapons.pistol_fn57));
-array_push(inventoryWeapons, new create_weapon_instance(global.Weapons.subgun_p90));
-array_push(inventoryWeapons, new create_weapon_instance(global.Weapons.shotgun_tus34));
-array_push(inventoryWeapons, new create_weapon_instance(global.Weapons.snipgun_nozin_v1));
-weapon = inventoryWeapons[selectedWeapon];
+
+// Đồng bộ trang bị/vũ khí từ Inventory nếu đã khởi tạo
+if (variable_global_exists("Equipment")) {
+    inventory_sync_player_equip();
+}
+

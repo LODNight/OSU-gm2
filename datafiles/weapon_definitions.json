@@ -1,0 +1,755 @@
+{
+  "pistol_fn57": {
+    "schema_version": 1,
+    "id": "pistol_fn57",
+    "name": "FN Five-seveN",
+    "description": "A high-capacity semi-automatic pistol chambered in 5.7x28mm.",
+
+    "classification": {
+      "category": "pistol",
+      "weapon_class": "secondary",
+      "ammo_type": "ammo_pistol",
+      "rarity": "uncommon",
+      "two_handed": false,
+      "tags": ["semi", "sidearm", "medium_range", "quiet_for_pistol"]
+    },
+
+    "ballistics": {
+      "base_damage": 18,
+      "armor_penetration": 10,
+      "bullet_speed": 22,
+      "effective_range": 250,
+      "max_range": 330,
+      "damage_falloff_start": 200,
+      "damage_falloff_end": 330,
+      "minimum_damage_multiplier": 0.6,
+      "projectile_count": 1,
+      "bullet_object": "o_b_bullet_parent",
+      "bullet_sprite": "s_bu_pis",
+      "damage_type": "ballistic",
+      "critical_multiplier": 1.5,
+      "stagger_power": 6,
+      "knockback_power": 1
+    },
+
+    "accuracy": {
+      "base_spread": 0,
+      "aimed_spread": 0,
+      "moving_spread_multiplier": 1.5,
+      "running_spread_multiplier": 2.2,
+      "crouch_spread_multiplier": 0.8,
+      "first_shot_multiplier": 0.5,
+      "spread_per_shot": 0.3,
+      "spread_recovery": 0.4,
+      "maximum_spread": 6,
+      "aim_time": 18
+    },
+
+    "recoil": {
+      "vertical": 1.2,
+      "horizontal": 0.5,
+      "randomness": 0.2,
+      "weapon_kickback": 2.5,
+      "camera_kick": 0.8,
+      "camera_shake_duration": 3,
+      "recovery_speed": 0.22,
+      "recoil_stack_limit": 5
+    },
+
+    "fire": {
+      "supported_modes": ["semi"],
+      "default_mode": "semi",
+      "rounds_per_minute": 156,
+      "burst_count": 1,
+      "burst_interval": 0,
+      "can_fire_while_moving": true,
+      "can_fire_while_reloading": false
+    },
+
+    "magazine": {
+      "capacity": 20,
+      "chamber_capacity": 1,
+      "ammo_type": "ammo_pistol",
+      "magazine_type": "mag_fn57_standard",
+      "supports_detachable_magazine": true
+    },
+
+    "reload": {
+      "reload_type": "magazine",
+      "tactical_reload_time": 72,
+      "empty_reload_time": 90,
+      "shell_insert_time": 0,
+      "can_interrupt": true,
+      "retain_chambered_round": true
+    },
+
+    "durability": {
+      "max_durability": 100,
+      "wear_per_shot": 0.04,
+      "wear_per_reload": 0.02,
+      "accuracy_degrade_start": 65,
+      "reliability_degrade_start": 40,
+      "damage_degrade_start": 20,
+      "maximum_spread_multiplier": 1.4,
+      "minimum_damage_multiplier": 0.85,
+      "minimum_effectiveness": 0.6,
+      "repair_difficulty": 0.5,
+      "repair_base_cost": 150,
+      "repair_cost_multiplier": 1.1
+    },
+
+    "reliability": {
+      "base_jam_chance": 0.002,
+      "low_durability_jam_multiplier": 5,
+      "bad_ammo_jam_multiplier": 1.5,
+      "jam_types": ["failure_to_fire"],
+      "clear_jam_time": 60
+    },
+
+    "noise": {
+      "shot_radius": 300,
+      "suppressed_radius": 120,
+      "indoor_multiplier": 1.15,
+      "outdoor_multiplier": 1.0,
+      "sound_category": "gunshot_pistol"
+    },
+
+    "visual": {
+      "weapon_sprite": "s_pistol_FN57",
+      "icon_sprite": "s_pistol_FN57",
+      "weapon_length": 16,
+      "hand_offset_x": 4,
+      "hand_offset_y": 0,
+      "bullet_spawn_offset": 16,
+      "shell_object": ""
+    },
+
+    "audio": {
+      "fire_sound": "snd_pistol_shot_1",
+      "suppressed_fire_sound": "",
+      "reload_sound": "snd_pistol_reload",
+      "empty_reload_sound": "snd_pistol_reload",
+      "dry_fire_sound": "",
+      "jam_sound": "",
+      "clear_jam_sound": ""
+    },
+
+    "attachments": {
+      "slots": [
+        { "slot": "muzzle", "allowed_tags": ["pistol_muzzle"] },
+        { "slot": "optic", "allowed_tags": ["pistol_optic"] }
+      ]
+    },
+
+    "economy": {
+      "base_value": 800,
+      "sell_multiplier": 0.4,
+      "rarity": "uncommon",
+      "loot_weight": 15,
+      "trader_level_required": 1
+    }
+  },
+
+  "subgun_p90": {
+    "schema_version": 1,
+    "id": "subgun_p90",
+    "name": "FN P90",
+    "description": "A compact, high-capacity personal defense weapon with exceptional fire rate.",
+
+    "classification": {
+      "category": "smg",
+      "weapon_class": "primary",
+      "ammo_type": "ammo_pistol",
+      "rarity": "uncommon",
+      "two_handed": true,
+      "tags": ["automatic", "high_rof", "cqb", "loud"]
+    },
+
+    "ballistics": {
+      "base_damage": 9,
+      "armor_penetration": 8,
+      "bullet_speed": 22,
+      "effective_range": 200,
+      "max_range": 330,
+      "damage_falloff_start": 150,
+      "damage_falloff_end": 330,
+      "minimum_damage_multiplier": 0.5,
+      "projectile_count": 1,
+      "bullet_object": "o_b_bullet_parent",
+      "bullet_sprite": "s_bu_sub",
+      "damage_type": "ballistic",
+      "critical_multiplier": 1.3,
+      "stagger_power": 4,
+      "knockback_power": 1
+    },
+
+    "accuracy": {
+      "base_spread": 4,
+      "aimed_spread": 2,
+      "moving_spread_multiplier": 1.6,
+      "running_spread_multiplier": 2.5,
+      "crouch_spread_multiplier": 0.75,
+      "first_shot_multiplier": 0.6,
+      "spread_per_shot": 0.5,
+      "spread_recovery": 0.3,
+      "maximum_spread": 12,
+      "aim_time": 14
+    },
+
+    "recoil": {
+      "vertical": 0.9,
+      "horizontal": 0.7,
+      "randomness": 0.3,
+      "weapon_kickback": 2.0,
+      "camera_kick": 0.7,
+      "camera_shake_duration": 3,
+      "recovery_speed": 0.2,
+      "recoil_stack_limit": 10
+    },
+
+    "fire": {
+      "supported_modes": ["semi", "auto"],
+      "default_mode": "auto",
+      "rounds_per_minute": 900,
+      "burst_count": 1,
+      "burst_interval": 0,
+      "can_fire_while_moving": true,
+      "can_fire_while_reloading": false
+    },
+
+    "magazine": {
+      "capacity": 50,
+      "chamber_capacity": 1,
+      "ammo_type": "ammo_pistol",
+      "magazine_type": "mag_p90_standard",
+      "supports_detachable_magazine": true
+    },
+
+    "reload": {
+      "reload_type": "magazine",
+      "tactical_reload_time": 85,
+      "empty_reload_time": 105,
+      "shell_insert_time": 0,
+      "can_interrupt": true,
+      "retain_chambered_round": true
+    },
+
+    "durability": {
+      "max_durability": 100,
+      "wear_per_shot": 0.02,
+      "wear_per_reload": 0.015,
+      "accuracy_degrade_start": 60,
+      "reliability_degrade_start": 40,
+      "damage_degrade_start": 20,
+      "maximum_spread_multiplier": 1.5,
+      "minimum_damage_multiplier": 0.8,
+      "minimum_effectiveness": 0.6,
+      "repair_difficulty": 0.6,
+      "repair_base_cost": 250,
+      "repair_cost_multiplier": 1.12
+    },
+
+    "reliability": {
+      "base_jam_chance": 0.001,
+      "low_durability_jam_multiplier": 4,
+      "bad_ammo_jam_multiplier": 1.3,
+      "jam_types": ["failure_to_feed"],
+      "clear_jam_time": 70
+    },
+
+    "noise": {
+      "shot_radius": 380,
+      "suppressed_radius": 150,
+      "indoor_multiplier": 1.2,
+      "outdoor_multiplier": 1.0,
+      "sound_category": "gunshot_smg"
+    },
+
+    "visual": {
+      "weapon_sprite": "s_sub_P90",
+      "icon_sprite": "s_sub_P90",
+      "weapon_length": 20,
+      "hand_offset_x": 5,
+      "hand_offset_y": 0,
+      "bullet_spawn_offset": 20,
+      "shell_object": ""
+    },
+
+    "audio": {
+      "fire_sound": "snd_smg_shot_1",
+      "suppressed_fire_sound": "",
+      "reload_sound": "snd_smg_reload",
+      "empty_reload_sound": "snd_smg_reload",
+      "dry_fire_sound": "",
+      "jam_sound": "",
+      "clear_jam_sound": ""
+    },
+
+    "attachments": {
+      "slots": [
+        { "slot": "muzzle", "allowed_tags": ["smg_muzzle"] },
+        { "slot": "optic", "allowed_tags": ["rail_optic"] },
+        { "slot": "magazine", "allowed_tags": ["p90_magazine"] }
+      ]
+    },
+
+    "economy": {
+      "base_value": 1400,
+      "sell_multiplier": 0.4,
+      "rarity": "uncommon",
+      "loot_weight": 10,
+      "trader_level_required": 1
+    }
+  },
+
+  "shotgun_tus34": {
+    "schema_version": 1,
+    "id": "shotgun_tus34",
+    "name": "TUS-34 Shotgun",
+    "description": "A devastating close-range shotgun. Fires 7 pellets per shot.",
+
+    "classification": {
+      "category": "shotgun",
+      "weapon_class": "primary",
+      "ammo_type": "ammo_shotgun",
+      "rarity": "uncommon",
+      "two_handed": true,
+      "tags": ["semi", "cqb", "loud", "spread"]
+    },
+
+    "ballistics": {
+      "base_damage": 8,
+      "armor_penetration": 4,
+      "bullet_speed": 22,
+      "effective_range": 80,
+      "max_range": 48,
+      "damage_falloff_start": 40,
+      "damage_falloff_end": 48,
+      "minimum_damage_multiplier": 0.4,
+      "projectile_count": 7,
+      "bullet_object": "o_b_bullet_parent",
+      "bullet_sprite": "s_bu_shot",
+      "damage_type": "ballistic",
+      "critical_multiplier": 1.2,
+      "stagger_power": 18,
+      "knockback_power": 5
+    },
+
+    "accuracy": {
+      "base_spread": 45,
+      "aimed_spread": 35,
+      "moving_spread_multiplier": 1.4,
+      "running_spread_multiplier": 2.0,
+      "crouch_spread_multiplier": 0.85,
+      "first_shot_multiplier": 1.0,
+      "spread_per_shot": 0,
+      "spread_recovery": 0.5,
+      "maximum_spread": 45,
+      "aim_time": 22
+    },
+
+    "recoil": {
+      "vertical": 3.5,
+      "horizontal": 1.2,
+      "randomness": 0.4,
+      "weapon_kickback": 6.0,
+      "camera_kick": 2.0,
+      "camera_shake_duration": 6,
+      "recovery_speed": 0.15,
+      "recoil_stack_limit": 3
+    },
+
+    "fire": {
+      "supported_modes": ["semi"],
+      "default_mode": "semi",
+      "rounds_per_minute": 72,
+      "burst_count": 1,
+      "burst_interval": 0,
+      "can_fire_while_moving": true,
+      "can_fire_while_reloading": false
+    },
+
+    "magazine": {
+      "capacity": 42,
+      "chamber_capacity": 1,
+      "ammo_type": "ammo_shotgun",
+      "magazine_type": "tube_magazine",
+      "supports_detachable_magazine": false
+    },
+
+    "reload": {
+      "reload_type": "magazine",
+      "tactical_reload_time": 77,
+      "empty_reload_time": 95,
+      "shell_insert_time": 0,
+      "can_interrupt": true,
+      "retain_chambered_round": true
+    },
+
+    "durability": {
+      "max_durability": 100,
+      "wear_per_shot": 0.06,
+      "wear_per_reload": 0.02,
+      "accuracy_degrade_start": 60,
+      "reliability_degrade_start": 35,
+      "damage_degrade_start": 20,
+      "maximum_spread_multiplier": 1.25,
+      "minimum_damage_multiplier": 0.8,
+      "minimum_effectiveness": 0.55,
+      "repair_difficulty": 0.55,
+      "repair_base_cost": 200,
+      "repair_cost_multiplier": 1.1
+    },
+
+    "reliability": {
+      "base_jam_chance": 0.003,
+      "low_durability_jam_multiplier": 3,
+      "bad_ammo_jam_multiplier": 1.8,
+      "jam_types": ["failure_to_eject"],
+      "clear_jam_time": 90
+    },
+
+    "noise": {
+      "shot_radius": 500,
+      "suppressed_radius": 0,
+      "indoor_multiplier": 1.25,
+      "outdoor_multiplier": 1.0,
+      "sound_category": "gunshot_shotgun"
+    },
+
+    "visual": {
+      "weapon_sprite": "s_shot_Tus34",
+      "icon_sprite": "s_shot_Tus34",
+      "weapon_length": 24,
+      "hand_offset_x": 6,
+      "hand_offset_y": 1,
+      "bullet_spawn_offset": 24,
+      "shell_object": ""
+    },
+
+    "audio": {
+      "fire_sound": "snd_shotgun_shot_1",
+      "suppressed_fire_sound": "",
+      "reload_sound": "snd_shotgun_reload",
+      "empty_reload_sound": "snd_shotgun_reload",
+      "dry_fire_sound": "",
+      "jam_sound": "",
+      "clear_jam_sound": ""
+    },
+
+    "attachments": {
+      "slots": [
+        { "slot": "muzzle", "allowed_tags": ["shotgun_muzzle"] },
+        { "slot": "stock", "allowed_tags": ["shotgun_stock"] }
+      ]
+    },
+
+    "economy": {
+      "base_value": 1800,
+      "sell_multiplier": 0.38,
+      "rarity": "uncommon",
+      "loot_weight": 8,
+      "trader_level_required": 1
+    }
+  },
+
+  "snipgun_nozin_v1": {
+    "schema_version": 1,
+    "id": "snipgun_nozin_v1",
+    "name": "Nozin V1",
+    "description": "A precision bolt-action sniper rifle. High damage, low capacity.",
+
+    "classification": {
+      "category": "sniper_rifle",
+      "weapon_class": "primary",
+      "ammo_type": "ammo_rifle",
+      "rarity": "rare",
+      "two_handed": true,
+      "tags": ["semi", "military", "loud", "long_range"]
+    },
+
+    "ballistics": {
+      "base_damage": 40,
+      "armor_penetration": 30,
+      "bullet_speed": 30,
+      "effective_range": 450,
+      "max_range": 500,
+      "damage_falloff_start": 400,
+      "damage_falloff_end": 500,
+      "minimum_damage_multiplier": 0.7,
+      "projectile_count": 1,
+      "bullet_object": "o_b_bullet_parent",
+      "bullet_sprite": "s_bu_snip",
+      "damage_type": "ballistic",
+      "critical_multiplier": 2.0,
+      "stagger_power": 20,
+      "knockback_power": 4
+    },
+
+    "accuracy": {
+      "base_spread": 0,
+      "aimed_spread": 0,
+      "moving_spread_multiplier": 2.5,
+      "running_spread_multiplier": 4.0,
+      "crouch_spread_multiplier": 0.6,
+      "first_shot_multiplier": 0.3,
+      "spread_per_shot": 0.8,
+      "spread_recovery": 0.15,
+      "maximum_spread": 8,
+      "aim_time": 35
+    },
+
+    "recoil": {
+      "vertical": 4.0,
+      "horizontal": 0.8,
+      "randomness": 0.2,
+      "weapon_kickback": 8.0,
+      "camera_kick": 2.5,
+      "camera_shake_duration": 8,
+      "recovery_speed": 0.12,
+      "recoil_stack_limit": 3
+    },
+
+    "fire": {
+      "supported_modes": ["semi"],
+      "default_mode": "semi",
+      "rounds_per_minute": 80,
+      "burst_count": 1,
+      "burst_interval": 0,
+      "can_fire_while_moving": true,
+      "can_fire_while_reloading": false
+    },
+
+    "magazine": {
+      "capacity": 5,
+      "chamber_capacity": 1,
+      "ammo_type": "ammo_rifle",
+      "magazine_type": "internal_magazine",
+      "supports_detachable_magazine": false
+    },
+
+    "reload": {
+      "reload_type": "magazine",
+      "tactical_reload_time": 67,
+      "empty_reload_time": 85,
+      "shell_insert_time": 0,
+      "can_interrupt": true,
+      "retain_chambered_round": true
+    },
+
+    "durability": {
+      "max_durability": 100,
+      "wear_per_shot": 0.05,
+      "wear_per_reload": 0.02,
+      "accuracy_degrade_start": 70,
+      "reliability_degrade_start": 50,
+      "damage_degrade_start": 25,
+      "maximum_spread_multiplier": 1.6,
+      "minimum_damage_multiplier": 0.8,
+      "minimum_effectiveness": 0.65,
+      "repair_difficulty": 0.8,
+      "repair_base_cost": 500,
+      "repair_cost_multiplier": 1.2
+    },
+
+    "reliability": {
+      "base_jam_chance": 0.001,
+      "low_durability_jam_multiplier": 3,
+      "bad_ammo_jam_multiplier": 1.4,
+      "jam_types": ["failure_to_fire"],
+      "clear_jam_time": 75
+    },
+
+    "noise": {
+      "shot_radius": 600,
+      "suppressed_radius": 0,
+      "indoor_multiplier": 1.3,
+      "outdoor_multiplier": 1.0,
+      "sound_category": "gunshot_sniper"
+    },
+
+    "visual": {
+      "weapon_sprite": "s_snip_NozinV1",
+      "icon_sprite": "s_snip_NozinV1",
+      "weapon_length": 28,
+      "hand_offset_x": 7,
+      "hand_offset_y": 1,
+      "bullet_spawn_offset": 30,
+      "shell_object": ""
+    },
+
+    "audio": {
+      "fire_sound": "snd_snip_shot_1",
+      "suppressed_fire_sound": "",
+      "reload_sound": "snd_snip_reload",
+      "empty_reload_sound": "snd_snip_reload",
+      "dry_fire_sound": "",
+      "jam_sound": "",
+      "clear_jam_sound": ""
+    },
+
+    "attachments": {
+      "slots": [
+        { "slot": "muzzle", "allowed_tags": ["sniper_muzzle"] },
+        { "slot": "optic", "allowed_tags": ["rail_optic", "sniper_scope"] },
+        { "slot": "stock", "allowed_tags": ["sniper_stock"] }
+      ]
+    },
+
+    "economy": {
+      "base_value": 3500,
+      "sell_multiplier": 0.4,
+      "rarity": "rare",
+      "loot_weight": 4,
+      "trader_level_required": 2
+    }
+  },
+
+  "e_pistol": {
+    "schema_version": 1,
+    "id": "e_pistol",
+    "name": "Enemy Pistol",
+    "description": "Standard-issue sidearm used by enemy guards.",
+
+    "classification": {
+      "category": "pistol",
+      "weapon_class": "secondary",
+      "ammo_type": "ammo_pistol",
+      "rarity": "common",
+      "two_handed": false,
+      "tags": ["semi", "sidearm"]
+    },
+
+    "ballistics": {
+      "base_damage": 9,
+      "armor_penetration": 4,
+      "bullet_speed": 7,
+      "effective_range": 160,
+      "max_range": 200,
+      "damage_falloff_start": 120,
+      "damage_falloff_end": 200,
+      "minimum_damage_multiplier": 0.5,
+      "projectile_count": 1,
+      "bullet_object": "o_b_enemy_parent",
+      "bullet_sprite": "s_bu_pis",
+      "damage_type": "ballistic",
+      "critical_multiplier": 1.2,
+      "stagger_power": 3,
+      "knockback_power": 1
+    },
+
+    "accuracy": {
+      "base_spread": 0,
+      "aimed_spread": 0,
+      "moving_spread_multiplier": 1.0,
+      "running_spread_multiplier": 1.0,
+      "crouch_spread_multiplier": 1.0,
+      "first_shot_multiplier": 1.0,
+      "spread_per_shot": 0,
+      "spread_recovery": 0,
+      "maximum_spread": 0,
+      "aim_time": 0
+    },
+
+    "recoil": {
+      "vertical": 0,
+      "horizontal": 0,
+      "randomness": 0,
+      "weapon_kickback": 0,
+      "camera_kick": 0,
+      "camera_shake_duration": 0,
+      "recovery_speed": 0,
+      "recoil_stack_limit": 0
+    },
+
+    "fire": {
+      "supported_modes": ["semi"],
+      "default_mode": "semi",
+      "rounds_per_minute": 40,
+      "burst_count": 1,
+      "burst_interval": 0,
+      "can_fire_while_moving": true,
+      "can_fire_while_reloading": false
+    },
+
+    "magazine": {
+      "capacity": 8,
+      "chamber_capacity": 0,
+      "ammo_type": "ammo_pistol",
+      "magazine_type": "enemy_infinite",
+      "supports_detachable_magazine": false
+    },
+
+    "reload": {
+      "reload_type": "magazine",
+      "tactical_reload_time": 90,
+      "empty_reload_time": 90,
+      "shell_insert_time": 0,
+      "can_interrupt": false,
+      "retain_chambered_round": false
+    },
+
+    "durability": {
+      "max_durability": 100,
+      "wear_per_shot": 0,
+      "wear_per_reload": 0,
+      "accuracy_degrade_start": 0,
+      "reliability_degrade_start": 0,
+      "damage_degrade_start": 0,
+      "maximum_spread_multiplier": 1.0,
+      "minimum_damage_multiplier": 1.0,
+      "minimum_effectiveness": 1.0,
+      "repair_difficulty": 0,
+      "repair_base_cost": 0,
+      "repair_cost_multiplier": 1.0
+    },
+
+    "reliability": {
+      "base_jam_chance": 0,
+      "low_durability_jam_multiplier": 1,
+      "bad_ammo_jam_multiplier": 1,
+      "jam_types": [],
+      "clear_jam_time": 0
+    },
+
+    "noise": {
+      "shot_radius": 300,
+      "suppressed_radius": 120,
+      "indoor_multiplier": 1.15,
+      "outdoor_multiplier": 1.0,
+      "sound_category": "gunshot_pistol"
+    },
+
+    "visual": {
+      "weapon_sprite": "s_pistol_FN57",
+      "icon_sprite": "s_pistol_FN57",
+      "weapon_length": 8,
+      "hand_offset_x": 0,
+      "hand_offset_y": 0,
+      "bullet_spawn_offset": 8,
+      "shell_object": ""
+    },
+
+    "audio": {
+      "fire_sound": "snd_pistol_shot_1",
+      "suppressed_fire_sound": "",
+      "reload_sound": "snd_pistol_reload",
+      "empty_reload_sound": "snd_pistol_reload",
+      "dry_fire_sound": "",
+      "jam_sound": "",
+      "clear_jam_sound": ""
+    },
+
+    "attachments": {
+      "slots": []
+    },
+
+    "economy": {
+      "base_value": 0,
+      "sell_multiplier": 0,
+      "rarity": "common",
+      "loot_weight": 0,
+      "trader_level_required": 0
+    }
+  }
+}

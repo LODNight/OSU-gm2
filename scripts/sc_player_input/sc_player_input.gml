@@ -16,4 +16,5 @@ function player_input()
     num2Key     = global.num2Key;
     num3Key     = global.num3Key;
     num4Key     = global.num4Key;
+    fireModeKey = global.fireModeKey;  // V → toggle fire mode
 }

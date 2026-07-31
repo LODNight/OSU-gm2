@@ -413,6 +413,67 @@ for (var e = 0; e < array_length(_equipSlots); e++) {
                 _tooltip = _def.name + "\n" + _def.description;
                 if (_def.defense > 0) _tooltip += "\nDefense: +" + string(_def.defense);
             }
+
+            // ── Durability bar (weapon slots only) ────────────────────
+            var _isWepSlot2 = (_eq.slot == "weapon1" || _eq.slot == "weapon2");
+            if (_isWepSlot2 && _def.weapon_id != "") {
+                // Find the matching live weapon instance from player
+                var _wepInst = noone;
+                var _slotIdx = (_eq.slot == "weapon1") ? 0 : 1;
+                if (instance_exists(o_player)) {
+                    var _wArr = o_player.inventoryWeapons;
+                    if (_slotIdx < array_length(_wArr)) _wepInst = _wArr[_slotIdx];
+                }
+
+                if (_wepInst != noone && _wepInst != undefined) {
+                    var _durPct  = weapon_get_durability_pct(_wepInst);
+                    var _durCol  = weapon_get_durability_color(_wepInst);
+                    var _barX    = _eq.x + 8;
+                    var _barY    = _eq.y + _eq.h - 16;
+                    var _barW    = _eq.w - 16;
+                    var _barH    = 6;
+
+                    // Bar background
+                    draw_set_color(make_color_rgb(20, 20, 30));
+                    draw_roundrect_ext(_barX, _barY, _barX + _barW, _barY + _barH, 3, 3, false);
+
+                    // Bar fill
+                    if (_durPct > 0) {
+                        draw_set_color(_durCol);
+                        draw_roundrect_ext(_barX, _barY, _barX + _barW * _durPct, _barY + _barH, 3, 3, false);
+                    }
+
+                    // Durability text %
+                    draw_set_halign(fa_right);
+                    draw_set_valign(fa_bottom);
+                    draw_set_color(_durCol);
+                    draw_set_font(-1); // Dùng default font (fnt_hud không tồn tại trong project)
+                    draw_text(_eq.x + _eq.w - 8, _barY - 1, string(round(_durPct * 100)) + "%");
+                    draw_set_font(-1); // Reset về default
+                    draw_set_halign(fa_left);
+                    draw_set_valign(fa_top);
+
+                    // Fire mode badge (top-right of card)
+                    var _fireMode = _wepInst.current_fire_mode;
+                    var _fmText   = string_upper(_fireMode);
+                    var _fmCol    = (_fireMode == "auto") ? make_color_rgb(255, 160, 50) : make_color_rgb(120, 210, 255);
+                    draw_set_color(_fmCol);
+                    draw_set_halign(fa_right);
+                    draw_set_valign(fa_top);
+                    draw_text(_eq.x + _eq.w - 8, _eq.y + 6, _fmText);
+                    draw_set_halign(fa_left);
+
+                    // Jam indicator
+                    if (_wepInst.is_jammed) {
+                        draw_set_color(make_color_rgb(255, 60, 60));
+                        draw_set_halign(fa_center);
+                        draw_set_valign(fa_middle);
+                        draw_text(_eq.x + _eq.w * 0.5, _eq.y + _eq.h * 0.5, "!! JAMMED !!");
+                        draw_set_halign(fa_left);
+                        draw_set_valign(fa_top);
+                    }
+                }
+            }
         }
     } else {
         // Chữ chìm hướng dẫn khi ô trống

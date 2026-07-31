@@ -15,3 +15,5 @@ global.num1Key = 0
 global.num2Key = 0
 global.num3Key = 0
 global.num4Key = 0
+
+global.fireModeKey = 0   // V → toggle fire mode (semi/auto)

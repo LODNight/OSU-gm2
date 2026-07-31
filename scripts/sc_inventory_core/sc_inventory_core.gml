@@ -41,18 +41,23 @@ function inventory_init()
 /// @desc Cấp item khởi đầu để trải nghiệm hệ thống
 function inventory_add_starter_items()
 {
-    inventory_add("equip_helmet_tactical", 1);
-    inventory_add("equip_armor_vest", 1);
-    inventory_add("equip_backpack_military", 1);
-    inventory_add("equip_flashlight_wide", 1);
-    inventory_add("equip_weapon_pistol", 1);
-    inventory_add("equip_weapon_smg", 1);
+    // Trang bị sẵn vũ khí và giáp vào các ô trang bị (Equipment Slots)
+    global.Equipment.weapon1    = { item_id: "equip_weapon_pistol", quantity: 1 };
+    global.Equipment.weapon2    = { item_id: "equip_weapon_smg", quantity: 1 };
+    global.Equipment.helmet     = { item_id: "equip_helmet_tactical", quantity: 1 };
+    global.Equipment.armor      = { item_id: "equip_armor_vest", quantity: 1 };
+    global.Equipment.backpack   = { item_id: "equip_backpack_military", quantity: 1 };
+    global.Equipment.flashlight = { item_id: "equip_flashlight_wide", quantity: 1 };
+
     inventory_add("item_medkit", 3);
     inventory_add("ammo_pistol", 60);
 
     // Gán sẵn Medkit vào Quickbar slot 3 (Phím 3) để test nhanh
     global.Quickbar[2] = { item_id: "item_medkit", quantity: 3 };
+
+    inventory_sync_player_equip();
 }
+
 
 /// @desc Lấy index gốc (root cell index) của một ô trong Grid. Nếu là ô phụ thuộc, trả về index của ô gốc.
 function inventory_get_root_idx(_grid_idx)
@@ -490,29 +495,39 @@ function inventory_sync_player_equip()
 
     var _w1 = global.Equipment.weapon1;
     var _w2 = global.Equipment.weapon2;
-    var _newWeapons = [];
+    var _w1Inst = noone;
+    var _w2Inst = noone;
 
     if (!variable_global_exists("Weapons")) sc_weapon_init();
 
     if (_w1 != undefined) {
         var _def1 = item_db_get(_w1.item_id);
         if (_def1 != undefined && _def1.weapon_id != "" && variable_struct_exists(global.Weapons, _def1.weapon_id)) {
-            array_push(_newWeapons, new create_weapon_instance(global.Weapons[$ _def1.weapon_id]));
+            _w1Inst = new create_weapon_instance(global.Weapons[$ _def1.weapon_id]);
         }
     }
 
     if (_w2 != undefined) {
         var _def2 = item_db_get(_w2.item_id);
         if (_def2 != undefined && _def2.weapon_id != "" && variable_struct_exists(global.Weapons, _def2.weapon_id)) {
-            array_push(_newWeapons, new create_weapon_instance(global.Weapons[$ _def2.weapon_id]));
+            _w2Inst = new create_weapon_instance(global.Weapons[$ _def2.weapon_id]);
         }
     }
 
-    if (array_length(_newWeapons) > 0) {
-        o_player.inventoryWeapons = _newWeapons;
-        o_player.selectedWeapon   = clamp(o_player.selectedWeapon, 0, array_length(_newWeapons) - 1);
-        o_player.weapon           = o_player.inventoryWeapons[o_player.selectedWeapon];
+    o_player.inventoryWeapons = [_w1Inst, _w2Inst];
+
+    if (o_player.selectedWeapon < 0 || o_player.selectedWeapon > 1) {
+        o_player.selectedWeapon = 0;
     }
+
+    // Nếu slot súng hiện tại rỗng nhưng slot còn lại có súng, tự động chọn slot có súng
+    if (o_player.inventoryWeapons[o_player.selectedWeapon] == noone) {
+        if (o_player.inventoryWeapons[1 - o_player.selectedWeapon] != noone) {
+            o_player.selectedWeapon = 1 - o_player.selectedWeapon;
+        }
+    }
+
+    o_player.weapon = o_player.inventoryWeapons[o_player.selectedWeapon];
 }
 
 function inventory_use_slot(_type, _idx)

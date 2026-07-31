@@ -13,8 +13,8 @@ if (keyboard_check_pressed(inv_key)) {
 // Tick timer hiển thị thông báo toast
 inventory_toast_update();
 
-// Phím tắt Quickbar 1 - 8 khi chơi game
-for (var k = 0; k < 8; k++) {
+// Phím tắt Quickbar 3 - 8 khi chơi game (Phím 1 & 2 dành cho Vũ khí 1 & 2)
+for (var k = 2; k < 8; k++) {
     if (keyboard_check_pressed(ord(string(k + 1)))) {
         inventory_use_slot("quickbar", k);
     }

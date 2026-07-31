@@ -8,8 +8,10 @@ function player_process()
     player_weapon();    // 5. Xử lý bắn / reload / đổi súng
 
     // 6. Cập nhật aim: truyền vào true nếu frame này vừa bắn (shootTimer = cooldown → bloom)
-    var _shotFired = (shootTimer == (weapon != noone ? weapon.definition.cooldown : 0));
+    var _cd = (weapon != noone) ? weapon.definition.cooldown : 0;
+    var _shotFired = (shootTimer > 0 && shootTimer == _cd);
     aim_update(_shotFired);
+
 
     player_damage();    // 7. Nhận sát thương
     player_state();     // 8. Kiểm tra chết
