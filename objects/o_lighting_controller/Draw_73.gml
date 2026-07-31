@@ -135,8 +135,8 @@ with (o_player) {
         var _tipY    = _centerY + lengthdir_y(_def.length + _offset, aimDir);
 
         // Chuyển sang surface space
-        var _sx = _tipX - other._cam_x;
-        var _sy = _tipY - other._cam_y;
+        var _sx = _tipX - _cam_x;
+        var _sy = _tipY - _cam_y;
 
         // Vẽ light burst tại đầu nòng (radius tỉ lệ với kích thước flash)
         draw_colored_point_light(_sx, _sy, _flashSize * 5, 24, _flashCol, _alpha * 0.9);
@@ -160,8 +160,8 @@ with (o_enemy_parent) {
         var _tipX    = x        + lengthdir_x(_flashSize + _offset, aimDir);
         var _tipY    = _centerY + lengthdir_y(_flashSize + _offset, aimDir);
 
-        var _sx = _tipX - other._cam_x;
-        var _sy = _tipY - other._cam_y;
+        var _sx = _tipX - _cam_x;
+        var _sy = _tipY - _cam_y;
 
         draw_colored_point_light(_sx, _sy, _flashSize * 4, 16, _flashCol, _alpha * 0.7);
     }
