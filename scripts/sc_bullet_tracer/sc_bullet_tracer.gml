@@ -31,13 +31,31 @@ function draw_bullet_tracer()
     if (_count >= 2) {
         gpu_set_blendmode(bm_add);
 
-        // --- Layer A: Outer Glow Ribbon ---
+        // --- Layer A: Outer Soft Light Aura (Sáng nhẹ lan tỏa) ---
+        draw_primitive_begin(pr_trianglestrip);
+        for (var i = 0; i < _count; i++) {
+            var _p     = trail_history[i];
+            var _t     = i / max(_count - 1, 1);
+            var _w     = lerp(_wMax * 2.8, 0.3, _t);
+            var _alpha = lerp(0.35, 0.0, _t);
+
+            var _pNext = (i < _count - 1) ? trail_history[i + 1] : _p;
+            var _segAngle = (i < _count - 1) ? point_direction(_pNext.x, _pNext.y, _p.x, _p.y) : _dir;
+            var _perpX = lengthdir_x(_w * 0.5, _segAngle + 90);
+            var _perpY = lengthdir_y(_w * 0.5, _segAngle + 90);
+
+            draw_vertex_color(_p.x + _perpX, _p.y + _perpY, _col, _alpha);
+            draw_vertex_color(_p.x - _perpX, _p.y - _perpY, _col, _alpha);
+        }
+        draw_primitive_end();
+
+        // --- Layer B: Core Glow Ribbon ---
         draw_primitive_begin(pr_trianglestrip);
         for (var i = 0; i < _count; i++) {
             var _p     = trail_history[i];
             var _t     = i / max(_count - 1, 1); // 0.0 at bullet tip, 1.0 at tail
             var _w     = lerp(_wMax, 0.1, _t);
-            var _alpha = lerp(0.9, 0.0, _t);
+            var _alpha = lerp(0.95, 0.0, _t);
 
             // Angle of this trail segment
             var _pNext = (i < _count - 1) ? trail_history[i + 1] : _p;

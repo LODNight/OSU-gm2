@@ -5,6 +5,24 @@ var _fadeAlpha = fade_timer / max(fade_max, 1);
 
 gpu_set_blendmode(bm_add);
 
+// Outer soft light aura
+draw_primitive_begin(pr_trianglestrip);
+for (var i = 0; i < _count; i++) {
+    var _p     = trail_history[i];
+    var _t     = i / max(_count - 1, 1);
+    var _w     = lerp(tracer_width * 2.8, 0.3, _t);
+    var _alpha = lerp(0.35, 0.0, _t) * _fadeAlpha;
+
+    var _pNext = (i < _count - 1) ? trail_history[i + 1] : _p;
+    var _segAngle = (i < _count - 1) ? point_direction(_pNext.x, _pNext.y, _p.x, _p.y) : dir;
+    var _perpX = lengthdir_x(_w * 0.5, _segAngle + 90);
+    var _perpY = lengthdir_y(_w * 0.5, _segAngle + 90);
+
+    draw_vertex_color(_p.x + _perpX, _p.y + _perpY, tracer_color, _alpha);
+    draw_vertex_color(_p.x - _perpX, _p.y - _perpY, tracer_color, _alpha);
+}
+draw_primitive_end();
+
 // Outer glow ribbon
 draw_primitive_begin(pr_trianglestrip);
 for (var i = 0; i < _count; i++) {
