@@ -151,6 +151,17 @@ function create_weapon_definition(_config) constructor
     if (length == 0 && sprite != noone) length = sprite_get_bbox_bottom(sprite);
     bullet_spawn_offset = _wpn_get(_vis, "bullet_spawn_offset", length);
 
+    // ── Muzzle Flash ──────────────────────────────────────────────
+    muzzle_flash_size   = _wpn_get(_vis, "muzzle_flash_size",   12);   // Bán kính vòng tròn flash (px)
+    muzzle_flash_frames = _wpn_get(_vis, "muzzle_flash_frames",  3);   // Số frame flash tồn tại
+    // Màu flash: đọc từ JSON dạng [R,G,B] hoặc dùng màu mặc định vàng cam
+    var _fc = _wpn_get(_vis, "muzzle_flash_color", undefined);
+    if (is_array(_fc) && array_length(_fc) >= 3) {
+        muzzle_flash_color = make_color_rgb(_fc[0], _fc[1], _fc[2]);
+    } else {
+        muzzle_flash_color = make_color_rgb(255, 200, 80); // Vàng cam mặc định
+    }
+
     // ── Audio ─────────────────────────────────────────────────────
     fireSound   = weapon_parse_asset(_wpn_get(_aud, "fire_sound",    ""));
     if (fireSound == noone)   fireSound   = _wpn_get(_config, "fireSound",   noone);

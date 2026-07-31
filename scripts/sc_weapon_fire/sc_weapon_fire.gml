@@ -29,6 +29,11 @@ function weapon_fire(_owner)
     _owner.shootTimer     = _data.cooldown;
     weapon_play_sound(_data.fireSound);
 
+    // ── Kích hoạt muzzle flash ────────────────────────────────────
+    if (variable_instance_exists(_owner, "muzzleFlashTimer")) {
+        _owner.muzzleFlashTimer = _data.muzzle_flash_frames;
+    }
+
     // ── Durability wear ───────────────────────────────────────────
     _weapon.current_durability = max(0, _weapon.current_durability - _data.wear_per_shot);
 

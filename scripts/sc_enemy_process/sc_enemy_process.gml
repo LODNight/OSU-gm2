@@ -50,6 +50,11 @@ function enemy_update_timers()
 {
     // Hồi chiêu giữa 2 lần tấn công
     if (attackTimer > 0) attackTimer--;
+
+    // Muzzle flash countdown
+    if (variable_instance_exists(id, "muzzleFlashTimer") && muzzleFlashTimer > 0) {
+        muzzleFlashTimer--;
+    }
 }
 
 /// @desc  Kiểm tra xem enemy hiện tại có target hợp lệ không.

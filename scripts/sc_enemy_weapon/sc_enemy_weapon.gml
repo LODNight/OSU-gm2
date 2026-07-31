@@ -30,5 +30,9 @@ function enemy_weapon_fire()
     // Phát âm thanh bắn nếu có cấu hình
     if (weapon.fireSound != noone) audio_play_sound(weapon.fireSound, 0, false);
 
+    // ── Kích hoạt muzzle flash ────────────────────────────────────
+    if (!variable_instance_exists(id, "muzzleFlashTimer")) muzzleFlashTimer = 0;
+    muzzleFlashTimer = weapon_get_flash_frames(weapon);
+
     return true;
 }

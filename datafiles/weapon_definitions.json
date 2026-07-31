@@ -121,7 +121,10 @@
       "hand_offset_x": 4,
       "hand_offset_y": 0,
       "bullet_spawn_offset": 16,
-      "shell_object": ""
+      "shell_object": "",
+      "muzzle_flash_size": 9,
+      "muzzle_flash_color": [255, 210, 100],
+      "muzzle_flash_frames": 2
     },
 
     "audio": {
@@ -272,7 +275,10 @@
       "hand_offset_x": 5,
       "hand_offset_y": 0,
       "bullet_spawn_offset": 20,
-      "shell_object": ""
+      "shell_object": "",
+      "muzzle_flash_size": 12,
+      "muzzle_flash_color": [255, 190, 60],
+      "muzzle_flash_frames": 3
     },
 
     "audio": {
@@ -424,7 +430,10 @@
       "hand_offset_x": 6,
       "hand_offset_y": 1,
       "bullet_spawn_offset": 24,
-      "shell_object": ""
+      "shell_object": "",
+      "muzzle_flash_size": 22,
+      "muzzle_flash_color": [255, 150, 30],
+      "muzzle_flash_frames": 4
     },
 
     "audio": {
@@ -575,7 +584,10 @@
       "hand_offset_x": 7,
       "hand_offset_y": 1,
       "bullet_spawn_offset": 30,
-      "shell_object": ""
+      "shell_object": "",
+      "muzzle_flash_size": 7,
+      "muzzle_flash_color": [240, 240, 220],
+      "muzzle_flash_frames": 2
     },
 
     "audio": {
@@ -727,7 +739,10 @@
       "hand_offset_x": 0,
       "hand_offset_y": 0,
       "bullet_spawn_offset": 8,
-      "shell_object": ""
+      "shell_object": "",
+      "muzzle_flash_size": 8,
+      "muzzle_flash_color": [255, 200, 80],
+      "muzzle_flash_frames": 2
     },
 
     "audio": {

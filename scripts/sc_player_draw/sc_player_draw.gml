@@ -1,3 +1,74 @@
+/// @desc Vẽ muzzle flash tại đầu nòng súng.
+///        Hàm DÙNG CHUNG cho cả player và enemy — gọi với context của instance đó.
+///        Yêu cầu instance có: muzzleFlashTimer, aimDir, weaponOffsetDist, weapon, centerY (hoặc y).
+function draw_muzzle_flash()
+{
+    if (!variable_instance_exists(id, "muzzleFlashTimer")) exit;
+    if (muzzleFlashTimer <= 0) exit;
+
+    // ── Lấy thông số flash từ weapon ──────────────────────────────
+    var _hasWep    = (variable_instance_exists(id, "weapon") && weapon != noone);
+    var _size      = 12;
+    var _flashCol  = make_color_rgb(255, 200, 80);
+    var _frames    = 3;
+    var _length    = 12;
+    var _offset    = variable_instance_exists(id, "weaponOffsetDist") ? weaponOffsetDist : 0;
+    var _centerY   = variable_instance_exists(id, "centerY") ? centerY : y;
+
+    if (_hasWep) {
+        var _def   = weapon.definition;
+        _size      = _def.muzzle_flash_size;
+        _flashCol  = _def.muzzle_flash_color;
+        _frames    = _def.muzzle_flash_frames;
+        _length    = _def.length;
+    }
+
+    // ── Tọa độ đầu nòng ──────────────────────────────────────────
+    var _tipX = x       + lengthdir_x(_length + _offset, aimDir);
+    var _tipY = _centerY + lengthdir_y(_length + _offset, aimDir);
+
+    // ── Alpha fade out theo timer ─────────────────────────────────
+    // Frame đầu = alpha cao, frame cuối = gần 0
+    var _alpha = (muzzleFlashTimer / max(_frames, 1));
+
+    // ── Vẽ vòng tròn sáng ngoài (glow) ───────────────────────────
+    draw_set_alpha(_alpha * 0.35);
+    draw_set_color(_flashCol);
+    draw_circle(_tipX, _tipY, _size * 1.6, false);
+
+    // ── Vẽ vòng tròn sáng trong (core) ───────────────────────────
+    draw_set_alpha(_alpha * 0.85);
+    draw_set_color(c_white);
+    draw_circle(_tipX, _tipY, _size * 0.5, false);
+
+    // ── Tia ngang (perpendicular cross ray) ───────────────────────
+    var _rayDir90 = aimDir + 90;
+    var _rayLen   = _size * 1.8;
+    draw_set_alpha(_alpha * 0.6);
+    draw_set_color(_flashCol);
+    draw_line_width(
+        _tipX + lengthdir_x(_rayLen, _rayDir90),
+        _tipY + lengthdir_y(_rayLen, _rayDir90),
+        _tipX - lengthdir_x(_rayLen, _rayDir90),
+        _tipY - lengthdir_y(_rayLen, _rayDir90),
+        2
+    );
+
+    // ── Tia dọc (along muzzle direction) ─────────────────────────
+    draw_set_alpha(_alpha * 0.5);
+    draw_line_width(
+        _tipX,
+        _tipY,
+        _tipX + lengthdir_x(_size * 1.4, aimDir),
+        _tipY + lengthdir_y(_size * 1.4, aimDir),
+        3
+    );
+
+    // ── Reset draw state ─────────────────────────────────────────
+    draw_set_alpha(1);
+    draw_set_color(c_white);
+}
+
 function player_draw_weapon()
 {
     if (weapon == noone) return;
@@ -18,6 +89,7 @@ function player_draw()
     if (aimDir >= 0   && aimDir <= 89)  player_draw_weapon();
     if (aimDir >= 271 && aimDir <= 360) player_draw_weapon();
 
+    draw_muzzle_flash(); // Hiệu ứng lửa đầu nòng
     player_draw_noti_reload();
 }
 

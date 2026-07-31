@@ -46,3 +46,16 @@ function weapon_get_durability_color(_weapon)
     if (_pct > 0.15) return make_color_rgb(240, 120, 30);
     return make_color_rgb(220, 50, 50);
 }
+
+/// @desc Trả về số frame muzzle flash của weapon struct (instance, không phải definition).
+///       An toàn khi weapon là legacy struct không có definition.muzzle_flash_frames.
+function weapon_get_flash_frames(_weapon)
+{
+    if (_weapon == noone) return 3;
+    if (is_struct(_weapon) && variable_struct_exists(_weapon, "definition")) {
+        return _weapon.definition.muzzle_flash_frames;
+    }
+    // Legacy weapon struct (enemy) — dùng trường trực tiếp nếu có
+    return variable_struct_exists(_weapon, "muzzle_flash_frames")
+        ? _weapon.muzzle_flash_frames : 3;
+}

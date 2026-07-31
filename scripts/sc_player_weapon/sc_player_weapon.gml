@@ -1,6 +1,7 @@
 function player_weapon()
 {
     if (shootTimer > 0) shootTimer--;
+    if (muzzleFlashTimer > 0) muzzleFlashTimer--;
     player_weapon_swap();
     player_weapon_fire_mode_toggle();
     weapon_update_reload(id);

@@ -45,4 +45,7 @@ function enemy_draw()
 
     // Nếu nhân vật đang nhìn về phía trên (aimDir 180–359): vẽ vũ khí sau
     if (hasWeapon && aimDir >= 180 && aimDir <= 359) enemy_draw_weapon();
+
+    // Hiệu ứng lửa đầu nòng (luôn vẽ đè lên cùng)
+    draw_muzzle_flash();
 }
