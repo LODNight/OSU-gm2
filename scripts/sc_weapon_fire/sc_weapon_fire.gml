@@ -39,45 +39,67 @@ function weapon_fire(_owner)
     // ── Durability wear ───────────────────────────────────────────
     _weapon.current_durability = max(0, _weapon.current_durability - _data.wear_per_shot);
 
-    // ── Spread accumulation on owner ──────────────────────────────
+    // ── 1. Calculate Base Spread (ADS / Standing / Moving / Crouch) ──
+    var _isAiming   = variable_instance_exists(_owner, "isAiming") ? _owner.isAiming : false;
+    var _baseSpread = _isAiming ? _data.aimed_spread : _data.spread;
+
+    // Movement state multipliers
+    if (variable_instance_exists(_owner, "state")) {
+        var _st = _owner.state;
+        if (_st == PLAYER_STATE.RUN)        _baseSpread *= _data.running_spread_multiplier;
+        else if (_st == PLAYER_STATE.MOVE)  _baseSpread *= _data.moving_spread_multiplier;
+        else if (_st == PLAYER_STATE.CROUCH) _baseSpread *= _data.crouch_spread_multiplier;
+    }
+
+    // First shot multiplier (if no current spread accumulated)
+    var _accumulatedSpread = variable_instance_exists(_owner, "currentSpread") ? _owner.currentSpread : 0;
+    if (_accumulatedSpread <= 0.05) {
+        _baseSpread *= _data.first_shot_multiplier;
+    }
+
+    // Combined total spread (durability-scaled)
+    var _maxCap       = _data.maximum_spread * _mods.spread_mult;
+    var _totalSpread  = min(_baseSpread + _accumulatedSpread, _maxCap) * _mods.spread_mult;
+
+    // ── 2. Accumulate spread & crosshair bloom on owner ─────────────
     if (variable_instance_exists(_owner, "currentSpread")) {
         _owner.currentSpread = min(
             _owner.currentSpread + _data.spread_per_shot * _mods.spread_mult,
-            _data.maximum_spread * _mods.spread_mult
+            _maxCap
         );
     }
 
-    // ── Bullet spawn ──────────────────────────────────────────────
+    if (variable_instance_exists(_owner, "crosshairBloom")) {
+        var _bloomInc = _data.spread_per_shot * 3.5 + _data.recoil_vertical * 2.0 + 8.0;
+        _owner.crosshairBloom = min(_owner.crosshairBloom + _bloomInc, _owner.maxBloom);
+    }
+
+    // ── 3. Bullet spawn with full recoil & spread deviation ─────────
     var _xOffset = lengthdir_x(_data.length + _owner.weaponOffsetDist, _owner.aimDir);
     var _yOffset = lengthdir_y(_data.length + _owner.weaponOffsetDist, _owner.aimDir);
-    var _tipX    = _owner.x     + _xOffset;
+    var _tipX    = _owner.x       + _xOffset;
     var _tipY    = _owner.centerY + _yOffset;
 
-    // Base spread = weapon base + accumulated spread from firing (durability-scaled)
-    var _totalSpread = _data.spread * _mods.spread_mult;
-    if (variable_instance_exists(_owner, "currentSpread")) {
-        _totalSpread += _owner.currentSpread;
-    }
-
-    // Accuracy system (player only — if no aim system, accuracy = 1)
-    var _accuracy = 1.0;
-    if (variable_instance_exists(_owner, "crosshairBloom")) {
-        with (_owner) { _accuracy = aim_get_accuracy(); }
-    }
-    var _maxDeviation = _totalSpread * 0.5;
-    var _randomDev    = (1 - _accuracy) * _maxDeviation;
-
-    var _spreadStep = (_bulletsToFire > 1) ? (_totalSpread / (_bulletsToFire - 1)) : 0;
-
-    // Apply durability-scaled damage
     var _effectiveDamage = round(_data.damage * _mods.damage_mult);
+    var _halfSpread      = _totalSpread * 0.5;
+    var _spreadStep      = (_bulletsToFire > 1) ? (_totalSpread / max(_bulletsToFire - 1, 1)) : 0;
 
     for (var i = 0; i < _bulletsToFire; i++) {
         var _bullet = instance_create_depth(_tipX, _tipY, _owner.depth + 100, _data.bullet);
+
+        // Base angle across multi-pellet spread
         var _baseDir = (_bulletsToFire > 1)
-            ? (_owner.aimDir - _totalSpread * 0.5 + _spreadStep * i)
+            ? (_owner.aimDir - _halfSpread + _spreadStep * i)
             : _owner.aimDir;
-        _bullet.dir         = _baseDir + random_range(-_randomDev, _randomDev);
+
+        // Recoil jitter calculation (Horizontal jitter + Randomness)
+        var _recoilJitter = random_range(-_data.recoil_horizontal, _data.recoil_horizontal)
+                          + random_range(-_data.recoil_randomness, _data.recoil_randomness);
+
+        // Total deviation angle per shot
+        var _bulletDev = random_range(-_halfSpread, _halfSpread) + _recoilJitter;
+
+        _bullet.dir         = _baseDir + _bulletDev;
         _bullet.image_angle = _bullet.dir;
 
         if (variable_instance_exists(_bullet, "damage"))  _bullet.damage  = _effectiveDamage;
