@@ -164,18 +164,22 @@ function draw_flashlight_visibility_polygon(
         var _vertex_y =
             _surface_y + (_hit.y - _world_y);
 
-        // Có thể giảm alpha ở phía xa
-        var _distance_ratio =
-            clamp(_hit.distance / _range, 0, 1);
+        // Giảm alpha dần về phía xa (distance falloff) và 2 bên mép góc (angular falloff)
+        var _distance_ratio = clamp(_hit.distance / _range, 0, 1);
+        var _dist_alpha     = 1.0 - _distance_ratio;
 
-        var _edge_alpha =
-            lerp(1, 0.15, _distance_ratio);
+        var _half_angle     = _angle * 0.5;
+        var _ang_diff       = abs(angle_difference(_ray_angle, _direction));
+        var _ang_ratio      = clamp(_ang_diff / max(_half_angle, 1), 0, 1);
+        var _side_alpha     = 1.0 - (_ang_ratio * _ang_ratio); // Mờ dần hình parabol về 2 viền
+
+        var _final_alpha    = _dist_alpha * _side_alpha * _intensity;
 
         draw_vertex_color(
             _vertex_x,
             _vertex_y,
             _color,
-            _edge_alpha * _intensity
+            _final_alpha
         );
     }
 

@@ -118,7 +118,6 @@ if (variable_global_exists("LightSources")) {
 }
 
 // C. Muzzle Flash — ánh sáng tức thời khi bắn súng (player + enemy)
-// Duyệt tất cả instance có muzzleFlashTimer > 0
 with (o_player) {
     if (variable_instance_exists(id, "muzzleFlashTimer") && muzzleFlashTimer > 0
         && variable_instance_exists(id, "weapon") && weapon != noone) {
@@ -128,22 +127,25 @@ with (o_player) {
         var _flashCol  = _def.muzzle_flash_color;
         var _alpha     = muzzleFlashTimer / max(_frames, 1);
 
-        // Tính vị trí đầu nòng trong world space
+        // Tính vị trí đầu nòng trong world space & surface space
         var _offset  = variable_instance_exists(id, "weaponOffsetDist") ? weaponOffsetDist : 0;
         var _centerY = variable_instance_exists(id, "centerY") ? centerY : y;
         var _tipX    = x        + lengthdir_x(_def.length + _offset, aimDir);
         var _tipY    = _centerY + lengthdir_y(_def.length + _offset, aimDir);
+        var _sx      = _tipX - _cam_x;
+        var _sy      = _tipY - _cam_y;
 
-        // Chuyển sang surface space
-        var _sx = _tipX - _cam_x;
-        var _sy = _tipY - _cam_y;
+        // 1. Point Light xung quanh đầu nòng
+        draw_colored_point_light(_sx, _sy, _flashSize * 6.5, 24, _flashCol, _alpha * 0.95);
 
-        // Vẽ light burst tại đầu nòng (radius tỉ lệ với kích thước flash)
-        draw_colored_point_light(_sx, _sy, _flashSize * 5, 24, _flashCol, _alpha * 0.9);
+        // 2. Cone Light rộng (110 độ) chiếu về phía trước hướng aimDir, mờ dần về các viền
+        var _coneRange = _flashSize * 11;
+        var _coneAngle = 110;
+        var _tilemap   = variable_global_exists("collision_tilemap") ? global.collision_tilemap : -1;
+        draw_flashlight_visibility_polygon(_tilemap, _tipX, _tipY, _sx, _sy, aimDir, _coneRange, _coneAngle, 24, 4, _flashCol, _alpha * 0.9);
     }
 }
 
-// Duyệt enemy có súng và đang flash
 with (o_enemy_parent) {
     if (variable_instance_exists(id, "muzzleFlashTimer") && muzzleFlashTimer > 0
         && variable_instance_exists(id, "hasWeapon") && hasWeapon
@@ -154,16 +156,21 @@ with (o_enemy_parent) {
         var _alpha     = muzzleFlashTimer / max(_frames, 1);
         var _flashCol  = variable_struct_exists(_wep, "muzzle_flash_color") ? _wep.muzzle_flash_color : make_color_rgb(255, 200, 80);
 
-        // Vị trí đầu nòng enemy (đơn giản hóa: tại x, y)
         var _offset  = variable_instance_exists(id, "weaponOffsetDist") ? weaponOffsetDist : 0;
         var _centerY = variable_instance_exists(id, "centerY") ? centerY : y;
         var _tipX    = x        + lengthdir_x(_flashSize + _offset, aimDir);
         var _tipY    = _centerY + lengthdir_y(_flashSize + _offset, aimDir);
+        var _sx      = _tipX - _cam_x;
+        var _sy      = _tipY - _cam_y;
 
-        var _sx = _tipX - _cam_x;
-        var _sy = _tipY - _cam_y;
+        // 1. Point Light
+        draw_colored_point_light(_sx, _sy, _flashSize * 5.0, 16, _flashCol, _alpha * 0.85);
 
-        draw_colored_point_light(_sx, _sy, _flashSize * 4, 16, _flashCol, _alpha * 0.7);
+        // 2. Cone Light rộng (100 độ)
+        var _coneRange = _flashSize * 9;
+        var _coneAngle = 100;
+        var _tilemap   = variable_global_exists("collision_tilemap") ? global.collision_tilemap : -1;
+        draw_flashlight_visibility_polygon(_tilemap, _tipX, _tipY, _sx, _sy, aimDir, _coneRange, _coneAngle, 18, 4, _flashCol, _alpha * 0.75);
     }
 }
 
@@ -201,6 +208,49 @@ if (flashlight_enabled) {
     }
 }
 
+// Erase / Punch holes cho Muzzle Flash (xuyên bóng tối)
+with (o_player) {
+    if (variable_instance_exists(id, "muzzleFlashTimer") && muzzleFlashTimer > 0
+        && variable_instance_exists(id, "weapon") && weapon != noone) {
+        var _def       = weapon.definition;
+        var _flashSize = _def.muzzle_flash_size;
+        var _frames    = _def.muzzle_flash_frames;
+        var _alpha     = muzzleFlashTimer / max(_frames, 1);
+        var _offset    = variable_instance_exists(id, "weaponOffsetDist") ? weaponOffsetDist : 0;
+        var _centerY   = variable_instance_exists(id, "centerY") ? centerY : y;
+        var _tipX      = x        + lengthdir_x(_def.length + _offset, aimDir);
+        var _tipY      = _centerY + lengthdir_y(_def.length + _offset, aimDir);
+        var _sx        = _tipX - _cam_x;
+        var _sy        = _tipY - _cam_y;
+
+        // Punch point hole
+        draw_ambient_light(_sx, _sy, _flashSize * 5.0, 20);
+
+        // Punch cone hole rộng (110 độ)
+        var _coneRange = _flashSize * 10;
+        var _coneAngle = 110;
+        var _tilemap   = variable_global_exists("collision_tilemap") ? global.collision_tilemap : -1;
+        draw_flashlight_visibility_polygon(_tilemap, _tipX, _tipY, _sx, _sy, aimDir, _coneRange, _coneAngle, 20, 4, c_white, _alpha * 0.95);
+    }
+}
+
+with (o_enemy_parent) {
+    if (variable_instance_exists(id, "muzzleFlashTimer") && muzzleFlashTimer > 0
+        && variable_instance_exists(id, "hasWeapon") && hasWeapon
+        && variable_instance_exists(id, "weapon") && weapon != noone) {
+        var _wep       = weapon;
+        var _flashSize = variable_struct_exists(_wep, "muzzle_flash_size") ? _wep.muzzle_flash_size : 10;
+        var _offset    = variable_instance_exists(id, "weaponOffsetDist") ? weaponOffsetDist : 0;
+        var _centerY   = variable_instance_exists(id, "centerY") ? centerY : y;
+        var _tipX      = x        + lengthdir_x(_flashSize + _offset, aimDir);
+        var _tipY      = _centerY + lengthdir_y(_flashSize + _offset, aimDir);
+        var _sx        = _tipX - _cam_x;
+        var _sy        = _tipY - _cam_y;
+
+        draw_ambient_light(_sx, _sy, _flashSize * 3.5, 16);
+    }
+}
+
 // Cũng punch holes tại vị trí đèn tĩnh để thế giới lộ ra dưới glow màu
 if (variable_global_exists("LightSources")) {
     var _n = ds_list_size(global.LightSources);
@@ -232,13 +282,27 @@ surface_reset_target();
 
 // ── 5. Composite lên màn hình ────────────────────────────────
 
-// 5a. Glow màu đèn tĩnh (additive — sáng thêm)
+// 5a. Glow màu đèn tĩnh & Muzzle flash (additive — sáng thêm)
 gpu_set_blendmode(bm_add);
 draw_surface(light_surface, _cam_x, _cam_y);
 gpu_set_blendmode(bm_normal);
 
-// 5b. Lớp bóng tối đục (có punch holes từ flashlight + đèn tĩnh)
+// 5b. Lớp bóng tối đục (có punch holes từ flashlight + đèn tĩnh + muzzle flash)
 draw_surface(dark_surface, _cam_x, _cam_y);
+
+// 5c. Screen Flash rất nhẹ khi Player bắn súng
+with (o_player) {
+    if (variable_instance_exists(id, "muzzleFlashTimer") && muzzleFlashTimer > 0) {
+        var _pFrames  = (weapon != noone) ? weapon.definition.muzzle_flash_frames : 3;
+        var _pAlpha   = (muzzleFlashTimer / max(_pFrames, 1)) * 0.045; // 4.5% max screen tint (rất nhẹ)
+        var _flashCol = (weapon != noone) ? weapon.definition.muzzle_flash_color : make_color_rgb(255, 220, 140);
+
+        gpu_set_blendmode(bm_add);
+        draw_set_alpha(_pAlpha);
+        draw_set_color(_flashCol);
+        draw_rectangle(_cam_x, _cam_y, _cam_x + _cam_w, _cam_y + _cam_h, false);
+    }
+}
 
 // Reset state
 draw_set_alpha(1);
