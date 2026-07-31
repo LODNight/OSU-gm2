@@ -1,18 +1,23 @@
+bullet_tracer_update();
+
 xspd = lengthdir_x( spd, dir)
 yspd = lengthdir_y( spd, dir)
 
 x += xspd
 y += yspd
 
-// hit confirm destroy
-if hitConfirm == true && enemyDestroy == true { destroy = true }
-
-if(destroy) instance_destroy()	
-
 // Wall Collision
-if(place_meeting(x, y, [tile_wall, tile_item, o_wall_colli])) {
+if (place_meeting(x, y, [tile_wall, tile_item, o_wall_colli])) {
     spawn_hit_spark(x, y); // [Module B] Tia lửa khi chạm tường
-    destroy = true
+    destroy = true;
+}
+
+// hit confirm destroy
+if (hitConfirm == true && enemyDestroy == true) { destroy = true; }
+
+if (destroy) {
+    spawn_bullet_tracer_fade();
+    instance_destroy();
 }
 
 // ── Enemy Hit Detection (Sprite-Bounds, không phụ thuộc physics mask của enemy) ──

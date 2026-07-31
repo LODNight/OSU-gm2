@@ -15,3 +15,9 @@ enemyDestroy = true    // destroy on hitConfirm (set false for piercing)
 // ======== Collision map
 tile_wall = layer_tilemap_get_id("tile_wall")
 tile_item = layer_tilemap_get_id("tile_item_coli")
+
+// ======== Bullet Tracer & Visuals
+trail_history    = [];
+max_trail_length = 4;
+tracer_color     = make_color_rgb(255, 215, 110); // Warm amber-yellow glow
+tracer_width     = 1.8;

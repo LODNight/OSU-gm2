@@ -84,6 +84,7 @@ function weapon_fire(_owner)
         if (variable_instance_exists(_bullet, "spd"))     _bullet.spd     = _data.bulletSpd;
         if (variable_instance_exists(_bullet, "maxDist")) _bullet.maxDist = _data.bulletMaxDist;
         if (_data.bulletSprite != noone) _bullet.sprite_index = _data.bulletSprite;
+        if (variable_struct_exists(_data, "muzzle_flash_color")) _bullet.tracer_color = _data.muzzle_flash_color;
     }
     return true;
 }

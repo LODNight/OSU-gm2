@@ -11,3 +11,9 @@ if (instance_exists(o_player)){
     dir = point_direction(x, y, o_player.x, o_player.y);
 }
 image_angle = dir;
+
+// ======== Bullet Tracer & Visuals
+trail_history    = [];
+max_trail_length = 3;
+tracer_color     = make_color_rgb(255, 90, 45); // Orange-red tracer for enemies
+tracer_width     = 1.6;

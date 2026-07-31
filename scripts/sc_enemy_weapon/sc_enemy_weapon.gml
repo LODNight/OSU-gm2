@@ -25,6 +25,7 @@ function enemy_weapon_fire()
         if (variable_instance_exists(_bullet, "damage")) _bullet.damage = weapon.damage;
         if (variable_instance_exists(_bullet, "spd"))    _bullet.spd    = weapon.bulletSpd;
         if (weapon.bulletSprite != noone) _bullet.sprite_index = weapon.bulletSprite;
+        if (variable_struct_exists(weapon, "muzzle_flash_color")) _bullet.tracer_color = weapon.muzzle_flash_color;
     }
 
     // Phát âm thanh bắn nếu có cấu hình

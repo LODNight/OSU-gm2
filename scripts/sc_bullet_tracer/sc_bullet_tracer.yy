@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"sc_bullet_tracer",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"sc_bullet_tracer",
+  "parent":{
+    "name":"Weapon",
+    "path":"folders/Scripts/Weapon.yy"
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0"
+}
