@@ -191,9 +191,47 @@ function tutorial_gate_blocks_enemy(_x, _y)
     return _blocked;
 }
 
+/// @desc Tìm instance tutorial ưu tiên duy nhất được phép hiển thị thông báo trên màn hình
+function tutorial_get_active_display_instance()
+{
+    var _bestInst = noone;
+    var _bestDist = 999999;
+    var _completedInst = noone;
+    var _completedTimer = 0;
+
+    var _playerX = instance_exists(o_player) ? o_player.x : 0;
+    var _playerY = instance_exists(o_player) ? o_player.y : 0;
+
+    var _count = instance_number(o_tutorial);
+    for (var i = 0; i < _count; i++) {
+        var _inst = instance_find(o_tutorial, i);
+        if (!instance_exists(_inst)) continue;
+
+        // 1. Ưu tiên tutorial đang ACTIVE (đang thực hiện nhiệm vụ)
+        if (_inst.active && !_inst.completed) {
+            var _dist = point_distance(_inst.x, _inst.y, _playerX, _playerY);
+            if (_dist < _bestDist) {
+                _bestDist = _dist;
+                _bestInst = _inst;
+            }
+        }
+        // 2. Dự phòng: tutorial vừa hoàn thành và còn completionTimer
+        else if (_inst.completed && _inst.completionTimer > 0) {
+            if (_inst.completionTimer > _completedTimer) {
+                _completedTimer = _inst.completionTimer;
+                _completedInst = _inst;
+            }
+        }
+    }
+
+    return (_bestInst != noone) ? _bestInst : _completedInst;
+}
+
 function tutorial_draw_message()
 {
-    if (!active && !completed) return;
+    // Đảm bảo chỉ 1 thông báo duy nhất của tutorial ưu tiên được hiển thị (tránh đè chữ)
+    var _activeTarget = tutorial_get_active_display_instance();
+    if (_activeTarget != id) return;
 
     var _text = completed ? "TUTORIAL COMPLETE!" : message;
     if (!completed && tutorialType == TUTORIAL_TYPE.CLEAR_ARENA) {
