@@ -146,12 +146,12 @@ function player_draw_weapon_hud()
     var _guiWidth  = display_get_gui_width();
     var _guiHeight = display_get_gui_height();
     var _x = _guiWidth  - 270;
-    var _y = _guiHeight - 120;
+    var _y = _guiHeight - 110;
 
     // Nền panel
     draw_set_alpha(0.78);
     draw_set_color(c_black);
-    draw_rectangle(_x - 12, _y - 28, _guiWidth - 18, _guiHeight - 18, false);
+    draw_rectangle(_x - 12, _y - 28, _guiWidth - 18, _guiHeight - 12, false);
     draw_set_alpha(1);
 
     // Tên vũ khí
@@ -169,8 +169,8 @@ function player_draw_weapon_hud()
     draw_set_halign(fa_left);
 
     // Khối đạn (Ammo blocks)
-    var _bulletWidth  = 9;
-    var _bulletGap    = 3;
+    var _bulletWidth  = 7;
+    var _bulletGap    = 2;
     var _maxVisible   = 20;
     var _totalBlocks  = _data.magSize;
     var _activeBlocks = weapon.current_ammo;
@@ -183,48 +183,46 @@ function player_draw_weapon_hud()
     for (var i = 0; i < _visibleCount; i++) {
         var _bx = _x + i * (_bulletWidth + _bulletGap);
         draw_set_color((i < _activeBlocks) ? c_yellow : c_dkgray);
-        draw_rectangle(_bx, _y, _bx + _bulletWidth, _y + 22, false);
-    }
-    if (_totalBlocks > _maxVisible) {
-        draw_set_color(c_ltgray);
-        draw_text(_x + _visibleCount * (_bulletWidth + _bulletGap) + 5, _y + 3, "x" + string(_totalBlocks));
+        draw_rectangle(_bx, _y, _bx + _bulletWidth, _y + 20, false);
     }
 
-    // Khối băng đạn (Mag blocks)
-    draw_set_color(c_orange);
-    draw_text(_x, _y + 24, "RESERVE: " + string(weapon.reserve_ammo));
+    // Hiển thị số đạn dạng (Đạn hiện tại / Đạn dự trữ) ngay bên cạnh các khối đạn
+    var _ammoText = string(weapon.current_ammo) + " / " + string(weapon.reserve_ammo);
+    var _textX    = _x + _visibleCount * (_bulletWidth + _bulletGap) + 8;
+    draw_set_color(make_color_rgb(255, 220, 100)); // Màu vàng sáng
+    draw_text(_textX, _y + 1, _ammoText);
 
     // Thanh độ bền (Durability bar)
     var _durPct  = weapon_get_durability_pct(weapon);
     var _durCol  = weapon_get_durability_color(weapon);
-    var _durBarW = 235;
-    var _durY    = _y + 32;
+    var _durBarW = 200;
+    var _durY    = _y + 28;
     draw_set_color(make_color_rgb(25, 25, 35));
-    draw_rectangle(_x, _durY, _x + _durBarW, _durY + 7, false);
+    draw_rectangle(_x, _durY, _x + _durBarW, _durY + 6, false);
     if (_durPct > 0) {
         draw_set_color(_durCol);
-        draw_rectangle(_x, _durY, _x + _durBarW * _durPct, _durY + 7, false);
+        draw_rectangle(_x, _durY, _x + _durBarW * _durPct, _durY + 6, false);
     }
     draw_set_color(_durCol);
-    draw_text(_x + _durBarW + 4, _durY - 1, string(round(_durPct * 100)) + "%");
+    draw_text(_x + _durBarW + 6, _durY - 3, string(round(_durPct * 100)) + "%");
 
     // Thanh reload
     if (isReloading) {
         var _progress = 1 - (reloadTimer / max(1, _data.reloadTime));
-        var _rlY = _durY + 12;
+        var _rlY = _durY + 14;
         draw_set_color(c_dkgray);
-        draw_rectangle(_x, _rlY, _x + _durBarW, _rlY + 10, false);
+        draw_rectangle(_x, _rlY, _x + _durBarW, _rlY + 8, false);
         draw_set_color(c_lime);
-        draw_rectangle(_x, _rlY, _x + _durBarW * clamp(_progress, 0, 1), _rlY + 10, false);
+        draw_rectangle(_x, _rlY, _x + _durBarW * clamp(_progress, 0, 1), _rlY + 8, false);
         draw_set_color(c_white);
-        draw_text(_x, _rlY + 14, "RELOADING");
+        draw_text(_x, _rlY + 12, "RELOADING");
     }
 
     // Cảnh báo kẹt đạn (Jam warning)
     if (weapon.is_jammed) {
         draw_set_color(make_color_rgb(255, 60, 60));
         draw_set_halign(fa_center);
-        draw_text(_x + _durBarW * 0.5, _y - 10, "!! WEAPON JAMMED !!");
+        draw_text(_x + _durBarW * 0.5, _y - 12, "!! WEAPON JAMMED !!");
         draw_set_halign(fa_left);
     }
 
