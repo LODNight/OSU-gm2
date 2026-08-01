@@ -22,8 +22,18 @@ function enemy_weapon_fire()
         _bullet.image_angle = _bullet.dir;
         
         // Gán thông số từ súng sang đạn
-        if (variable_instance_exists(_bullet, "damage")) _bullet.damage = weapon.damage;
-        if (variable_instance_exists(_bullet, "spd"))    _bullet.spd    = weapon.bulletSpd;
+        if (variable_instance_exists(_bullet, "damage"))      _bullet.damage      = weapon.damage;
+        if (variable_instance_exists(_bullet, "base_damage")) _bullet.base_damage = weapon.damage;
+        if (variable_instance_exists(_bullet, "spd"))         _bullet.spd         = weapon.bulletSpd;
+        if (variable_instance_exists(_bullet, "maxDist"))     _bullet.maxDist     = weapon.bulletMaxDist;
+        if (variable_instance_exists(_bullet, "falloff_start")) {
+            _bullet.falloff_start = weapon.damage_falloff_start;
+            _bullet.falloff_end   = weapon.damage_falloff_end;
+            _bullet.min_dmg_mult  = weapon.min_damage_multiplier;
+        }
+        if (variable_instance_exists(_bullet, "damage_type"))     _bullet.damage_type     = weapon.damage_type;
+        if (variable_instance_exists(_bullet, "stagger_power"))   _bullet.stagger_power   = weapon.stagger_power;
+        if (variable_instance_exists(_bullet, "knockback_power")) _bullet.knockback_power = weapon.knockback_power;
         if (weapon.bulletSprite != noone) _bullet.sprite_index = weapon.bulletSprite;
         if (variable_struct_exists(weapon, "muzzle_flash_color")) _bullet.tracer_color = weapon.muzzle_flash_color;
     }

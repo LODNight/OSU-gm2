@@ -25,10 +25,12 @@ function weapon_update_reload(_owner)
     if (_owner.reloadTimer > 0) return;
 
     var _weapon = _owner.weapon;
-    if (_weapon != noone && _weapon.mags > 0) {
-        _weapon.current_ammo = _weapon.definition.magSize;
-        _weapon.ammo         = _weapon.current_ammo;   // sync alias
-        _weapon.mags        -= 1;
+    if (_weapon != noone && _weapon.reserve_ammo > 0) {
+        var _needed = max(0, _weapon.definition.magSize - _weapon.current_ammo);
+        var _loaded = min(_needed, _weapon.reserve_ammo);
+        _weapon.current_ammo += _loaded;
+        _weapon.reserve_ammo -= _loaded;
+        weapon_instance_sync_ammo(_weapon);
 
         // Durability wear on reload
         _weapon.current_durability = max(0, _weapon.current_durability - _weapon.definition.wear_per_reload);

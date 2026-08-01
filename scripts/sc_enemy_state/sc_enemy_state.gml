@@ -118,7 +118,11 @@ function enemy_melee_attack()
 
     // Spawn hitbox damage tạm thời (1 frame) tại vị trí enemy
     var _hit = instance_create_depth(x, y, depth, o_damage_player);
-    _hit.damage     = 5;          // Sát thương mỗi đòn (5% của 100 HP)
+    _hit.damage     = damage;
+    _hit.base_damage = damage;
+    _hit.damage_type = "melee";
+    _hit.dir         = aimDir;
+    _hit.knockback_power = knockbackForce;
     _hit.hitConfirm = false;
     _hit.visible    = false;      // Không vẽ hitbox lên màn hình
 

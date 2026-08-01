@@ -110,12 +110,25 @@ function create_weapon_definition(_config) constructor
     can_fire_while_reloading = _wpn_get(_fire, "can_fire_while_reloading", false);
 
     // ── Magazine ──────────────────────────────────────────────────
-    magSize   = _wpn_get(_mag, "capacity",  _wpn_get(_config, "magSize", 12));
-    ammo_type_id = _wpn_get(_mag, "ammo_type", ammo_type);
+    magSize                       = _wpn_get(_mag, "capacity", _wpn_get(_config, "magSize", 12));
+    chamber_capacity              = _wpn_get(_mag, "chamber_capacity", 0);
+    ammo_type_id                  = _wpn_get(_mag, "ammo_type", ammo_type);
+    magazine_type                 = _wpn_get(_mag, "magazine_type", "");
+    supports_detachable_magazine = _wpn_get(_mag, "supports_detachable_magazine", true);
 
-    // Reserve ammo: legacy uses mags+maxMags, new system uses reserve_ammo
-    mags    = _wpn_get(_config, "mags",    4);
-    maxMags = _wpn_get(_config, "maxMags", mags);
+    // Reserve ammo has one canonical unit: individual rounds.
+    // Legacy configs using mags/maxMags are converted at this boundary.
+    var _legacyMags    = _wpn_get(_config, "mags", 4);
+    var _legacyMaxMags = _wpn_get(_config, "maxMags", max(_legacyMags, 12));
+    starting_reserve_ammo = _wpn_get(_mag, "starting_reserve_ammo",
+                            _wpn_get(_config, "reserve_ammo", _legacyMags * magSize));
+    max_reserve_ammo      = _wpn_get(_mag, "max_reserve_ammo",
+                            _wpn_get(_config, "max_reserve_ammo", _legacyMaxMags * magSize));
+    starting_reserve_ammo = clamp(starting_reserve_ammo, 0, max_reserve_ammo);
+
+    // Read-only compatibility values for legacy definition consumers.
+    mags    = ceil(starting_reserve_ammo / max(magSize, 1));
+    maxMags = ceil(max_reserve_ammo / max(magSize, 1));
 
     // ── Reload ────────────────────────────────────────────────────
     reload_type            = _wpn_get(_rel, "reload_type",           "magazine");

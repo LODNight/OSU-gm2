@@ -7,7 +7,7 @@ function weapon_can_reload(_weapon)
 {
     return (_weapon != noone)
         && (_weapon.current_ammo < _weapon.definition.magSize)
-        && (_weapon.mags > 0)
+        && (_weapon.reserve_ammo > 0)
         && (!_weapon.is_jammed);
 }
 
@@ -16,13 +16,26 @@ function weapon_has_ammo(_weapon)
     return !weapon_is_empty(_weapon);
 }
 
-/// @desc Add magazines to one weapon instance. Returns the amount actually received.
+/// @desc Add reserve rounds to one weapon instance. Returns rounds actually received.
+function weapon_add_reserve_ammo(_weapon, _amount)
+{
+    if (_weapon == noone || _amount <= 0) return 0;
+    var _before = _weapon.reserve_ammo;
+    _weapon.reserve_ammo = clamp(
+        _weapon.reserve_ammo + _amount,
+        0,
+        _weapon.definition.max_reserve_ammo
+    );
+    weapon_instance_sync_ammo(_weapon);
+    return _weapon.reserve_ammo - _before;
+}
+
+/// @desc Compatibility helper: convert magazine units to reserve rounds.
 function weapon_add_mags(_weapon, _amount)
 {
     if (_weapon == noone || _amount <= 0) return 0;
-    var _before = _weapon.mags;
-    _weapon.mags = clamp(_weapon.mags + _amount, 0, _weapon.definition.maxMags);
-    return _weapon.mags - _before;
+    var _roundsAdded = weapon_add_reserve_ammo(_weapon, _amount * _weapon.definition.magSize);
+    return _roundsAdded / max(_weapon.definition.magSize, 1);
 }
 
 function weapon_play_sound(_sound)

@@ -206,7 +206,7 @@ function tutorial_draw_message()
     var _w = string_width(_text) + 24;
     var _h = string_height(_text) + 12;
     var _cx = display_get_gui_width() * 0.5;
-    var _cy = display_get_gui_height() - 48; // Vị trí gần cạnh dưới màn hình
+    var _cy = 40; // Vị trí phía trên màn hình
 
     draw_set_alpha(0.75);
     draw_set_color(c_black);

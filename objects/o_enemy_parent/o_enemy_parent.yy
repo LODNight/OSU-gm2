@@ -14,10 +14,7 @@
     "name":"Enemies",
     "path":"folders/Objects/Characters/Enemies.yy",
   },
-  "parentObjectId":{
-    "name":"o_damage_player",
-    "path":"objects/o_damage_player/o_damage_player.yy",
-  },
+  "parentObjectId":null,
   "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,

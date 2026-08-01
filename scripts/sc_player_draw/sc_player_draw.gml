@@ -191,11 +191,8 @@ function player_draw_weapon_hud()
     }
 
     // Khối băng đạn (Mag blocks)
-    var _magWidth = 18;
-    for (var m = 0; m < weapon.mags; m++) {
-        draw_set_color(c_orange);
-        draw_rectangle(_x + m * (_magWidth + 4), _y + 25, _x + m * (_magWidth + 4) + _magWidth, _y + 29, false);
-    }
+    draw_set_color(c_orange);
+    draw_text(_x, _y + 24, "RESERVE: " + string(weapon.reserve_ammo));
 
     // Thanh độ bền (Durability bar)
     var _durPct  = weapon_get_durability_pct(weapon);

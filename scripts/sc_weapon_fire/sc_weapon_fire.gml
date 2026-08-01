@@ -25,7 +25,7 @@ function weapon_fire(_owner)
     // ── Fire ──────────────────────────────────────────────────────
     var _bulletsToFire = min(_weapon.current_ammo, _data.bulletNum);
     _weapon.current_ammo -= _bulletsToFire;
-    _weapon.ammo          = _weapon.current_ammo;   // sync alias
+    weapon_instance_sync_ammo(_weapon);
     _owner.shootTimer     = _data.cooldown;
     weapon_play_sound(_data.fireSound);
 
@@ -102,9 +102,19 @@ function weapon_fire(_owner)
         _bullet.dir         = _baseDir + _bulletDev;
         _bullet.image_angle = _bullet.dir;
 
+        // Sweep from the shooter body on the first frame. This catches an
+        // enemy already standing between the player and the muzzle tip.
+        if (variable_instance_exists(_bullet, "sweep_x")) {
+            _bullet.sweep_x = _owner.x;
+            _bullet.sweep_y = _owner.centerY;
+        }
+
         if (variable_instance_exists(_bullet, "damage"))  _bullet.damage  = _effectiveDamage;
         if (variable_instance_exists(_bullet, "spd"))     _bullet.spd     = _data.bulletSpd;
         if (variable_instance_exists(_bullet, "maxDist")) _bullet.maxDist = _data.bulletMaxDist;
+        if (variable_instance_exists(_bullet, "damage_type"))    _bullet.damage_type    = _data.damage_type;
+        if (variable_instance_exists(_bullet, "stagger_power"))  _bullet.stagger_power  = _data.stagger_power;
+        if (variable_instance_exists(_bullet, "knockback_power")) _bullet.knockback_power = _data.knockback_power;
         if (_data.bulletSprite != noone) _bullet.sprite_index = _data.bulletSprite;
         if (variable_struct_exists(_data, "muzzle_flash_color")) _bullet.tracer_color = _data.muzzle_flash_color;
 

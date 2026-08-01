@@ -127,7 +127,7 @@ function currency_get() {
 /// Bật/tắt debug draw cho tất cả o_spawner trong game.
 /// true  = vẽ hình vuông + thông số tại tâm mỗi spawner.
 /// false = ẩn hoàn toàn khi ship game.
-#macro SPAWNER_DEBUG true
+#macro SPAWNER_DEBUG false
 
 /// ================================================================
 /// Room transition helpers

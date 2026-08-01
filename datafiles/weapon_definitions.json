@@ -72,7 +72,9 @@
       "chamber_capacity": 1,
       "ammo_type": "ammo_pistol",
       "magazine_type": "mag_fn57_standard",
-      "supports_detachable_magazine": true
+      "supports_detachable_magazine": true,
+      "starting_reserve_ammo": 80,
+      "max_reserve_ammo": 240
     },
     "reload": {
       "reload_type": "magazine",
@@ -235,7 +237,9 @@
       "chamber_capacity": 1,
       "ammo_type": "ammo_pistol",
       "magazine_type": "mag_p90_standard",
-      "supports_detachable_magazine": true
+      "supports_detachable_magazine": true,
+      "starting_reserve_ammo": 200,
+      "max_reserve_ammo": 600
     },
     "reload": {
       "reload_type": "magazine",
@@ -403,7 +407,9 @@
       "chamber_capacity": 1,
       "ammo_type": "ammo_shotgun",
       "magazine_type": "tube_magazine",
-      "supports_detachable_magazine": false
+      "supports_detachable_magazine": false,
+      "starting_reserve_ammo": 168,
+      "max_reserve_ammo": 504
     },
     "reload": {
       "reload_type": "magazine",
@@ -565,7 +571,9 @@
       "chamber_capacity": 1,
       "ammo_type": "ammo_rifle",
       "magazine_type": "internal_magazine",
-      "supports_detachable_magazine": false
+      "supports_detachable_magazine": false,
+      "starting_reserve_ammo": 20,
+      "max_reserve_ammo": 60
     },
     "reload": {
       "reload_type": "magazine",
@@ -732,7 +740,9 @@
       "chamber_capacity": 0,
       "ammo_type": "ammo_pistol",
       "magazine_type": "enemy_infinite",
-      "supports_detachable_magazine": false
+      "supports_detachable_magazine": false,
+      "starting_reserve_ammo": 999,
+      "max_reserve_ammo": 999
     },
     "reload": {
       "reload_type": "magazine",

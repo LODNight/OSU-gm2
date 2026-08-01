@@ -166,7 +166,7 @@ function inventory_get_centered_grid_pos(_item_id, _m_col, _m_row)
 }
 
 /// @desc Đặt item chiếm mảng hình chữ nhật (grid_w x grid_h) vào Grid với ô gốc là _anchor_idx
-function inventory_place_item_in_grid(_anchor_idx, _item_id, _quantity)
+function inventory_place_item_in_grid(_anchor_idx, _item_id, _quantity, _slotData = undefined)
 {
     var _def = item_db_get(_item_id);
     if (_def == undefined) return;
@@ -174,8 +174,13 @@ function inventory_place_item_in_grid(_anchor_idx, _item_id, _quantity)
     var _col = _anchor_idx mod INVENTORY_GRID_COLS;
     var _row = _anchor_idx div INVENTORY_GRID_COLS;
 
-    // Đặt ô gốc (root cell)
-    global.InventoryGrid[_anchor_idx] = { item_id: _item_id, quantity: _quantity };
+    // Preserve per-item runtime data (for example weapon_inst) while moving.
+    var _rootData = (_slotData == undefined)
+        ? { item_id: _item_id, quantity: _quantity }
+        : _slotData;
+    _rootData.item_id  = _item_id;
+    _rootData.quantity = _quantity;
+    global.InventoryGrid[_anchor_idx] = _rootData;
 
     // Đặt các ô phụ thuộc liên kết tới ô gốc
     for (var r = _row; r < _row + _def.grid_h; r++) {
@@ -422,8 +427,8 @@ function inventory_swap_slots(_typeA, _idxA, _typeB, _idxB)
         if (_dataA != undefined && !inventory_can_place_grid(_dataA.item_id, _colB, _rowB)) {
             inventory_toast("Not enough grid space!");
             // Khôi phục vị trí cũ
-            if (_typeA == "grid" && _dataA != undefined) inventory_place_item_in_grid(_rootA, _dataA.item_id, _dataA.quantity);
-            if (_dataB != undefined) inventory_place_item_in_grid(_rootB, _dataB.item_id, _dataB.quantity);
+            if (_typeA == "grid" && _dataA != undefined) inventory_place_item_in_grid(_rootA, _dataA.item_id, _dataA.quantity, _dataA);
+            if (_dataB != undefined) inventory_place_item_in_grid(_rootB, _dataB.item_id, _dataB.quantity, _dataB);
             return false;
         }
 
@@ -433,11 +438,11 @@ function inventory_swap_slots(_typeA, _idxA, _typeB, _idxB)
             var _rowA = _rootA div INVENTORY_GRID_COLS;
             if (!inventory_can_place_grid(_dataB.item_id, _colA, _rowA)) {
                 inventory_toast("Not enough grid space to swap!");
-                if (_typeA == "grid" && _dataA != undefined) inventory_place_item_in_grid(_rootA, _dataA.item_id, _dataA.quantity);
-                if (_dataB != undefined) inventory_place_item_in_grid(_rootB, _dataB.item_id, _dataB.quantity);
+                if (_typeA == "grid" && _dataA != undefined) inventory_place_item_in_grid(_rootA, _dataA.item_id, _dataA.quantity, _dataA);
+                if (_dataB != undefined) inventory_place_item_in_grid(_rootB, _dataB.item_id, _dataB.quantity, _dataB);
                 return false;
             }
-            inventory_place_item_in_grid(_rootA, _dataB.item_id, _dataB.quantity);
+            inventory_place_item_in_grid(_rootA, _dataB.item_id, _dataB.quantity, _dataB);
         } else if (_dataB != undefined) {
             inventory_set_slot_data(_typeA, _rootA, _dataB);
         } else if (_typeA != "grid") {
@@ -446,7 +451,7 @@ function inventory_swap_slots(_typeA, _idxA, _typeB, _idxB)
 
         if (_dataA != undefined) {
             var _anchorB = _rowB * INVENTORY_GRID_COLS + _colB;
-            inventory_place_item_in_grid(_anchorB, _dataA.item_id, _dataA.quantity);
+            inventory_place_item_in_grid(_anchorB, _dataA.item_id, _dataA.quantity, _dataA);
         }
         return true;
     }
@@ -459,10 +464,10 @@ function inventory_swap_slots(_typeA, _idxA, _typeB, _idxB)
             var _rowA = _rootA div INVENTORY_GRID_COLS;
             if (!inventory_can_place_grid(_dataB.item_id, _colA, _rowA)) {
                 inventory_toast("Not enough grid space!");
-                if (_dataA != undefined) inventory_place_item_in_grid(_rootA, _dataA.item_id, _dataA.quantity);
+                if (_dataA != undefined) inventory_place_item_in_grid(_rootA, _dataA.item_id, _dataA.quantity, _dataA);
                 return false;
             }
-            inventory_place_item_in_grid(_rootA, _dataB.item_id, _dataB.quantity);
+            inventory_place_item_in_grid(_rootA, _dataB.item_id, _dataB.quantity, _dataB);
         }
         inventory_set_slot_data(_typeB, _rootB, _dataA);
         return true;
@@ -503,14 +508,26 @@ function inventory_sync_player_equip()
     if (_w1 != undefined) {
         var _def1 = item_db_get(_w1.item_id);
         if (_def1 != undefined && _def1.weapon_id != "" && variable_struct_exists(global.Weapons, _def1.weapon_id)) {
-            _w1Inst = new create_weapon_instance(global.Weapons[$ _def1.weapon_id]);
+            var _weaponDef1 = global.Weapons[$ _def1.weapon_id];
+            var _reuse1 = variable_struct_exists(_w1, "weapon_inst")
+                && is_struct(_w1.weapon_inst)
+                && variable_struct_exists(_w1.weapon_inst, "definition")
+                && _w1.weapon_inst.definition.id == _weaponDef1.id;
+            if (!_reuse1) _w1.weapon_inst = new create_weapon_instance(_weaponDef1);
+            _w1Inst = _w1.weapon_inst;
         }
     }
 
     if (_w2 != undefined) {
         var _def2 = item_db_get(_w2.item_id);
         if (_def2 != undefined && _def2.weapon_id != "" && variable_struct_exists(global.Weapons, _def2.weapon_id)) {
-            _w2Inst = new create_weapon_instance(global.Weapons[$ _def2.weapon_id]);
+            var _weaponDef2 = global.Weapons[$ _def2.weapon_id];
+            var _reuse2 = variable_struct_exists(_w2, "weapon_inst")
+                && is_struct(_w2.weapon_inst)
+                && variable_struct_exists(_w2.weapon_inst, "definition")
+                && _w2.weapon_inst.definition.id == _weaponDef2.id;
+            if (!_reuse2) _w2.weapon_inst = new create_weapon_instance(_weaponDef2);
+            _w2Inst = _w2.weapon_inst;
         }
     }
 

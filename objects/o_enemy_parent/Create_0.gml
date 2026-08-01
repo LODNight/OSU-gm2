@@ -1,5 +1,3 @@
-event_inherited()
-
 // Safeguard: đảm bảo global weapon table tồn tại khi test room không có o_init.
 if (!variable_global_exists("EnemyWeapons")) sc_weapon_init();
 
