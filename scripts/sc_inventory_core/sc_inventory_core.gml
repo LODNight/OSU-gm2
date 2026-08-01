@@ -38,10 +38,48 @@ function inventory_init()
     inventory_add_starter_items();
 }
 
-/// @desc Cấp item khởi đầu để trải nghiệm hệ thống
+/// @desc Cấp item khởi đầu chuẩn cho màn chơi thực tế / tutorial (chỉ giữ duy nhất 1 khẩu súng lục)
 function inventory_add_starter_items()
 {
-    // Trang bị sẵn vũ khí và giáp vào các ô trang bị (Equipment Slots)
+    // Xóa sạch Grid túi đồ và Quickbar
+    global.InventoryGrid = array_create(INVENTORY_GRID_SLOTS, undefined);
+    global.Quickbar      = array_create(INVENTORY_QUICKBAR_SLOTS, undefined);
+
+    // Chỉ trang bị duy nhất 1 khẩu súng lục ở ô Weapon 1
+    global.Equipment = {
+        weapon1:    { item_id: "equip_weapon_pistol", quantity: 1 },
+        weapon2:    undefined,
+        helmet:     undefined,
+        armor:      undefined,
+        backpack:   undefined,
+        flashlight: undefined
+    };
+
+    inventory_sync_player_equip();
+}
+
+/// @desc Xóa sạch túi đồ và các ô trang bị.
+/// @param {bool} _keep_pistol  Nên giữ lại súng lục trong ô weapon1 không (mặc định: true)
+function inventory_clear_all(_keep_pistol = true)
+{
+    global.InventoryGrid = array_create(INVENTORY_GRID_SLOTS, undefined);
+    global.Quickbar      = array_create(INVENTORY_QUICKBAR_SLOTS, undefined);
+
+    global.Equipment = {
+        weapon1:    _keep_pistol ? { item_id: "equip_weapon_pistol", quantity: 1 } : undefined,
+        weapon2:    undefined,
+        helmet:     undefined,
+        armor:      undefined,
+        backpack:   undefined,
+        flashlight: undefined
+    };
+
+    inventory_sync_player_equip();
+}
+
+/// @desc Cấp đầy đủ trang bị và item mẫu (dùng khi cần test toàn bộ hệ thống đồ)
+function inventory_add_full_test_items()
+{
     global.Equipment.weapon1    = { item_id: "equip_weapon_pistol", quantity: 1 };
     global.Equipment.weapon2    = { item_id: "equip_weapon_smg", quantity: 1 };
     global.Equipment.helmet     = { item_id: "equip_helmet_tactical", quantity: 1 };
@@ -52,7 +90,6 @@ function inventory_add_starter_items()
     inventory_add("item_medkit", 3);
     inventory_add("ammo_pistol", 60);
 
-    // Gán sẵn Medkit vào Quickbar slot 3 (Phím 3) để test nhanh
     global.Quickbar[2] = { item_id: "item_medkit", quantity: 3 };
 
     inventory_sync_player_equip();
