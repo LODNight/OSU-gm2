@@ -24,7 +24,7 @@ function test_zone_global_init() {
             origin_x             : 0,     // Vị trí X của o_test_start được trigger
             origin_y             : 0,     // Vị trí Y của o_test_start được trigger
             spawned_ids          : [],    // Instance IDs được tạo trong test
-            camera_zoom_enabled  : false, // Cho phép scroll-wheel zoom (TEST_TYPE.CAMERA)
+            camera_zoom_enabled  : true,  // Cho phép scroll-wheel zoom (mặc định bật từ đầu trong room test)
             camera_zoom_base_w   : -1,   // View width gốc trước khi test
             camera_zoom_base_h   : -1,   // View height gốc trước khi test
         };

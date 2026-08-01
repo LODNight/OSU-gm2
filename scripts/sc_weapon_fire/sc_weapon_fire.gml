@@ -107,6 +107,14 @@ function weapon_fire(_owner)
         if (variable_instance_exists(_bullet, "maxDist")) _bullet.maxDist = _data.bulletMaxDist;
         if (_data.bulletSprite != noone) _bullet.sprite_index = _data.bulletSprite;
         if (variable_struct_exists(_data, "muzzle_flash_color")) _bullet.tracer_color = _data.muzzle_flash_color;
+
+        // ── Damage Falloff ─────────────────────────────────────────
+        if (variable_instance_exists(_bullet, "falloff_start")) {
+            _bullet.falloff_start = _data.damage_falloff_start;
+            _bullet.falloff_end   = _data.damage_falloff_end;
+            _bullet.min_dmg_mult  = _data.min_damage_multiplier;
+            _bullet.base_damage   = _effectiveDamage;
+        }
     }
     return true;
 }

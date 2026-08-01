@@ -27,6 +27,8 @@ function hit_shake_apply(_power = 3)
 ///        Gọi ở đầu enemy_process() trong sc_enemy_process.
 function hit_shake_update()
 {
+    if (!variable_instance_exists(id, "shakeTimer")) exit;
+
     if (shakeTimer > 0)
     {
         // Offset ngẫu nhiên trong biên độ, giảm dần theo timer còn lại

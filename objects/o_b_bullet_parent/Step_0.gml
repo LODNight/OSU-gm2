@@ -61,12 +61,28 @@ if (!destroy) {
     if (_hit != noone && instance_exists(_hit)) {
         if (ds_list_find_index(_hit.damage_list, id) == -1) {
             ds_list_add(_hit.damage_list, id); // Đánh dấu đã xử lý
-            _hit.hp -= damage;                  // Trừ HP
-            hitConfirm = true;                  // Đánh dấu đạn đã trúng
-            
+
+            // ── Tính Damage Falloff theo khoảng cách bay ──────────────
+            var _traveled  = point_distance(xstart, ystart, x, y);
+            var _dmg_mult  = 1.0;
+            if (_traveled > falloff_end) {
+                _dmg_mult = min_dmg_mult;
+            } else if (_traveled > falloff_start) {
+                var _t    = (_traveled - falloff_start) / max(falloff_end - falloff_start, 1);
+                _dmg_mult = lerp(1.0, min_dmg_mult, _t);
+            }
+            var _final_damage = max(1, round(base_damage * _dmg_mult));
+
+            _hit.hp   -= _final_damage;         // Trừ HP với dame có falloff
+            hitConfirm = true;
+
+            // Truyền thông tin falloff vào hit target để popup biết màu
+            _hit.last_damage       = _final_damage;
+            _hit.last_dmg_falloff  = _dmg_mult;  // 1.0 = full, < 1.0 = giảm
+
             // Spawn hiệu ứng máu tại điểm trúng
             spawn_hit_blood(_hit.x, _hit.y, dir + 180);
-            
+
             // Rung nhẹ nếu enemy hỗ trợ
             if (variable_instance_exists(_hit, "shakeTimer")) {
                 with (_hit) hit_shake_apply(3);

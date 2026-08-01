@@ -12,6 +12,12 @@ damage       = 1       // override in child for higher damage
 destroy      = false
 enemyDestroy = true    // destroy on hitConfirm (set false for piercing)
 
+// ======== Damage Falloff
+falloff_start = 999999  // Khoảng cách bắt đầu giảm dame (set bởi weapon_fire)
+falloff_end   = 999999  // Khoảng cách kết thúc giảm dame (= maxDist)
+min_dmg_mult  = 1.0     // Hệ số dame tối thiểu ở tầm xa nhất
+base_damage   = 1       // Dame gốc (giữ lại để tính falloff chính xác)
+
 // ======== Collision map
 tile_wall = layer_tilemap_get_id("tile_wall")
 tile_item = layer_tilemap_get_id("tile_item_coli")
