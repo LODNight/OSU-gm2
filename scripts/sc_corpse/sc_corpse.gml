@@ -6,6 +6,7 @@
 function corpse_draw_outline()
 {
     if (looted) return;
+    if (variable_instance_exists(id, "has_loot") && !has_loot) return;
 
     // Nhấp nháy theo thời gian
     var _pulse = (sin(current_time * 0.006) * 0.3) + 0.7; // 0.4 – 1.0

@@ -1,1 +1,0 @@
-draw_text(x,y, "[W] [A] [S] [D] to move")

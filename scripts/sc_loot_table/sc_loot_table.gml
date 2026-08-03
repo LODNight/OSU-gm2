@@ -11,47 +11,44 @@ function loot_table_create()
     global.LootTables = {};
 
     // ── Zombie cơ bản ─────────────────────────────────────────────
-    // 100% rơi 1-3 scrap metal để đảm bảo luôn rớt đồ khi test
+    // Rớt đồ theo tỷ lệ (không phải lúc nào cũng rớt)
     global.LootTables[$ "zombie_basic"] = [
-        { item_id: "item_scrap_metal", chance: 1.00, min: 1, max: 3 },
-        { item_id: "item_bandage",     chance: 0.30, min: 1, max: 1 }
+        { item_id: "item_scrap_metal", chance: 0.35, min: 1, max: 2 },
+        { item_id: "item_bandage",     chance: 0.15, min: 1, max: 1 }
     ];
 
     // ── Zombie tốc độ ─────────────────────────────────────────────
     global.LootTables[$ "zombie_speed"] = [
-        { item_id: "item_scrap_metal", chance: 1.00, min: 1, max: 2 },
-        { item_id: "item_bandage",     chance: 0.30, min: 1, max: 1 }
+        { item_id: "item_scrap_metal", chance: 0.40, min: 1, max: 2 },
+        { item_id: "item_bandage",     chance: 0.20, min: 1, max: 1 }
     ];
 
     // ── Lính canh (bắn súng ngắn) ─────────────────────────────────
     global.LootTables[$ "human_guard"] = [
-        { item_id: "ammo_pistol",      chance: 1.00, min: 5,  max: 20 },
-        { item_id: "item_dog_tag",     chance: 0.50, min: 1,  max: 1  },
-        { item_id: "item_medkit",      chance: 0.20, min: 1,  max: 1  },
-        { item_id: "item_scrap_metal", chance: 0.50, min: 2,  max: 5  }
+        { item_id: "ammo_pistol",      chance: 0.60, min: 5,  max: 15 },
+        { item_id: "item_dog_tag",     chance: 0.30, min: 1,  max: 1  },
+        { item_id: "item_medkit",      chance: 0.15, min: 1,  max: 1  },
+        { item_id: "item_scrap_metal", chance: 0.30, min: 1,  max: 3  }
     ];
 
     // ── Lính bắn tỉa ──────────────────────────────────────────────
     global.LootTables[$ "human_soldier"] = [
-        { item_id: "ammo_sniper",      chance: 1.00, min: 3,  max: 10 },
-        { item_id: "item_dog_tag",     chance: 0.70, min: 1,  max: 2  },
-        { item_id: "item_medkit",      chance: 0.20, min: 1,  max: 1  },
-        { item_id: "item_scrap_metal", chance: 0.50, min: 2,  max: 4  }
+        { item_id: "ammo_sniper",      chance: 0.65, min: 3,  max: 8  },
+        { item_id: "item_dog_tag",     chance: 0.40, min: 1,  max: 2  },
+        { item_id: "item_medkit",      chance: 0.15, min: 1,  max: 1  },
+        { item_id: "item_scrap_metal", chance: 0.30, min: 1,  max: 3  }
     ];
 }
 
 
-/// @desc Roll loot từ bảng và spawn vật phẩm trên map qua o_loot_manager.
-/// @param {string} _table_id  ID bảng loot
-/// @param {real}   _x         Tọa độ X
-/// @param {real}   _y         Tọa độ Y
-function loot_roll(_table_id, _x, _y)
+/// @desc Sinh danh sách vật phẩm ngẫu nhiên từ bảng loot (trả về array các struct {item_id, quantity})
+/// @param {string} _table_id ID bảng loot
+/// @return {array} Danh sách struct {item_id, quantity}
+function loot_generate(_table_id)
 {
-    if (!variable_global_exists("LootTables")) return;
-    if (!variable_struct_exists(global.LootTables, _table_id)) {
-        show_debug_message("[loot_roll] Không tìm thấy loot table: " + string(_table_id));
-        return;
-    }
+    var _result = [];
+    if (!variable_global_exists("LootTables")) return _result;
+    if (!variable_struct_exists(global.LootTables, _table_id)) return _result;
 
     var _table = global.LootTables[$ _table_id];
 
@@ -62,7 +59,18 @@ function loot_roll(_table_id, _x, _y)
         var _qty = irandom_range(_entry.min, _entry.max);
         if (_qty <= 0) continue;
 
-        // Add trực tiếp vào túi đồ vì tính năng rớt đồ đã chuyển sang rớt từ xác
-        inventory_add(_entry.item_id, _qty);
+        array_push(_result, { item_id: _entry.item_id, quantity: _qty });
+    }
+
+    return _result;
+}
+
+/// @desc Roll loot từ bảng và add trực tiếp vào túi đồ (dành cho tương thích)
+function loot_roll(_table_id, _x, _y)
+{
+    var _items = loot_generate(_table_id);
+    for (var i = 0; i < array_length(_items); i++) {
+        inventory_add(_items[i].item_id, _items[i].quantity);
     }
 }
+

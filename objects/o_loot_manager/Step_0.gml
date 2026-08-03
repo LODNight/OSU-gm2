@@ -22,6 +22,8 @@ for (var t = 0; t < array_length(_corpse_types); t++) {
     var _type = _corpse_types[t];
     with (_type) {
         if (looted) continue;
+        if (variable_instance_exists(id, "has_loot") && !has_loot) continue;
+        if (variable_instance_exists(id, "loot_items") && array_length(loot_items) == 0) continue;
         if (!variable_instance_exists(id, "loot_table_id")) continue;
         if (loot_table_id == "") continue;
 
@@ -45,10 +47,17 @@ if (instance_exists(o_item_pickup)) {
 }
 
 // -- Nhấn F: loot xác hoặc nhặt item -------------------------------------
-if (_pressed_f && !variable_global_exists("InventoryOpen") || (_pressed_f && !global.InventoryOpen)) {
+if (_pressed_f && (!variable_global_exists("InventoryOpen") || !global.InventoryOpen)) {
     if (instance_exists(closest_item)) {
         var _item = closest_item;
-        var _added = inventory_add(_item.item_id, _item.quantity);
+        var _customData = undefined;
+        if (variable_instance_exists(_item, "durability") || variable_instance_exists(_item, "ammo") || variable_instance_exists(_item, "reserve_ammo")) {
+            _customData = {};
+            if (variable_instance_exists(_item, "durability")) _customData.durability = _item.durability;
+            if (variable_instance_exists(_item, "ammo")) _customData.ammo = _item.ammo;
+            if (variable_instance_exists(_item, "reserve_ammo")) _customData.reserve_ammo = _item.reserve_ammo;
+        }
+        var _added = inventory_add(_item.item_id, _item.quantity, _customData);
         if (_added > 0) {
             _item.quantity -= _added;
             if (_item.quantity <= 0) {
@@ -58,11 +67,17 @@ if (_pressed_f && !variable_global_exists("InventoryOpen") || (_pressed_f && !gl
         }
     } else if (instance_exists(closest_corpse)) {
         var _corpse = closest_corpse;
-        if (!_corpse.looted && _corpse.loot_table_id != "") {
+        var _canLoot = !_corpse.looted && variable_instance_exists(_corpse, "loot_items") && array_length(_corpse.loot_items) > 0;
+        if (_canLoot) {
             if (!instance_exists(o_inventory_manager)) {
                 instance_create_depth(0, 0, 0, o_inventory_manager);
             }
-            loot_roll(_corpse.loot_table_id, _corpse.x, _corpse.y);
+            for (var i = 0; i < array_length(_corpse.loot_items); i++) {
+                var _it = _corpse.loot_items[i];
+                inventory_add(_it.item_id, _it.quantity);
+            }
+            _corpse.loot_items = [];
+            _corpse.has_loot   = false;
             _corpse.looted     = true;
             _corpse.loot_timer = -1; // Bắt đầu đếm 30s trong corpse_step()
             closest_corpse     = noone;

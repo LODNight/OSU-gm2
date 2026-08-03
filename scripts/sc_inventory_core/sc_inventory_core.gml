@@ -265,8 +265,9 @@ function inventory_clear_grid_item(_grid_idx)
 /// @desc Thêm item vào Inventory (tự động tính toán số ô grid_w x grid_h)
 /// @param {string} _item_id
 /// @param {real}   _quantity  (mặc định 1)
+/// @param {struct} _custom_data (tùy chọn struct chứa durability, ammo, v.v.)
 /// @return {real}  Số lượng thực sự đã thêm được
-function inventory_add(_item_id, _quantity)
+function inventory_add(_item_id, _quantity = 1, _custom_data = undefined)
 {
     _quantity = (_quantity == undefined) ? 1 : _quantity;
     if (_quantity <= 0) return 0;
@@ -315,7 +316,15 @@ function inventory_add(_item_id, _quantity)
         }
 
         var _take = _def.stackable ? min(_def.max_stack, _quantity - _added) : 1;
-        inventory_place_item_in_grid(_placedIdx, _item_id, _take);
+        var _slotData = undefined;
+        if (is_struct(_custom_data)) {
+            _slotData = { item_id: _item_id, quantity: _take };
+            if (variable_struct_exists(_custom_data, "durability")) _slotData.durability = _custom_data.durability;
+            if (variable_struct_exists(_custom_data, "ammo")) _slotData.ammo = _custom_data.ammo;
+            if (variable_struct_exists(_custom_data, "reserve_ammo")) _slotData.reserve_ammo = _custom_data.reserve_ammo;
+        }
+
+        inventory_place_item_in_grid(_placedIdx, _item_id, _take, _slotData);
         _added += _take;
     }
 
@@ -550,7 +559,12 @@ function inventory_sync_player_equip()
                 && is_struct(_w1.weapon_inst)
                 && variable_struct_exists(_w1.weapon_inst, "definition")
                 && _w1.weapon_inst.definition.id == _weaponDef1.id;
-            if (!_reuse1) _w1.weapon_inst = new create_weapon_instance(_weaponDef1);
+            if (!_reuse1) {
+                var _a1 = variable_struct_exists(_w1, "ammo") ? _w1.ammo : -1;
+                var _r1 = variable_struct_exists(_w1, "reserve_ammo") ? _w1.reserve_ammo : -1;
+                var _d1 = variable_struct_exists(_w1, "durability") ? _w1.durability : -1;
+                _w1.weapon_inst = new create_weapon_instance(_weaponDef1, _a1, _r1, _d1);
+            }
             _w1Inst = _w1.weapon_inst;
         }
     }
@@ -563,7 +577,12 @@ function inventory_sync_player_equip()
                 && is_struct(_w2.weapon_inst)
                 && variable_struct_exists(_w2.weapon_inst, "definition")
                 && _w2.weapon_inst.definition.id == _weaponDef2.id;
-            if (!_reuse2) _w2.weapon_inst = new create_weapon_instance(_weaponDef2);
+            if (!_reuse2) {
+                var _a2 = variable_struct_exists(_w2, "ammo") ? _w2.ammo : -1;
+                var _r2 = variable_struct_exists(_w2, "reserve_ammo") ? _w2.reserve_ammo : -1;
+                var _d2 = variable_struct_exists(_w2, "durability") ? _w2.durability : -1;
+                _w2.weapon_inst = new create_weapon_instance(_weaponDef2, _a2, _r2, _d2);
+            }
             _w2Inst = _w2.weapon_inst;
         }
     }
@@ -758,4 +777,78 @@ function draw_item_icon_fitted(_def, _x, _y, _maxW, _maxH, _forceHorizontal = fa
     var _drawY = (_y + _maxH / 2) - _cy_rot;
 
     draw_sprite_ext(_spr, 0, _drawX, _drawY, _scale, _scale, _angle, c_white, 1);
+}
+
+/// @desc Tạo struct dữ liệu tooltip cho vật phẩm (bao gồm thông số 2 phần cho vũ khí)
+function inventory_build_tooltip_data(_slotData, _wepInst = noone)
+{
+    if (_slotData == undefined) return undefined;
+    var _def = item_db_get(_slotData.item_id);
+    if (_def == undefined) return undefined;
+
+    var _isWeapon = (_def.weapon_id != "" && variable_global_exists("Weapons") && variable_struct_exists(global.Weapons, _def.weapon_id));
+
+    var _info = {
+        is_weapon:   _isWeapon,
+        name:        _def.name,
+        size:        _def.size,
+        description: _def.description,
+        value:       _def.value,
+        defense:     _def.defense,
+        heal:        _def.heal_amount
+    };
+
+    if (_isWeapon) {
+        var _wpnDef = global.Weapons[$ _def.weapon_id];
+
+        // Pick live weapon instance if available
+        var _inst = _wepInst;
+        if (_inst == noone && variable_struct_exists(_slotData, "weapon_inst") && is_struct(_slotData.weapon_inst)) {
+            _inst = _slotData.weapon_inst;
+        }
+
+        // 1. Durability
+        var _dur = _wpnDef.max_durability;
+        var _maxDur = _wpnDef.max_durability;
+
+        if (_inst != noone && variable_struct_exists(_inst, "current_durability")) {
+            _dur = _inst.current_durability;
+        } else if (variable_struct_exists(_slotData, "durability")) {
+            _dur = _slotData.durability;
+        }
+        var _durPct = clamp(round((_dur / max(1, _maxDur)) * 100), 0, 100);
+
+        // 2. Ammo
+        var _curAmmo = _wpnDef.magSize;
+        var _magCap  = _wpnDef.magSize;
+        var _resAmmo = -1;
+
+        if (_inst != noone && variable_struct_exists(_inst, "current_ammo")) {
+            _curAmmo = _inst.current_ammo;
+            _resAmmo = variable_struct_exists(_inst, "reserve_ammo") ? _inst.reserve_ammo : -1;
+        } else {
+            if (variable_struct_exists(_slotData, "ammo")) _curAmmo = _slotData.ammo;
+            if (variable_struct_exists(_slotData, "reserve_ammo")) _resAmmo = _slotData.reserve_ammo;
+        }
+
+        // 3. Damage
+        var _dmg = _wpnDef.damage;
+        var _bullets = _wpnDef.bulletNum;
+
+        // 4. Accuracy
+        var _spread = variable_struct_exists(_wpnDef, "aimed_spread") ? _wpnDef.aimed_spread : _wpnDef.spread;
+        var _accPct = clamp(round(100 - _spread * 2.5), 0, 100);
+
+        _info.durability_cur = round(_dur);
+        _info.durability_max = _maxDur;
+        _info.durability_pct = _durPct;
+        _info.ammo_cur       = _curAmmo;
+        _info.ammo_max       = _magCap;
+        _info.reserve_ammo   = _resAmmo;
+        _info.damage         = _dmg;
+        _info.bullet_num     = _bullets;
+        _info.accuracy_pct   = _accPct;
+    }
+
+    return _info;
 }

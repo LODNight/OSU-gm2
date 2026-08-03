@@ -98,8 +98,12 @@ function enemy_die()
         _corpse.image_alpha   = image_alpha * 0.6;
         _corpse.depth         = -y + 10;
         _corpse.loot_table_id = _loot_id;
-        _corpse.looted        = false;
-        _corpse.loot_timer    = -1; // Bắt đầu đếm ngược khi player loot xong
+
+        var _lootItems = loot_generate(_loot_id);
+        _corpse.loot_items = _lootItems;
+        _corpse.has_loot   = (array_length(_lootItems) > 0);
+        _corpse.looted     = (array_length(_lootItems) == 0); // Nếu 0 item xem như không có loot
+        _corpse.loot_timer = (array_length(_lootItems) == 0) ? -1 : -1;
     }
 
     // Dọn ds_list damage để tránh memory leak

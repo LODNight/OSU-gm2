@@ -17,6 +17,7 @@
     {"name":"inst_74314DCA","path":"rooms/rm_tutorial/rm_tutorial.yy",},
     {"name":"inst_70A0F21D","path":"rooms/rm_tutorial/rm_tutorial.yy",},
     {"name":"inst_29B4C7DC","path":"rooms/rm_tutorial/rm_tutorial.yy",},
+    {"name":"inst_3126F0CD","path":"rooms/rm_tutorial/rm_tutorial.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -34,6 +35,7 @@
         {"$GMRInstance":"v4","%Name":"inst_5AE3EF97","colour":4294967295,"frozen":false,"hasCreationCode":true,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_5AE3EF97","objectId":{"name":"o_tutorial","path":"objects/o_tutorial/o_tutorial.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":32.0,"y":1376.0,},
         {"$GMRInstance":"v4","%Name":"inst_46D3B4D9","colour":4294967295,"frozen":false,"hasCreationCode":true,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_46D3B4D9","objectId":{"name":"o_tutorial","path":"objects/o_tutorial/o_tutorial.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":544.0,"y":1376.0,},
         {"$GMRInstance":"v4","%Name":"inst_74314DCA","colour":4294967295,"frozen":false,"hasCreationCode":true,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_74314DCA","objectId":{"name":"o_tutorial","path":"objects/o_tutorial/o_tutorial.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":768.0,"y":1344.0,},
+        {"$GMRInstance":"v4","%Name":"inst_3126F0CD","colour":4294967295,"frozen":false,"hasCreationCode":true,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_3126F0CD","objectId":{"name":"o_tutorial","path":"objects/o_tutorial/o_tutorial.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":352.0,"y":160.0,},
       ],"layers":[],"name":"Spawner","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMRLayer":"","%Name":"Tile","depth":-600,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"layers":[
         {"$GMRTileLayer":"","%Name":"tile_item_d1","depth":-500,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"layers":[],"name":"tile_item_d1","properties":[],"resourceType":"GMRTileLayer","resourceVersion":"2.0","tiles":{"SerialiseHeight":94,"SerialiseWidth":94,"TileCompressedData":[-1880,-2147483648,-6956,0,],"TileDataFormat":1,},"tilesetId":{"name":"tl_mall_item","path":"tilesets/tl_mall_item/tl_mall_item.yy",},"userdefinedDepth":true,"visible":true,"x":0,"y":0,},
@@ -103,7 +105,7 @@
               40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,14,245,246,-16,0,75,245,246,14,39,40,
               39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,14,245,246,0,0,213,214,
               14,71,72,71,72,71,72,71,72,71,72,71,72,71,72,71,72,71,72,71,72,71,72,71,72,71,72,71,72,71,72,71,72,71,
-              72,71,72,-22,14,448,71,72,71,72,71,72,71,72,71,72,71,72,39,40,71,72,71,72,71,72,71,72,71,72,71,72,71,
+              72,71,72,-22,14,448,71,72,71,72,71,72,71,72,71,72,71,72,71,72,71,72,71,72,71,72,71,72,71,72,71,72,71,
               72,14,213,214,0,0,245,246,14,39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,
               39,40,39,40,39,40,39,40,39,40,39,40,14,213,214,276,277,278,279,276,277,278,279,276,277,278,279,276,277,
               278,279,213,214,14,39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,40,39,

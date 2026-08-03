@@ -42,8 +42,10 @@ enum SPAWNER_STATE {
 
 /// Tutorial zone behaviours. Each o_tutorial selects one by tutorialId.
 enum TUTORIAL_TYPE {
-    MOVE_AND_PICKUP,
+    MOVE_AND_SPRINT,
+    MOVE_AND_PICKUP = 0,
     CLEAR_ARENA,
+    LOOT_AND_INVENTORY,
     ESCAPE_HORDE
 }
 

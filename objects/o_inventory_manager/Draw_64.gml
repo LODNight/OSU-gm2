@@ -46,8 +46,11 @@ if (instance_exists(o_loot_manager)) {
         _txt = "[F]  Pick up " + _itemName;
         if (_targetObj.quantity > 1) _txt += " (x" + string(_targetObj.quantity) + ")";
     } else if (instance_exists(o_loot_manager.closest_corpse)) {
-        _targetObj = o_loot_manager.closest_corpse;
-        _txt = "[F]  Loot";
+        var _c = o_loot_manager.closest_corpse;
+        if (!variable_instance_exists(_c, "has_loot") || _c.has_loot) {
+            _targetObj = _c;
+            _txt = "[F]  Loot";
+        }
     }
 
     if (_targetObj != noone) {
@@ -210,7 +213,7 @@ draw_text(_winX + _windowW - 32, _winY + 24, "$" + string(currency_get()));
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
 
-var _tooltip = "";
+var _tooltipData = undefined;
 
 // ── Area 1: Kho đồ chính (Main Grid 6x7 = 42 ô) ─────────────────────────
 var _gridX    = _winX + 32;
@@ -298,10 +301,7 @@ for (var i = 0; i < INVENTORY_GRID_SLOTS; i++) {
                 }
 
                 if (_isHover) {
-                    _tooltip = _def.name + " (" + _def.size + ")" + "\n" + _def.description;
-                    if (_def.value > 0) _tooltip += "\nValue: $" + string(_def.value);
-                    if (_def.defense > 0) _tooltip += "\nDefense: +" + string(_def.defense);
-                    if (_def.heal_amount > 0) _tooltip += "\nHeal: +" + string(_def.heal_amount);
+                    _tooltipData = inventory_build_tooltip_data(_slotData);
                 }
             }
         }
@@ -409,22 +409,23 @@ for (var e = 0; e < array_length(_equipSlots); e++) {
                 draw_set_valign(fa_top);
             }
 
-            if (_isHover) {
-                _tooltip = _def.name + "\n" + _def.description;
-                if (_def.defense > 0) _tooltip += "\nDefense: +" + string(_def.defense);
-            }
-
-            // ── Durability bar (weapon slots only) ────────────────────
+            // Find the matching live weapon instance from player if weapon slot
+            var _wepInst = noone;
             var _isWepSlot2 = (_eq.slot == "weapon1" || _eq.slot == "weapon2");
-            if (_isWepSlot2 && _def.weapon_id != "") {
-                // Find the matching live weapon instance from player
-                var _wepInst = noone;
+            if (_isWepSlot2) {
                 var _slotIdx = (_eq.slot == "weapon1") ? 0 : 1;
                 if (instance_exists(o_player)) {
                     var _wArr = o_player.inventoryWeapons;
                     if (_slotIdx < array_length(_wArr)) _wepInst = _wArr[_slotIdx];
                 }
+            }
 
+            if (_isHover) {
+                _tooltipData = inventory_build_tooltip_data(_data, _wepInst);
+            }
+
+            // ── Durability bar (weapon slots only) ────────────────────
+            if (_isWepSlot2 && _def.weapon_id != "") {
                 if (_wepInst != noone && _wepInst != undefined) {
                     var _durPct  = weapon_get_durability_pct(_wepInst);
                     var _durCol  = weapon_get_durability_color(_wepInst);
@@ -476,13 +477,27 @@ for (var e = 0; e < array_length(_equipSlots); e++) {
             }
         }
     } else {
-        // Chữ chìm hướng dẫn khi ô trống
-        draw_set_color(make_color_rgb(60, 64, 90));
-        draw_set_halign(fa_center);
-        draw_set_valign(fa_middle);
-        draw_text(_eq.x + _eq.w / 2, _eq.y + _eq.h / 2 + 4, "[ Empty Slot ]");
-        draw_set_halign(fa_left);
-        draw_set_valign(fa_top);
+        // Thay thế [ Empty Slot ] bằng Icon Sprite tương ứng khi ô trống
+        var _centerX = _eq.x + _eq.w / 2;
+        var _centerY = _eq.y + _eq.h / 2 + 6;
+
+        var _emptyIcon = noone;
+        if (_eq.slot == "helmet")     _emptyIcon = s_i_helmet;
+        else if (_eq.slot == "armor")      _emptyIcon = s_i_body;
+        else if (_eq.slot == "backpack")   _emptyIcon = s_i_backpack;
+        else if (_eq.slot == "flashlight") _emptyIcon = s_i_flashlight;
+
+        if (_emptyIcon != noone && sprite_exists(_emptyIcon)) {
+            var _iconScale = 2.2;
+            draw_sprite_ext(_emptyIcon, 0, _centerX, _centerY, _iconScale, _iconScale, 0, make_color_rgb(110, 115, 155), 0.45);
+        } else {
+            draw_set_color(make_color_rgb(60, 64, 90));
+            draw_set_halign(fa_center);
+            draw_set_valign(fa_middle);
+            draw_text(_centerX, _centerY, "[ Empty Slot ]");
+            draw_set_halign(fa_left);
+            draw_set_valign(fa_top);
+        }
     }
 }
 
@@ -540,7 +555,7 @@ for (var k = 0; k < 6; k++) {
             }
 
             if (_isHover) {
-                _tooltip = _def.name + "\n" + _def.description;
+                _tooltipData = inventory_build_tooltip_data(_slotData);
             }
         }
     }
@@ -584,33 +599,167 @@ if (drag_active && drag_data != undefined) {
 }
 
 // ── 5. Tooltip thông tin vật phẩm khi Rê chuột (Hover) ──────────────────
-if (_tooltip != "" && !drag_active && !context_active) {
-    var _maxTextW = 210;
-    var _lineSep  = 18;
-    var _padX     = 10;
-    var _padY     = 10;
+if (_tooltipData != undefined && !drag_active && !context_active) {
+    var _padX     = 16;
+    var _padY     = 14;
+    var _lineSep  = 20;
 
-    var _textW = string_width_ext(_tooltip, _lineSep, _maxTextW);
-    var _textH = string_height_ext(_tooltip, _lineSep, _maxTextW);
+    draw_set_font(-1);
 
-    var _tw = max(180, _textW + _padX * 2);
-    var _th = _textH + _padY * 2;
+    if (!_tooltipData.is_weapon) {
+        // ── Standard Item Tooltip ────────────────────────────────────
+        var _maxTextW = 260;
+        var _descStr  = _tooltipData.name + " (" + _tooltipData.size + ")\n" + _tooltipData.description;
+        if (_tooltipData.value > 0) _descStr += "\nValue: $" + string(_tooltipData.value);
+        if (_tooltipData.defense > 0) _descStr += "\nDefense: +" + string(_tooltipData.defense);
+        if (_tooltipData.heal > 0) _descStr += "\nHeal: +" + string(_tooltipData.heal);
 
-    var _ttx = clamp(_mx + 16, 4, _camW - _tw - 4);
-    var _tty = clamp(_my - _th - 8, 4, _camH - _th - 4);
+        var _textW = string_width_ext(_descStr, _lineSep, _maxTextW);
+        var _textH = string_height_ext(_descStr, _lineSep, _maxTextW);
+        var _tw    = max(240, _textW + _padX * 2);
+        var _th    = _textH + _padY * 2;
 
-    draw_set_alpha(0.95);
-    draw_set_color(make_color_rgb(14, 16, 26));
-    draw_roundrect_ext(_ttx, _tty, _ttx + _tw, _tty + _th, 6, 6, false);
+        var _ttx = clamp(_mx + 16, 4, _camW - _tw - 4);
+        var _tty = clamp(_my - _th - 8, 4, _camH - _th - 4);
 
-    draw_set_alpha(1);
-    draw_set_color(make_color_rgb(95, 100, 150));
-    draw_roundrect_ext(_ttx, _tty, _ttx + _tw, _tty + _th, 6, 6, true);
+        // Nền mờ Glassmorphism
+        draw_set_alpha(0.95);
+        draw_set_color(make_color_rgb(14, 16, 26));
+        draw_roundrect_ext(_ttx, _tty, _ttx + _tw, _tty + _th, 8, 8, false);
 
-    draw_set_color(c_white);
-    draw_set_halign(fa_left);
-    draw_set_valign(fa_top);
-    draw_text_ext(_ttx + _padX, _tty + _padY, _tooltip, _lineSep, _maxTextW);
+        // Viền
+        draw_set_alpha(1);
+        draw_set_color(make_color_rgb(95, 100, 150));
+        draw_roundrect_ext(_ttx, _tty, _ttx + _tw, _tty + _th, 8, 8, true);
+
+        // Chữ
+        draw_set_color(c_white);
+        draw_set_halign(fa_left);
+        draw_set_valign(fa_top);
+        draw_text_ext(_ttx + _padX, _tty + _padY, _descStr, _lineSep, _maxTextW);
+    } else {
+        // ── Weapon Tooltip (Chia làm 2 phần: Thông tin chung & Thông số) ───
+        var _tw       = 310; // Rộng hơn để tránh bị đè chữ
+        var _maxTextW = _tw - _padX * 2;
+
+        // Phần 1: Thông tin chung
+        var _titleStr = _tooltipData.name + " (" + _tooltipData.size + ")";
+        var _descStr  = _tooltipData.description;
+        var _valStr   = "Value: $" + string(_tooltipData.value);
+
+        var _titleH = string_height(_titleStr);
+        var _descH  = string_height_ext(_descStr, _lineSep, _maxTextW);
+        var _valH   = string_height(_valStr);
+
+        var _part1H = _titleH + 6 + _descH + 8 + _valH;
+
+        // Phần 2: Thông số vũ khí
+        var _statHeader = "WEAPON STATS";
+        var _statRowH   = 22;
+        var _part2H     = 24 + 4 * _statRowH; // Header + 4 dòng thông số rộng rãi
+
+        var _dividerGap = 14;
+        var _th         = _padY + _part1H + _dividerGap + _part2H + _padY;
+
+        var _ttx = clamp(_mx + 16, 4, _camW - _tw - 4);
+        var _tty = _my - _th - 8;
+        if (_tty < 4) _tty = _my + 24; // Đổ xuống dưới con chuột nếu sát mép trên màn hình
+        _tty = clamp(_tty, 4, _camH - _th - 4);
+
+        // Nền mờ Glassmorphism
+        draw_set_alpha(0.96);
+        draw_set_color(make_color_rgb(14, 16, 26));
+        draw_roundrect_ext(_ttx, _tty, _ttx + _tw, _tty + _th, 8, 8, false);
+
+        // Viền nổi bật
+        draw_set_alpha(1);
+        draw_set_color(make_color_rgb(80, 95, 150));
+        draw_roundrect_ext(_ttx, _tty, _ttx + _tw, _tty + _th, 8, 8, true);
+
+        var _curY = _tty + _padY;
+
+        // --- PHẦN 1: THÔNG TIN CHUNG ---
+        // Tên + Kích thước ô
+        draw_set_color(make_color_rgb(240, 245, 255));
+        draw_set_halign(fa_left);
+        draw_set_valign(fa_top);
+        draw_text(_ttx + _padX, _curY, _titleStr);
+        _curY += _titleH + 6;
+
+        // Mô tả
+        draw_set_color(make_color_rgb(160, 165, 195));
+        draw_text_ext(_ttx + _padX, _curY, _descStr, _lineSep, _maxTextW);
+        _curY += _descH + 8;
+
+        // Giá trị
+        draw_set_color(make_color_rgb(255, 215, 70));
+        draw_text(_ttx + _padX, _curY, _valStr);
+        _curY += _valH + _dividerGap / 2;
+
+        // --- VẠCH NGĂN CÁCH 2 PHẦN ---
+        draw_set_color(make_color_rgb(50, 55, 85));
+        draw_line_width(_ttx + _padX, _curY, _ttx + _tw - _padX, _curY, 1);
+        _curY += _dividerGap / 2;
+
+        // --- PHẦN 2: THÔNG SỐ VŨ KHÍ HIỆN TẠI ---
+        // Tiêu đề phần thông số
+        draw_set_color(make_color_rgb(90, 200, 255)); // Cyan sáng
+        draw_text(_ttx + _padX, _curY, _statHeader);
+        _curY += 24;
+
+        // 1. Độ bền hiện tại (Durability)
+        draw_set_color(make_color_rgb(190, 195, 225));
+        draw_text(_ttx + _padX, _curY, "Durability:");
+
+        var _durCol = c_green;
+        if (_tooltipData.durability_pct < 30) _durCol = make_color_rgb(255, 70, 70);
+        else if (_tooltipData.durability_pct < 65) _durCol = make_color_rgb(255, 200, 60);
+        else _durCol = make_color_rgb(100, 240, 120);
+
+        draw_set_color(_durCol);
+        draw_set_halign(fa_right);
+        var _durStr = string(_tooltipData.durability_cur) + " / " + string(_tooltipData.durability_max) + " (" + string(_tooltipData.durability_pct) + "%)";
+        draw_text(_ttx + _tw - _padX, _curY, _durStr);
+        draw_set_halign(fa_left);
+        _curY += _statRowH;
+
+        // 2. Số đạn còn trong vũ khí (Ammo)
+        draw_set_color(make_color_rgb(190, 195, 225));
+        draw_text(_ttx + _padX, _curY, "Ammo:");
+
+        draw_set_color(make_color_rgb(220, 225, 255));
+        draw_set_halign(fa_right);
+        var _ammoStr = string(_tooltipData.ammo_cur) + " / " + string(_tooltipData.ammo_max);
+        if (_tooltipData.reserve_ammo >= 0) {
+            _ammoStr += " (" + string(_tooltipData.reserve_ammo) + ")";
+        }
+        draw_text(_ttx + _tw - _padX, _curY, _ammoStr);
+        draw_set_halign(fa_left);
+        _curY += _statRowH;
+
+        // 3. Sát thương (Damage)
+        draw_set_color(make_color_rgb(190, 195, 225));
+        draw_text(_ttx + _padX, _curY, "Damage:");
+
+        draw_set_color(make_color_rgb(255, 160, 60)); // Cam nổi bật
+        draw_set_halign(fa_right);
+        var _dmgStr = string(_tooltipData.damage);
+        if (_tooltipData.bullet_num > 1) {
+            _dmgStr = string(_tooltipData.damage) + " x " + string(_tooltipData.bullet_num);
+        }
+        draw_text(_ttx + _tw - _padX, _curY, _dmgStr);
+        draw_set_halign(fa_left);
+        _curY += _statRowH;
+
+        // 4. Độ chính xác (Accuracy)
+        draw_set_color(make_color_rgb(190, 195, 225));
+        draw_text(_ttx + _padX, _curY, "Accuracy:");
+
+        draw_set_color(make_color_rgb(120, 240, 140)); // Xanh lá
+        draw_set_halign(fa_right);
+        draw_text(_ttx + _tw - _padX, _curY, string(_tooltipData.accuracy_pct) + "%");
+        draw_set_halign(fa_left);
+    }
 }
 
 // ── 6. Context Menu khi Click Chuột Phải ──────────────────────────────
